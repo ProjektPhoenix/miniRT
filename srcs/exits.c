@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/miniRT.h"
+# include "../libft/libft.h"
 
 int	error_return(char *mssg)
 {
