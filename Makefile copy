@@ -1,0 +1,53 @@
+NAME = miniRT
+CFLAGS = -g -Wall -Wextra -Werror -Isrcs/libft
+LIBFT = srcs/libft/libft.a
+LIB = srcs/libft
+SRCS = srcs/main.c srcs/exits.c
+OBJS = $(SRCS:.c=.o)
+RM = rm -rf
+CC = cc
+
+GREEN_LIGHT = \033[38;5;120m
+RESET = \033[0m
+
+define progress_bar
+    @total=$$(($(words $(SRCS)))); \
+    count=1; \
+    while [ $$count -le $$total ]; do \
+        src=$$(echo $(SRCS) | cut -d' ' -f$$count); \
+        percentage=$$((count * 100 / total)); \
+        bar=""; \
+        n=0; \
+        while [ $$n -lt $$((percentage / 5)) ]; do \
+            bar=$${bar}#; \
+            n=$$((n + 1)); \
+        done; \
+        printf "\r$(BOLD)$(GREEN_LIGHT)[%-20s] %d%%$(RESET)" "$$bar" "$$percentage"; \
+        obj=$${src%.c}.o; \
+        $(CC) $(CFLAGS) -c $$src -o $$obj; \
+        count=$$((count + 1)); \
+    done; \
+    echo ""
+endef
+
+all: $(NAME)
+
+$(NAME): $(OBJS) $(LIBFT)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	@$(RM) $(OBJS) $(LIB)/*.o
+
+$(LIBFT):
+	@make -C $(LIB) > /dev/null
+
+%.o : %.c
+	$(progress_bar)
+	
+clean:
+	@$(RM) $(OBJS) $(LIB)/*.o
+
+fclean: clean
+	@$(RM) $(NAME) $(LIBFT) 
+
+re: fclean all
+
+.PHONY: all clean fclean re
