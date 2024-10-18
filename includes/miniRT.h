@@ -13,13 +13,13 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include "../libft/libft.h"
-# include "vector_setup.h"
+
+//# include "vector_setup.h"
 #include <unistd.h>
 #include <stdio.h>
-#include <math.h>
-#include <stdbool.h>
-#include <stdlib.h>
+//#include <math.h>
+//#include <stdbool.h>
+//#include <stdlib.h>
 
 /* utils */
 int	error_return(char *mssg);
