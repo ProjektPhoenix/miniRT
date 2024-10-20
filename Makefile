@@ -12,6 +12,7 @@ LIBS		:= -L./${MINILIBXDIR} -lmlx \
 			-L./${LIBFTDIR} -lft
 SRCS		:= srcs/main.c srcs/exits.c
 OBJS		:= ${SRCS:.c=.o}
+SHELL		:= /bin/bash
 HDS		:= 
 RM		:= rm -rf
 # Change to clang to ensure same behavior on non-school terminals
