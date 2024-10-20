@@ -2,7 +2,7 @@ NAME		:= miniRT
 CFLAGS_prod	:= -Wall -Wextra -Werror -Ofast
 CFLAGS_gdb	:= -Wall -Wextra -Werror -Wunreachable-code -O3 -g
 CFLAGS_dev	:= -Wall -Wextra -Werror -Wunreachable-code -fsanitize=address -O3
-LIBFTDIR	:= srcs/libft 
+LIBFTDIR	:= srcs/libft
 LIBFT		:= ${LIBFTDIR}/libft.a
 MINILIBXDIR	:= minilibx-linux
 MINILIBX	:= ${MINILIBXDIR}/libmlx.a
@@ -57,11 +57,11 @@ ${NAME}: ${OBJS} ${LIBFT} ${MINILIBX}
 	@${RM} ${OBJS}
 
 ${LIBFT}:
-	@make -C ${LIBFTDIR} \
+	@make -C ${LIBFTDIR} &> /dev/null \
 	&& printf "Building libft.a\n"
 
 ${MINILIBX}:
-	@(cd minilibx-linux && .configure) \
+	@(cd minilibx-linux && ./configure) &> /dev/null \
 	&& printf "Building libmlx.a\n"
 
 %.o : %.c
@@ -71,6 +71,7 @@ clean:
 	@${RM} ${OBJS} \
 	&& printf "Removing program object files.\n"
 	@(cd minilibx-linux && ./configure clean) \
+	&& printf "Removing minilibx object files"
 	@${MAKE} -C ${LIBFTDIR} clean \
 	&& printf "Removing any object and temporary files.\n"
 
