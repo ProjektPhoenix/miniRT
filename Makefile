@@ -56,7 +56,7 @@ ${NAME}: ${OBJS} ${LIBFT} ${MINILIBX}
 	@${RM} ${OBJS}
 
 ${LIBFT}:
-	@make -C ${LIBFTDIR} > /dev/null \
+	@make -C ${LIBFTDIR} \
 	&& printf "Building libft.a\n"
 
 ${MINILIBX}:
