@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:26:08 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/10/23 14:58:05 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:34:32 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	init_scene(char *file, t_scene *scene)
 	scene->cyl = malloc(count * sizeof(t_cylinder));
 	scene->sphere = malloc(count * sizeof(t_sphere));
 	if (!scene->plane || !scene->cyl || !scene->sphere)
-   		error_exit("Failed to allocate memory");
+   		cleanup_exit(scene, "Failed to allocate memory");
 	while (i < count)
 	{
 		scene->plane[i] = (t_plane){0};
@@ -48,6 +48,12 @@ void	init_scene(char *file, t_scene *scene)
 	scene->i = 0;
 	scene->j = 0;
 	scene->k = 0;
+	scene->flag_A = false;
+	scene->flag_C = false;
+	scene->flag_L = false;
+	scene->flag_sp = false;
+	scene->flag_pl = false;
+	scene->flag_cy = false;
 }
 
 int	count_lines(char *file)
@@ -72,4 +78,16 @@ int	count_lines(char *file)
 	if (count < 6)
 		error_exit("Error\nNot enough elements\n");
 	return (count - 4);
+}
+
+int	is_valid(char *str, t_scene *scene)
+{
+	if (ft_strncmp(str, "A", 2) && ft_strncmp(str, "C", 2) && ft_strncmp(str, "L", 2)
+		&& ft_strncmp(str, "sp", 3) && ft_strncmp(str, "pl", 3) && ft_strncmp(str, "cy", 3))
+		cleanup_exit(scene, "Error\nValid elements only are: A, C, L, pl, sp and cy\n");
+	else if ((!ft_strncmp(str, "A", 2) && scene->flag_A == true) || (!ft_strncmp(str, "C", 2) && scene->flag_C == true)
+		|| (!ft_strncmp(str, "L", 2) && scene->flag_L == true))
+		cleanup_exit(scene, "Error\nA, C and L can only be entered once\n");
+	return (1);
+	//check later with arrays if NULL if all fields have been filled
 }
