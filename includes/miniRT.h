@@ -6,22 +6,24 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:39:54 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/10/16 17:20:28 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:09:24 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-
-//# include "vector_setup.h"
 #include <unistd.h>
 #include <stdio.h>
+#include <fcntl.h>
+#include <errno.h>
 //#include <math.h>
 //#include <stdbool.h>
-//#include <stdlib.h>
+#include <stdlib.h>
+//#include "vector_setup.h"
 
 /* utils */
 int	error_return(char *mssg);
+int	error_exit(char *mssg);
 
 #endif 

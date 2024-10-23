@@ -10,7 +10,7 @@ INCL		:= -Iusr/include -I${LIBFTDIR} -I${MINILIBXDIR}
 LIBS		:= -L./${MINILIBXDIR} -lmlx \
 			-L/lib/ -lX11 -lXext -lm\
 			-L./${LIBFTDIR} -lft
-SRCS		:= srcs/main.c srcs/exits.c
+SRCS		:= srcs/main.c srcs/exits.c srcs/input/parsing.c srcs/input/parsing_utils.c
 OBJS		:= ${SRCS:.c=.o}
 SHELL		:= /bin/bash
 HDS		:= 
