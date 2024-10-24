@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:02:42 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/10/23 17:54:55 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/10/24 13:46:56 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	process_a(char **array, t_scene *scene)
 		free_array(array);
 		cleanup_exit(scene, "Error in splitting ambient light colors\n");
 	}
-	set_triple_from_string(&scene->ambient.col, color);
+	set_triple_from_array(&scene->ambient.col, color);
 }
 
 void	print_file_testing(t_scene *scene)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_setup.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 17:19:57 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/10/23 17:43:42 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/10/24 13:46:43 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	process_pl(char **array, t_scene *scene);
 void	process_cy(char **array, t_scene *scene);
 
 /* set vectors and triples */
-void	set_triple_from_string(t_vec *triple, char **coord);
+void	set_triple_from_array(t_vec *triple, char **coord);
 
 /* exits */
 void cleanup_exit(t_scene *scene, char *mssg);
