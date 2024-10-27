@@ -6,7 +6,7 @@
 /*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 17:19:57 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/10/24 13:46:43 by Henriette        ###   ########.fr       */
+/*   Updated: 2024/10/27 19:14:45 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,13 @@ typedef struct light
 {
 	t_point	pos;
 	double intensity;
+	t_color col;
 } t_light;
 
 typedef struct plane
 {
 	t_point pos;
+	t_vec ortho;
 	t_vec dir;
 	t_color col;
 } t_plane;

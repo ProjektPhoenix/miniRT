@@ -6,7 +6,7 @@
 /*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:02:42 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/10/24 13:46:56 by Henriette        ###   ########.fr       */
+/*   Updated: 2024/10/27 18:25:46 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	parse_file(char *file, t_scene *scene)
 	close(fd);
 	if (!scene->flag_A || !scene->flag_C || !scene->flag_L || !scene->flag_sp || !scene->flag_pl || !scene->flag_cy)
 		cleanup_exit(scene, "Error\nFile does not contain all the elements\n");
-	//print_file_testing(scene);
+	print_file_testing(scene);
 	return (0);
 }
 
