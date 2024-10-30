@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:02:42 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/10/30 17:48:14 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:58:23 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include "../libft/libft.h"
 #include "../../includes/scene.h"
 
+/* takes as arguments the name of the .rt file and the scene, prepares file for parsing 
+needs to be added: propper error handling (file specs, minimum combination of elements etc.) */
 int	parse_file(char *file, t_scene *scene)
 {
 	int	fd;
@@ -38,6 +40,8 @@ int	parse_file(char *file, t_scene *scene)
 	return (0);
 }
 
+/* takes as arguments one line of the .rt file and the scene struct 
+checks with the first elements of the line under which category it should be processed*/
 void	process_line(char *line, t_scene *scene)
 {
 	char **line_elmts;
@@ -64,6 +68,7 @@ void	process_line(char *line, t_scene *scene)
 	free_array(line_elmts);
 }
 
+/* transfers the input of a line starting with 'A' (ambient light) into the ambl struct */
 void	process_a(char **array, t_scene *scene)
 {
 	char **color;
@@ -82,6 +87,7 @@ void	process_a(char **array, t_scene *scene)
 	set_triple_from_array(&scene->ambient.col, color);
 }
 
+/* printing function to test input read */
 void	print_file_testing(t_scene *scene)
 {
 	t_sphere	*temp_sp = scene->sphere;

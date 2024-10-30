@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:26:08 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/10/30 17:47:44 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:56:21 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../libft/libft.h"
 #include "../../includes/scene.h"
 
+/* takes scene as input and initialises all basic variables */
 void	init_scene(t_scene *scene)
 {
 	scene->camera.pos.e[0] = 0.0;
@@ -36,7 +37,7 @@ void	init_scene(t_scene *scene)
 	scene->flag_C = false;
 	scene->flag_L = false;
 }
-
+/* takes as input one line from the .rt file and the scene - checks if starting element is valid */
 int	is_valid(char *str, t_scene *scene)
 {
 	if (ft_strncmp(str, "A", 2) && ft_strncmp(str, "C", 2) && ft_strncmp(str, "L", 2)
@@ -47,6 +48,8 @@ int	is_valid(char *str, t_scene *scene)
 		cleanup_exit(scene, "Error\nA, C and L can only be entered once\n");
 	return (1);
 }
+
+/* checks if the memory allocation of coord was succesful, otherwise frees and exits */
 void	check_alloc(t_scene *scene, char **coord, char **array, char *mssg)
 {
 	if (!coord)
@@ -55,6 +58,8 @@ void	check_alloc(t_scene *scene, char **coord, char **array, char *mssg)
 		cleanup_exit(scene, mssg);
 	}
 }
+
+/* takes scene as argument, adds and returns a new sphere node */
 t_sphere	*add_sphere_node(t_scene *scene)
 {
 	t_sphere	*new;
@@ -89,6 +94,7 @@ t_sphere	*add_sphere_node(t_scene *scene)
 	return (new);
 }
 
+/* takes scene as argument, adds and returns a new dylinder node */
 t_cylinder	*add_cylinder_node(t_scene *scene)
 {
 	t_cylinder	*new;
@@ -121,6 +127,7 @@ t_cylinder	*add_cylinder_node(t_scene *scene)
 	return (new);
 }
 
+/* takes scene as argument, adds and returns a new plane node */
 t_plane	*add_plane_node(t_scene *scene)
 {
 	t_plane	*new;
@@ -150,69 +157,3 @@ t_plane	*add_plane_node(t_scene *scene)
 	}
 	return (new);
 }
-
-/*void	init_scene(char *file, t_scene *scene)
-{
-	int	count;
-	int	i;
-
-	i = 0;
-	scene->camera.pos.e[0] = 0.0;
-	scene->camera.pos.e[1] = 0.0;
-	scene->camera.pos.e[2] = 0.0;
-	scene->camera.fov = 0;
-	scene->ambient.intensity = 0.0;
-	scene->ambient.col.e[0] = 0;
-	scene->ambient.col.e[1] = 0;
-	scene->ambient.col.e[2] = 0;
-	scene->light.pos.e[0] = 0.0;
-	scene->light.pos.e[1] = 0.0;
-	scene->light.pos.e[2] = 0.0;
-	scene->light.intensity = 0.0;
-	count = count_lines(file);
-	scene->plane = malloc(count * sizeof(t_plane));
-	scene->cyl = malloc(count * sizeof(t_cylinder));
-	scene->sphere = malloc(count * sizeof(t_sphere));
-	if (!scene->plane || !scene->cyl || !scene->sphere)
-   		cleanup_exit(scene, "Failed to allocate memory");
-	while (i < count)
-	{
-		scene->plane[i] = (t_plane){0};
-		scene->cyl[i] = (t_cylinder){0};
-        	scene->sphere[i] = (t_sphere){0};
-		i++;
-	}
-	scene->i = 0;
-	scene->j = 0;
-	scene->k = 0;
-	scene->flag_A = false;
-	scene->flag_C = false;
-	scene->flag_L = false;
-	scene->flag_sp = false;
-	scene->flag_pl = false;
-	scene->flag_cy = false;
-}
-
-int	count_lines(char *file)
-{
-	int	count;
-	int	fd;
-	char	*line;
-
-	count = 0;
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
-		return (perror("Error opening file"), 1);
-	line = get_next_line_new(fd);
-	while (line)
-	{
-		if (line[0] != '\n')
-			count++;
-		free(line);
-		line = get_next_line_new(fd);
-	}
-	close(fd);
-	if (count < 6)
-		error_exit("Error\nNot enough elements\n");
-	return (count - 4);
-}*/

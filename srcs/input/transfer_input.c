@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 16:17:51 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/10/30 17:48:06 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:59:34 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../libft/libft.h"
 #include "../../includes/scene.h"
 
+/* transfers the input of a line starting with 'C' (camera) into the camera struct */
 void	process_c(char **array, t_scene *scene)
 {
 	char **coord;
@@ -35,6 +36,7 @@ void	process_c(char **array, t_scene *scene)
 	scene->camera.fov = ft_atod(array[3]);
 }
 
+/* transfers the input of a line starting with 'AL' (light) into the light struct */
 void	process_l(char **array, t_scene *scene)
 {
 	char **coord;
@@ -50,7 +52,7 @@ void	process_l(char **array, t_scene *scene)
 	scene->light.intensity = ft_atod(array[2]);
 }
 
-
+/* transfers the input of a line starting with 'sp' (sphere) into the sphere struct */
 void	process_sp(char **array, t_scene *scene)
 {
 	t_sphere	*new;
@@ -72,6 +74,7 @@ void	process_sp(char **array, t_scene *scene)
 	set_triple_from_array(&new->col, coord);
 }
 
+/* transfers the input of a line starting with 'pl' (plane) into the plane struct */
 void	process_pl(char **array, t_scene *scene)
 {
 	t_plane	*new;
@@ -95,7 +98,7 @@ void	process_pl(char **array, t_scene *scene)
 	set_triple_from_array(&new->col, coord);
 }
 
-
+/* transfers the input of a line starting with 'cy' (cylinder) into the cyl struct */
 void	process_cy(char **array, t_scene *scene)
 {
 	t_cylinder	*new;
