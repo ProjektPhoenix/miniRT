@@ -6,12 +6,13 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:41:39 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/10/23 17:10:42 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:48:38 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
 #include "../includes/vector_setup.h"
+#include "../../includes/scene.h"
 
 int	main(int argc, char **argv)
 {

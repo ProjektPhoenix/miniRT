@@ -3,23 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:02:42 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/10/27 18:25:46 by Henriette        ###   ########.fr       */
+/*   Updated: 2024/10/30 17:48:14 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/vector_setup.h"
+//#include "../../includes/vector_setup.h"
 #include "../../includes/miniRT.h"
 #include "../libft/libft.h"
+#include "../../includes/scene.h"
 
 int	parse_file(char *file, t_scene *scene)
 {
 	int	fd;
 	char *line;
 
-	init_scene(file, scene);
+	init_scene(scene);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return (perror("Error opening file"), 1);
@@ -32,8 +33,7 @@ int	parse_file(char *file, t_scene *scene)
 		line = get_next_line_new(fd);
 	}
 	close(fd);
-	if (!scene->flag_A || !scene->flag_C || !scene->flag_L || !scene->flag_sp || !scene->flag_pl || !scene->flag_cy)
-		cleanup_exit(scene, "Error\nFile does not contain all the elements\n");
+	/* add check for enough elements to make plausible scene */
 	print_file_testing(scene);
 	return (0);
 }
@@ -42,7 +42,7 @@ void	process_line(char *line, t_scene *scene)
 {
 	char **line_elmts;
 
-	line_elmts = ft_split(line, ' ');
+	line_elmts = ft_split_space(line);
 	if (!line_elmts)
 	{
 		free(line);
@@ -67,7 +67,6 @@ void	process_line(char *line, t_scene *scene)
 void	process_a(char **array, t_scene *scene)
 {
 	char **color;
-
 	scene->flag_A = true;
 	if (!array[1])
 		cleanup_exit(scene, "Error\nAmbient light is missing features");
@@ -85,6 +84,10 @@ void	process_a(char **array, t_scene *scene)
 
 void	print_file_testing(t_scene *scene)
 {
+	t_sphere	*temp_sp = scene->sphere;
+	t_cylinder	*temp_cyl = scene->cyl;
+	t_plane	*temp_pl = scene->plane;
+
 	printf("Ambient: ratio %.2f, cols %.2f, %.2f, %.2f\n", 
 		scene->ambient.intensity, 
 		scene->ambient.col.e[0], scene->ambient.col.e[1], scene->ambient.col.e[2]);
@@ -97,52 +100,55 @@ void	print_file_testing(t_scene *scene)
            scene->light.pos.e[1],
            scene->light.pos.e[2],
            scene->light.intensity);
-	int	i = 0;
-	while (i < scene->i)
+	int i = 0;
+	while (temp_sp)
 	{
 		printf("Sphere %d: center %.2f, %.2f, %.2f, diameter %.2f, color %.2f, %.2f, %.2f\n",
                i,
-               scene->sphere[i].center.e[0],
-               scene->sphere[i].center.e[1],
-               scene->sphere[i].center.e[2],
-               scene->sphere[i].diameter,
-               scene->sphere[i].col.e[0],
-               scene->sphere[i].col.e[1],
-               scene->sphere[i].col.e[2]);
+        	temp_sp->center.e[0],
+        	temp_sp->center.e[1],
+        	temp_sp->center.e[2],
+        	temp_sp->diameter,
+        	temp_sp->col.e[0],
+        	temp_sp->col.e[1],
+        	temp_sp->col.e[2]);
+		temp_sp = temp_sp->next;
 		i++;
 	}
-	int j = 0;
-	while (i < scene->j)
+	i = 0;
+	while (temp_pl)
 	{
 		printf("Plane %d: position %.2f, %.2f, %.2f, normal %.2f, %.2f, %.2f, color %.2f, %.2f, %.2f\n",
-               j,
-               scene->plane[j].pos.e[0],
-               scene->plane[j].pos.e[1],
-               scene->plane[j].pos.e[2],
-               scene->plane[j].dir.e[0],
-               scene->plane[j].dir.e[1],
-               scene->plane[j].dir.e[2],
-               scene->plane[j].col.e[0],
-               scene->plane[j].col.e[1],
-               scene->plane[j].col.e[2]);
-	       j++;
+               i,
+               temp_pl->pos.e[0],
+               temp_pl->pos.e[1],
+		temp_pl->pos.e[2],
+               temp_pl->ortho.e[0],
+              temp_pl->ortho.e[1],
+               temp_pl->ortho.e[2],
+               temp_pl->col.e[0],
+               temp_pl->col.e[1],
+               temp_pl->col.e[2]);
+	       temp_pl = temp_pl->next;
+	       i++;
 	}
-	int k = 0;
-	while (k < scene->k)
+	i = 0;
+	while (temp_cyl)
 	{
 		 printf("Cylinder %d: center %.2f, %.2f, %.2f, direction %.2f, %.2f, %.2f, diameter %.2f, height %.2f, color %.2f, %.2f, %.2f\n",
-               k,
-               scene->cyl[k].center.e[0],
-               scene->cyl[k].center.e[1],
-               scene->cyl[k].center.e[2],
-               scene->cyl[k].dir.e[0],
-               scene->cyl[k].dir.e[1],
-               scene->cyl[k].dir.e[2],
-               scene->cyl[k].diameter,
-               scene->cyl[k].height,
-               scene->cyl[k].col.e[0],
-               scene->cyl[k].col.e[1],
-               scene->cyl[k].col.e[2]);
-	       k++;
+               i,
+               temp_cyl->center.e[0],
+               temp_cyl->center.e[1],
+               temp_cyl->center.e[2],
+               temp_cyl->dir.e[0],
+               temp_cyl->dir.e[1],
+               temp_cyl->dir.e[2],
+               temp_cyl->diameter,
+               temp_cyl->height,
+               temp_cyl->col.e[0],
+               temp_cyl->col.e[1],
+               temp_cyl->col.e[2]);
+	       temp_cyl = temp_cyl->next;
+	       i++;
 	}
 }

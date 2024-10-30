@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   transfer_input.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 16:17:51 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/10/24 13:47:41 by Henriette        ###   ########.fr       */
+/*   Updated: 2024/10/30 17:48:06 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/vector_setup.h"
 #include "../../includes/miniRT.h"
 #include "../libft/libft.h"
+#include "../../includes/scene.h"
 
 void	process_c(char **array, t_scene *scene)
 {
@@ -22,20 +23,12 @@ void	process_c(char **array, t_scene *scene)
 	if (!array[1])
 		cleanup_exit(scene, "Error\nCamera is missing features");
 	coord = ft_split(array[1], ',');
-	if (!coord)
-	{
-		free_array(array);
-		cleanup_exit(scene, "Error in splitting camera position coordinates\n");
-	}
+	check_alloc(scene, coord, array, "Error splitting camera position coordinates\n");
 	set_triple_from_array(&scene->camera.pos, coord);
 	if (!array[2])
 		cleanup_exit(scene, "Error\nCamera is missing orientation");
 	coord = ft_split(array[2], ',');
-	if (!coord)
-	{
-		free_array(array);
-		cleanup_exit(scene, "Error in splitting camera orientation coordinates\n");
-	}
+	check_alloc(scene, coord, array, "Error splitting camera orientation coordinates\n");
 	set_triple_from_array(&scene->camera.dir, coord);
 	if (!array[3])
 		cleanup_exit(scene, "Error\nCamera is missing FOV");
@@ -50,11 +43,7 @@ void	process_l(char **array, t_scene *scene)
 	if (!array[1])
 		cleanup_exit(scene, "Error\nLight is missing features");
 	coord = ft_split(array[1], ',');
-	if (!coord)
-	{
-		free_array(array);
-		cleanup_exit(scene, "Error in splitting light position coordinates\n");
-	}
+	check_alloc(scene, coord, array, "Error splitting light position coordinates\n");
 	set_triple_from_array(&scene->light.pos, coord);
 	if (!array[2])
 		cleanup_exit(scene, "Error\nLight is missing brightness ratio");
@@ -64,107 +53,75 @@ void	process_l(char **array, t_scene *scene)
 
 void	process_sp(char **array, t_scene *scene)
 {
+	t_sphere	*new;
 	char **coord;
 
-	scene->flag_sp = true;
 	if (!array[1])
 		cleanup_exit(scene, "Error\nSphere is missing features");
+	new = add_sphere_node(scene);
 	coord = ft_split(array[1], ',');
-	if (!coord)
-	{
-		free_array(array);
-		cleanup_exit(scene, "Error in splitting sphere center coordinates\n");
-	}
-	set_triple_from_array(&scene->sphere[scene->i].center, coord);
+	check_alloc(scene, coord, array, "Error splitting sphere center coordinates\n");
+	set_triple_from_array(&new->center, coord);
 	if (!array[2])
 		cleanup_exit(scene, "Error\nSphere is missing diameter");
-	scene->sphere[scene->i].diameter = ft_atod(array[2]);
+	new->diameter = ft_atod(array[2]);
 	if (!array[3])
 		cleanup_exit(scene, "Error\nSphere is missing color");
 	coord = ft_split(array[3], ',');
-	if (!coord)
-	{
-		free_array(array);
-		cleanup_exit(scene, "Error in splitting sphere center coordinates\n");
-	}
-	set_triple_from_array(&scene->sphere[scene->i].col, coord);
-	(scene->i)++;
+	check_alloc(scene, coord, array, "Error splitting sphere center coordinates\n");
+	set_triple_from_array(&new->col, coord);
 }
 
 void	process_pl(char **array, t_scene *scene)
 {
+	t_plane	*new;
 	char **coord;
 
-	scene->flag_pl = true;
 	if (!array[1])
 		cleanup_exit(scene, "Error\nPlane is missing features");
+	new = add_plane_node(scene);
 	coord = ft_split(array[1], ',');
-	if (!coord)
-	{
-		free_array(array);
-		cleanup_exit(scene, "Error in splitting point in plane coordinates\n");
-	}
-	set_triple_from_array(&scene->plane[scene->j].pos, coord);
+	check_alloc(scene, coord, array, "Error splitting point in plane coordinates\n");
+	set_triple_from_array(&new->pos, coord);
 	if (!array[2])
 		cleanup_exit(scene, "Error\nPlane is missing norm vector\n");
 	coord = ft_split(array[2], ',');
-	if (!coord)
-	{
-		free_array(array);
-		cleanup_exit(scene, "Error in splitting plane norm vector coordinates\n");
-	}
-	set_triple_from_array(&scene->plane[scene->j].dir, coord);
+	check_alloc(scene, coord, array, "Error splitting plane norm vector coordinates\n");
+	set_triple_from_array(&new->ortho, coord);
 	if (!array[3])
 		cleanup_exit(scene, "Error\nPlane is missing color");
 	coord = ft_split(array[3], ',');
-	if (!coord)
-	{
-		free_array(array);
-		cleanup_exit(scene, "Error in splitting sphere center coordinates\n");
-	}
-	set_triple_from_array(&scene->plane[scene->j].col, coord);
-	(scene->j)++;
+	check_alloc(scene, coord, array, "Error in splitting sphere center coordinates\n");
+	set_triple_from_array(&new->col, coord);
 }
 
 
 void	process_cy(char **array, t_scene *scene)
 {
+	t_cylinder	*new;
 	char **coord;
 
-	scene->flag_cy = true;
 	if (!array[1])
 		cleanup_exit(scene, "Error\nCylinder is missing features");
+	new = add_cylinder_node(scene);
 	coord = ft_split(array[1], ',');
-	if (!coord)
-	{
-		free_array(array);
-		cleanup_exit(scene, "Error in splitting cylinder center coordinates\n");
-	}
-	set_triple_from_array(&scene->cyl[scene->k].center, coord);
+	check_alloc(scene, coord, array, "Error splitting cylinder center coordinates\n");
+	set_triple_from_array(&new->center, coord);
 	if (!array[2])
 		cleanup_exit(scene, "Error\nCylinder is missing norm vector\n");
 	coord = ft_split(array[2], ',');
-	if (!coord)
-	{
-		free_array(array);
-		cleanup_exit(scene, "Error in splitting cylinder norm vector coordinates\n");
-	}
-	set_triple_from_array(&scene->cyl[scene->k].dir, coord);
+	check_alloc(scene, coord, array, "Error splitting cylinder norm vector coordinates\n");
+	set_triple_from_array(&new->dir, coord);
 	if (!array[3])
 		cleanup_exit(scene, "Error\nCylinder is missing diameter");
-	scene->cyl[scene->k].diameter = ft_atod(array[3]);
+	new->diameter = ft_atod(array[3]);
 	if (!array[4])
 		cleanup_exit(scene, "Error\nCylinder is missing height");
-	scene->cyl[scene->k].height = ft_atod(array[4]);
+	new->height = ft_atod(array[4]);
 	if (!array[5])
 		cleanup_exit(scene, "Error\nCylinder is missing color");
 	coord = ft_split(array[5], ',');
-	if (!coord)
-	{
-		free_array(array);
-		cleanup_exit(scene, "Error in splitting cylinder color\n");
-	}
-	set_triple_from_array(&scene->cyl[scene->k].col, coord);
-	(scene->k)++;
+	check_alloc(scene, coord, array, "Error splitting cylinder color\n");
+	set_triple_from_array(&new->col, coord);
 }
 

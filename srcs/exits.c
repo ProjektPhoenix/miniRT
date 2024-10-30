@@ -6,12 +6,13 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 17:01:25 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/10/23 15:38:39 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:48:33 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "./libft/libft.h"
 #include "../includes/vector_setup.h"
+#include "../../includes/scene.h"
 
 int	error_return(char *mssg)
 {

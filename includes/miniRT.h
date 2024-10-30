@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:39:54 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/10/27 20:00:52 by Henriette        ###   ########.fr       */
+/*   Updated: 2024/10/30 17:11:03 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <errno.h>
 //#include <math.h>
 #include <stdlib.h>
-//#include "vector_setup.h"
+#include "vector_setup.h"
 
 typedef struct s_viewp
 {
