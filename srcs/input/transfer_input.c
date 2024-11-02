@@ -59,7 +59,7 @@ void	process_sp(char **array, t_scene *scene)
 	char **coord;
 
 	if (!array[1])
-		cleanup_exit(scene, "Error\nSphere is missing features");
+		cleanup_exit(scene, "Error\nSphere is missing features", 2);
 	new = add_sphere_node(scene);
 	coord = ft_split(array[1], ',');
 	check_alloc(scene, coord, array, "Error splitting sphere center coordinates\n");

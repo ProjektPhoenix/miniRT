@@ -21,8 +21,8 @@ int	main(int argc, char **argv)
 	if (argc == 1) //replace with real error handling
 		return (error_return("Error\nno .rt file provided\n"));
 	if (parse_file(argv[1], &scene))
-		cleanup_exit(&scene, NULL);
-	cleanup_exit(&scene, NULL);
+		cleanup_exit(&scene, NULL, 2);
+	cleanup_exit(&scene, NULL, 2);
 	return (0);
 }
 

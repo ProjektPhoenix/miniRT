@@ -42,7 +42,7 @@ int	is_valid(char *str, t_scene *scene)
 {
 	if (ft_strncmp(str, "A", 2) && ft_strncmp(str, "C", 2) && ft_strncmp(str, "L", 2)
 		&& ft_strncmp(str, "sp", 3) && ft_strncmp(str, "pl", 3) && ft_strncmp(str, "cy", 3))
-		cleanup_exit(scene, "Error\nValid elements only are: A, C, L, pl, sp and cy\n");
+		cleanup_exit(scene, "Error\nValid elements only are: A, C, L, pl, sp and cy\n", 2);
 	else if ((!ft_strncmp(str, "A", 2) && scene->flag_A == true) || (!ft_strncmp(str, "C", 2) && scene->flag_C == true)
 		|| (!ft_strncmp(str, "L", 2) && scene->flag_L == true))
 		cleanup_exit(scene, "Error\nA, C and L can only be entered once\n", 2);
