@@ -12,7 +12,7 @@
 
 # include "./libft/libft.h"
 #include "../includes/vector_setup.h"
-#include "../../includes/scene.h"
+#include "../includes/scene.h"
 
 int	error_return(char *mssg)
 {
