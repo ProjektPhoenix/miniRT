@@ -1,3 +1,5 @@
+/* defines size and location of viewport and pixels of viewport */ 
+void	setup_viewport(t_scene *scene)
 
 /* function creates a ray, takes as arguments the point of origin and the direction */
 t_ray	create_ray(t_point orig, t_vec dir)
@@ -19,7 +21,8 @@ t_color	calculate_color(t_scene *scene, t_ray ray)
 	/* interpolates all colors from available information of that specific point based on previous calculations */
 	t_color mix_colors(t_color object_col, t_color light_impact, t_color ambient_impact)
 	
-
+char  	*convert_to_string(t_ray ray);
+void	write_to_image(char *str, or whatever else we need)
 
 
 functions from miniRT tutorial: 
