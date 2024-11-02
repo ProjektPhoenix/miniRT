@@ -32,6 +32,7 @@ int	parse_file(char *file, t_scene *scene)
 		if (line[0] != '\n')
 			process_line(line, scene);
 		free(line);
+		line = NULL;
 		line = get_next_line_new(fd);
 	}
 	close(fd);
