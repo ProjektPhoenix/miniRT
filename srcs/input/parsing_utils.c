@@ -55,7 +55,7 @@ void	check_alloc(t_scene *scene, char **coord, char **array, char *mssg)
 	if (!coord)
 	{
 		free_array(array);
-		cleanup_exit(scene, mssg);
+		cleanup_exit(scene, mssg, 2);
 	}
 }
 
@@ -67,7 +67,7 @@ t_sphere	*add_sphere_node(t_scene *scene)
 	
 	new = malloc(sizeof(t_sphere));
 	if (!new)
-		cleanup_exit(scene, "malloc error\n");
+		cleanup_exit(scene, "malloc error\n", 2);
 	new->center.e[0] = 0.0;
 	new->center.e[1] = 0.0;
 	new->center.e[2] = 0.0;
@@ -76,13 +76,8 @@ t_sphere	*add_sphere_node(t_scene *scene)
 	new->col.e[2] = 0.0;
 	new->diameter = 0.0;
 	new->next = NULL;
-	printf("test8\n");
 	if (!scene->sphere)
-	{
-		printf("test9\n");
 		scene->sphere = new;
-		
-	}
 	else
 	{
 		temp = scene->sphere;
@@ -90,7 +85,6 @@ t_sphere	*add_sphere_node(t_scene *scene)
 			temp = temp->next;
 		temp->next = new;
 	}
-	
 	return (new);
 }
 
@@ -102,7 +96,7 @@ t_cylinder	*add_cylinder_node(t_scene *scene)
 	
 	new = malloc(sizeof(t_cylinder));
 	if (!new)
-		cleanup_exit(scene, "malloc error\n");
+		cleanup_exit(scene, "malloc error\n", 2);
 	new->center.e[0] = 0.0;
 	new->center.e[1] = 0.0;
 	new->center.e[2] = 0.0;
@@ -135,7 +129,7 @@ t_plane	*add_plane_node(t_scene *scene)
 	
 	new = malloc(sizeof(t_plane));
 	if (!new)
-		cleanup_exit(scene, "malloc error\n");
+		cleanup_exit(scene, "malloc error\n", 2);
 	new->col.e[0] = 0.0;
 	new->col.e[1] = 0.0;
 	new->col.e[2] = 0.0;
