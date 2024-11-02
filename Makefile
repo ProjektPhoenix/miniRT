@@ -5,12 +5,18 @@ CFLAGS_dev	:= -Wall -Wextra -Werror -Wunreachable-code -fsanitize=address -O3
 LIBFTDIR	:= srcs/libft
 LIBFT		:= ${LIBFTDIR}/libft.a
 MINILIBXDIR	:= minilibx-linux
+MINILIBXDIR_MAC := minilibx_opengl
 MINILIBX	:= ${MINILIBXDIR}/libmlx.a
 INCL		:= -Iusr/include -I${LIBFTDIR} -I${MINILIBXDIR}
+INCL_MAC    := -Iusr/include -I${LIBFTDIR} -I${MINILIBXDIR_MAC}
 LIBS		:= -L./${MINILIBXDIR} -lmlx \
 			-L/lib/ -lX11 -lXext -lm\
 			-L./${LIBFTDIR} -lft
-SRCS		:= srcs/main.c srcs/exits.c
+LIBS_MAC    := -L./${MINILIBXDIR_MAC} -lmlx \
+            -framework OpenGL -framework AppKit -lm \
+            -L./${LIBFTDIR} -lft
+SRCS		:= srcs/main.c srcs/exits.c srcs/input/parsing.c srcs/input/parsing_utils.c srcs/input/transfer_input.c \
+			srcs/vector_functions/set_specs.c
 OBJS		:= ${SRCS:.c=.o}
 SHELL		:= /bin/bash
 HDS		:= 
@@ -26,6 +32,12 @@ ifeq ($(MODE),gdb)
  CFLAGS = ${CFLAGS_gdb}
 else ifeq ($(MODE),dev)
  CFLAGS = ${CFLAGS_dev}
+else ifeq ($(MODE),mac)
+ CFLAGS = ${CFLAGS_prod}
+ MINILIBXDIR = ${MINILIBXDIR_MAC}
+ INCL = ${INCL_MAC}
+ LIBS = ${LIBS_MAC}
+  MINILIBX = ${MINILIBXDIR_MAC}/libmlx.a
 else
  CFLAGS = ${CFLAGS_prod}
 endif

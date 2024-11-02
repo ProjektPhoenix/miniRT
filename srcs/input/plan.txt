@@ -1,0 +1,41 @@
+/* defines size and location of viewport and pixels of viewport */ 
+void	setup_viewport(t_scene *scene)
+
+/* function creates a ray, takes as arguments the point of origin and the direction */
+t_ray	create_ray(t_point orig, t_vec dir)
+
+/* calculates color for specific pixel, depending on if ray hits object or light or other specified element
+t_color	calculate_color(t_scene *scene, t_ray ray)
+	inside:
+	/* calculates the point where the ray from camera hits the object */
+	t_point	find_hit_point(t_scene *scene, t_ray ray)
+		inside:
+		t_point	hit_sphere(t_scene *scene, t_ray ray)
+		t_point	hit_cyl(t_scene *scene, t_ray ray)
+		t_point	hit_plane(t_scene *scene, t_ray ray)	
+	
+	/* determines if ray from hit point is in direct sight of light and if yes returns the distance, if no it returns -1 
+	double	hit_light(t_scene *scene,t_point hit_point)
+
+	
+	/* interpolates all colors from available information of that specific point based on previous calculations */
+	t_color mix_colors(t_color object_col, t_color light_impact, t_color ambient_impact)
+	
+char  	*convert_to_string(t_ray ray);
+void	write_to_image(char *str, or whatever else we need)
+
+
+functions from miniRT tutorial: 
+
+/* to make gradient (depending on point t on vector vec3) */
+vec3 vec3_scale(const vec3* v, double t) {
+    vec3 result = vec3_create(v->e[0] * t, v->e[1] * t, v->e[2] * t);
+    return result;
+}
+
+for example: 
+color white = vec3_create(1.0, 1.0, 1.0);  	// White
+   	color blue = vec3_create(0.5, 0.7, 1.0);	// Blue gradient
+	color blended_color1 = vec3_mul_scalar(1.0 - a, &white);
+	color blended_color2 = vec3_mul_scalar(a, &blue);
+	return  vec3_add(&blended_color1, &blended_color2);
