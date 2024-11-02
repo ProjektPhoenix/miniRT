@@ -27,18 +27,27 @@ int	error_exit(char *mssg)
 	exit(1);
 }
 
-void cleanup_exit(t_scene *scene, char *mssg)
+void cleanup_exit(t_scene *scene, char *mssg, int status)
 {
 	if (scene->plane)
+	{
 		free(scene->plane);
+		scene->plane = NULL;
+	}
 	if (scene->cyl)
+	{
 		free(scene->cyl);
+		scene->cyl = NULL;
+	}
 	if (scene->sphere)
+	{
 		free(scene->sphere);
+		scene->sphere = NULL;
+	}
 	if (mssg)
 		error_exit(mssg);
 	else
-		exit(1);
+		exit(status);
 }
 
 void	free_array(char **str)
