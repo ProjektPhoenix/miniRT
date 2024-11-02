@@ -51,6 +51,7 @@ void	process_line(char *line, t_scene *scene)
 	if (!line_elmts)
 	{
 		free(line);
+		line = NULL;
 		error_exit("Error\nft_split error\n");
 	}
 	is_valid(line_elmts[0], scene);
