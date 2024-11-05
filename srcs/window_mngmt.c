@@ -10,10 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "vector_setup.h"
+#include "miniRT.h"
 #include <mlx.h>
-#include <interface.h>
+#include <mlx_wrapper.h>
 #include <error.h>
-#include <stddef.h>
+#include <stdbool.h>
+#include <libft.h>
 
 # define WIN_TITLE "miniRT"
 
@@ -29,69 +32,81 @@ typedef struct	s_pxl {
  * Returns: "0" upon success, "1" if pxl coordinates are outside image boundaries,
  * "2" if color information cannot be interpreted and "3" in case of other errors.
  */
-static bool	draw_pixel(t_img *img, t_pxl *pxl)
-{
-	unsigned int	color;
+// static bool	draw_pixel(t_img *img, t_pxl *pxl)
+// {
+// 	unsigned int	color;
 
-	color = uint_color_from_rgb(pxl->color, "endian");
+// 	color = mlx_get_color_value()
 	
-	if (pxl->x > img_main->width || pxl->y > img_main->height)
-		return (1);
-	ft_memcpy(img_main->content + (y * img_main->line + x * img_main->bpp / 8), color, img_main->bpp / 8);
-	return (0);
-}
+// 	if (pxl->x > img->width || pxl->y > img->height)
+// 		return (1);
+// 	ft_memcpy(img->content + (pxl->y * img->line + pxl->x * img->bpp / 8), color, img->bpp / 8);
+// 	return (0);
+// }
 
-static void	draw_frame(t_img *img, t_color *color, int width)
-{
+// static void	draw_frame(t_img *img, t_color *color, int width)
+// {
 	
-}
+// }
 
 /*
  * the function allows to save an mlx image to an xpm image file, which can be
  * viewed later using other means. Files are saved in a hidden directory ".output"
  * relative to the working directory.
  */
-void	save_img_to_xpm()
-{
+// void	save_img_to_xpm()
+// {
 	
+// }
+
+static void	init_img(t_img	*mlx_img)
+{
+	mlx_img->content = mlx_get_data_addr(mlx_img, &mlx_img->bpp, &mlx_img->line, &mlx_img->endian);
 }
 
-void	init_interface(t_interface *screen)
+static void	init_interface(t_interface *screen)
 {
 	screen->mlx = NULL;
 	screen->mlx = mlx_init();
 	if (!screen->mlx)
-		strerror("MLX could not be initialized");
+		error_exit("MLX could not be initialized");
 	// get_screen_size()
-	screen->width = 600;
-	screen->height = 400;
-	screen->win_ptr = NULL;
-	screen->img_content = NULL;
-	
+	screen->width = 900;
+	screen->height = 600;
+	screen->win = NULL;
 }
 
-void	*create_new_window(t_interface *screen, char* win_title)
+static void	*create_new_window(t_interface *screen, char* win_title)
 {
-	screen->win_ptr = mlx_new_window(screen->mlx, screen->width, screen->height, win_title);
-	if (!screen->win_ptr)
-		return (NULL);
-	return (screen->win_ptr);
+	screen->win = mlx_new_window(screen->mlx, screen->width, screen->height, win_title);
+	if (!screen->win)
+	{
+		mlx_destroy_display(screen->mlx);
+		error_exit("Creating MLX window failed.");
+	}
+	return (screen->win);
 }
 
-int	main()
+void	draw_image(t_minirt *rt)
 {
-	t_interface	screen;
-	t_img		img_main;
+	printf("Function draw_image.\n");
+	// prepare_viewport()
+	// draw_viewport_to_img()
+	mlx_put_image_to_window(rt->screen.mlx, rt->screen.win, rt->img.ptr, 0, 0);
+	printf("Image put to window returned.\n");
+}
 
-	init_interface(&screen);
-	if (!create_new_window(&screen, WIN_TITLE))
-		return (1);
-	screen.img_ptr = mlx_new_image(screen.mlx, screen.width, screen.height);
-	if (!screen.img_ptr)
-		return (2);
-	screen.img_content = mlx_get_data_addr(screen.img_ptr, &screen.img_bpp, &screen.img_line, &screen.img_endian);
-
-	write_img(&screen)
-	destroy_img
-	destroy_win
+int	init_mlx_interface(t_minirt *rt)
+{
+	init_interface(&rt->screen);
+	create_new_window(&rt->screen, WIN_TITLE);
+	rt->img.ptr = mlx_new_image(rt->screen.mlx, rt->screen.width, rt->screen.height - 70);
+	if (!rt->img.ptr)
+	{
+		mlx_destroy_window(rt->screen.mlx, rt->screen.win);
+		mlx_destroy_display(rt->screen.mlx);
+		error_exit("Creating MLX img failed.");
+	}
+	init_img(&rt->img);
+	return (0);
 }

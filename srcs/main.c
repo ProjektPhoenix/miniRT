@@ -10,20 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/miniRT.h"
-#include "../includes/vector_setup.h"
-#include "../../includes/scene.h"
+#include "miniRT.h"
+#include "vector_setup.h"
+#include "scene.h"
 
 int	main(int argc, char **argv)
 {
-	t_scene scene;
+	t_minirt	rt;
 
+	// init_rt() # tbd
 	if (argc == 1) //replace with real error handling
 		return (error_return("Error\nno .rt file provided\n"));
-	if (parse_file(argv[1], &scene))
-		cleanup_exit(&scene, NULL, 2);
-	cleanup_exit(&scene, NULL, 2);
+	if (parse_file(argv[1], &rt.scene))
+		cleanup_scene_exit(&rt.scene, NULL, 2);
+	init_mlx_interface(&rt);
+	// draw_image(&rt);
+	minirt_init_loop(&rt);
+	// cleanup_exit(&rt, NULL, 2);
 	return (0);
 }
-
-

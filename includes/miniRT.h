@@ -8,6 +8,8 @@
 //#include <math.h>
 #include <stdlib.h>
 #include "vector_setup.h"
+#include "mlx_wrapper.h"
+#include "scene.h"
 
 typedef struct s_viewp
 {
@@ -16,11 +18,25 @@ typedef struct s_viewp
 	t_color **pxl;
 }	t_viewp;
 
-
+typedef struct	s_minirt
+{
+	t_interface	screen;
+	t_scene		scene;
+	t_viewp		vp;
+	t_img		img;
+}	t_minirt;
 
 /* utils */
-int	error_return(char *mssg);
-int	error_exit(char *mssg);
+void	cleanup_exit(t_minirt *rt, char *mssg, int status);
+void	cleanup_scene_exit(t_scene *scene, char *mssg, int status);
+void	draw_image(t_minirt *rt);
+int		error_return(char *mssg);
+int		error_exit(char *mssg);
+int		error_exit_status(char *mssg, int status);
 void	free_array(char **str);
+int		ft_key_hook(int keycode, t_minirt *rt);
+int		init_mlx_interface(t_minirt *rt);
+int		loop_cleanup(t_minirt *rt);
+void	minirt_init_loop(t_minirt *rt);
 
 #endif 

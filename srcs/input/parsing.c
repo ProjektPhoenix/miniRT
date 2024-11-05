@@ -76,15 +76,15 @@ void	process_a(char **array, t_scene *scene)
 	char **color;
 	scene->flag_A = true;
 	if (!array[1])
-		cleanup_exit(scene, "Error\nAmbient light is missing features", 2);
+		cleanup_scene_exit(scene, "Error\nAmbient light is missing features", 2);
 	scene->ambient.intensity = ft_atod(array[1]);
 	if (!array[2])
-		cleanup_exit(scene, "Error\nAmbient light is missing colors", 2);
+		cleanup_scene_exit(scene, "Error\nAmbient light is missing colors", 2);
 	color = ft_split(array[2], ',');
 	if (!color)
 	{
 		free_array(array);
-		cleanup_exit(scene, "Error in splitting ambient light colors\n", 2);
+		cleanup_scene_exit(scene, "Error in splitting ambient light colors\n", 2);
 	}
 	set_triple_from_array(&scene->ambient.col, color);
 }
