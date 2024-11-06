@@ -27,8 +27,7 @@ static bool draw_pixel(t_img *img, t_pxl *pxl)
 {
     unsigned int color;
 
-    // color = ft_argb_color(255, (int)pxl->color.e[0], (int)pxl->color.e[1], (int)pxl->color.e[2]);
-    color = ft_argb_color(255, 255, 0, 0);
+    color = ft_argb_color(255, (int)pxl->color.e[0], (int)pxl->color.e[1], (int)pxl->color.e[2]);
 
     if (pxl->x > img->width || pxl->y > img->height || pxl->x < 0 || pxl->y < 0)
         return (1);
@@ -134,11 +133,12 @@ static void	draw_frame(t_img *img, int frame_width)
         j++;
     }
 }
+
 /*
  * the function allows to save an mlx image to an xpm image file, which can be
  * viewed later using other means. Files are saved in a hidden directory ".output"
  * relative to the working directory.
- * /
+ */
 // void	save_img_to_xpm()
 // {
 //
@@ -148,7 +148,6 @@ static void	draw_frame(t_img *img, int frame_width)
 // {
 //
 // }
-
 
 void draw_image(t_minirt *rt)
 {
