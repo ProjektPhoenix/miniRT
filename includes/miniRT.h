@@ -25,7 +25,7 @@ typedef struct s_viewp
 {
 	int		height;
 	int		width;
-	t_pxl	**pxl;
+	t_ray	**ray;
 }	t_viewp;
 
 typedef struct	s_minirt
