@@ -18,7 +18,7 @@
 #include <stdbool.h>
 #include <libft.h>
 
-static void	init_img(t_minirt *rt)
+void	init_img(t_minirt *rt)
 {
 	rt->img.width = rt->screen.width;
 	rt->img.height = rt->screen.height;
@@ -31,7 +31,7 @@ static void	init_img(t_minirt *rt)
 	}
 	rt->img.content = mlx_get_data_addr(rt->img.ptr, &(rt->img.bpp), &(rt->img.line), &(rt->img.endian));
 	printf("Init_img complete, results:\n");
-	printf("Address of rt->img.ptr: %p", rt->img.ptr);
+	printf("Address of rt->img.ptr: %p\n", rt->img.ptr);
 }
 
 static void	init_interface(t_interface *screen)

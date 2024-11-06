@@ -12,6 +12,8 @@
 #ifndef MLX_WRAPPER_H
 # define MLX_WRAPPER_H
 
+#include "miniRT.h"
+
 typedef struct	s_interface {
 	void	*mlx;
 	void	*win;
@@ -30,4 +32,3 @@ typedef struct	s_img {
 }	t_img;
 
 #endif
-

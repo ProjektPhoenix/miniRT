@@ -44,6 +44,7 @@ int		error_exit(char *mssg);
 int		error_exit_status(char *mssg, int status);
 void	free_array(char **str);
 int		ft_key_hook(int keycode, t_minirt *rt);
+void	init_img(t_minirt *rt);
 int		init_mlx_interface(t_minirt *rt);
 int		loop_cleanup(t_minirt *rt);
 void	minirt_init_loop(t_minirt *rt);
