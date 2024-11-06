@@ -61,9 +61,7 @@ typedef struct s_cylinder
 	struct s_cylinder	*next;
 } t_cylinder;
 
-
 /* set vectors and triples */
 void	set_triple_from_array(t_vec *triple, char **coord);
-
 
 #endif

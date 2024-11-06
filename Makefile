@@ -1,13 +1,13 @@
 NAME		:= miniRT
 CFLAGS_prod	:= -Wall -Wextra -Werror -Ofast
-CFLAGS_gdb	:= -Wall -Wextra -Werror -Wunreachable-code -O3 -g
+CFLAGS_gdb	:= -Wall -Wextra -Werror -g -Wunreachable-code -O3 
 CFLAGS_dev	:= -Wall -Wextra -Werror -Wunreachable-code -fsanitize=address -O3
 LIBFTDIR	:= srcs/libft
 LIBFT		:= ${LIBFTDIR}/libft.a
 MINILIBXDIR	:= minilibx-linux
 MINILIBXDIR_MAC := minilibx_opengl
 MINILIBX	:= ${MINILIBXDIR}/libmlx.a
-INCL		:= -Iusr/include -I${LIBFTDIR} -I${MINILIBXDIR}
+INCL		:= -Iincludes -Iusr/include -I${LIBFTDIR} -I${MINILIBXDIR}
 INCL_MAC    := -Iusr/include -I${LIBFTDIR} -I${MINILIBXDIR_MAC}
 LIBS		:= -L./${MINILIBXDIR} -lmlx \
 			-L/lib/ -lX11 -lXext -lm\
@@ -16,7 +16,7 @@ LIBS_MAC    := -L./${MINILIBXDIR_MAC} -lmlx \
             -framework OpenGL -framework AppKit -lm \
             -L./${LIBFTDIR} -lft
 SRCS		:= srcs/main.c srcs/exits.c srcs/input/parsing.c srcs/input/parsing_utils.c srcs/input/transfer_input.c \
-			srcs/vector_functions/set_specs.c
+			srcs/vector_functions/set_specs.c srcs/window_mngmt.c srcs/loop.c srcs/draw_image.c
 OBJS		:= ${SRCS:.c=.o}
 SHELL		:= /bin/bash
 HDS		:= 

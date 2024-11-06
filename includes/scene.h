@@ -34,9 +34,6 @@ t_cylinder	*add_cylinder_node(t_scene *scene);
 t_plane	*add_plane_node(t_scene *scene);
 void	check_alloc(t_scene *scene, char **coord, char **array, char *mssg);
 
-/* exits */
-void cleanup_exit(t_scene *scene, char *mssg, int status);
-
 /* just for testing, delete later */
 void	print_file_testing(t_scene *scene);
 

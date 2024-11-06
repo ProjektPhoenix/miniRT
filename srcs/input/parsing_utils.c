@@ -42,10 +42,10 @@ int	is_valid(char *str, t_scene *scene)
 {
 	if (ft_strncmp(str, "A", 2) && ft_strncmp(str, "C", 2) && ft_strncmp(str, "L", 2)
 		&& ft_strncmp(str, "sp", 3) && ft_strncmp(str, "pl", 3) && ft_strncmp(str, "cy", 3))
-		cleanup_exit(scene, "Error\nValid elements only are: A, C, L, pl, sp and cy\n", 2);
+		cleanup_scene_exit(scene, "Error\nValid elements only are: A, C, L, pl, sp and cy\n", 2);
 	else if ((!ft_strncmp(str, "A", 2) && scene->flag_A == true) || (!ft_strncmp(str, "C", 2) && scene->flag_C == true)
 		|| (!ft_strncmp(str, "L", 2) && scene->flag_L == true))
-		cleanup_exit(scene, "Error\nA, C and L can only be entered once\n", 2);
+		cleanup_scene_exit(scene, "Error\nA, C and L can only be entered once\n", 2);
 	return (1);
 }
 
@@ -55,7 +55,7 @@ void	check_alloc(t_scene *scene, char **coord, char **array, char *mssg)
 	if (!coord)
 	{
 		free_array(array);
-		cleanup_exit(scene, mssg, 2);
+		cleanup_scene_exit(scene, mssg, 2);
 	}
 }
 
@@ -67,7 +67,7 @@ t_sphere	*add_sphere_node(t_scene *scene)
 	
 	new = malloc(sizeof(t_sphere));
 	if (!new)
-		cleanup_exit(scene, "malloc error\n", 2);
+		cleanup_scene_exit(scene, "malloc error\n", 2);
 	new->center.e[0] = 0.0;
 	new->center.e[1] = 0.0;
 	new->center.e[2] = 0.0;
@@ -96,7 +96,7 @@ t_cylinder	*add_cylinder_node(t_scene *scene)
 	
 	new = malloc(sizeof(t_cylinder));
 	if (!new)
-		cleanup_exit(scene, "malloc error\n", 2);
+		cleanup_scene_exit(scene, "malloc error\n", 2);
 	new->center.e[0] = 0.0;
 	new->center.e[1] = 0.0;
 	new->center.e[2] = 0.0;
@@ -129,7 +129,7 @@ t_plane	*add_plane_node(t_scene *scene)
 	
 	new = malloc(sizeof(t_plane));
 	if (!new)
-		cleanup_exit(scene, "malloc error\n", 2);
+		cleanup_scene_exit(scene, "malloc error\n", 2);
 	new->col.e[0] = 0.0;
 	new->col.e[1] = 0.0;
 	new->col.e[2] = 0.0;

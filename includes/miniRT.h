@@ -7,20 +7,48 @@
 #include <errno.h>
 //#include <math.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "vector_setup.h"
+#include "mlx_wrapper.h"
+#include "scene.h"
+
+# define WIN_TITLE "miniRT"
+# define TITLEBAR_HEIGHT 10;
+
+typedef struct	s_pxl {
+	int	x;
+	int	y;
+	t_color	color;
+}	t_pxl;
 
 typedef struct s_viewp
 {
-	int	height;
-	int	width;
-	t_color **pxl;
+	int		height;
+	int		width;
+	t_ray	**ray;
 }	t_viewp;
 
-
+typedef struct	s_minirt
+{
+	t_interface	screen;
+	t_scene		scene;
+	t_viewp		vp;
+	t_img		img;
+}	t_minirt;
 
 /* utils */
-int	error_return(char *mssg);
-int	error_exit(char *mssg);
+void	cleanup_exit(t_minirt *rt, char *mssg, int status);
+void	cleanup_scene(t_scene *scene);
+void	cleanup_scene_exit(t_scene *scene, char *mssg, int status);
+void	draw_image(t_minirt *rt);
+int		error_return(char *mssg);
+int		error_exit(char *mssg);
+int		error_exit_status(char *mssg, int status);
 void	free_array(char **str);
+int		ft_key_hook(int keycode, t_minirt *rt);
+bool	init_img(t_minirt *rt);
+int		init_mlx_interface(t_minirt *rt);
+int		loop_cleanup(t_minirt *rt);
+void	minirt_init_loop(t_minirt *rt);
 
 #endif 
