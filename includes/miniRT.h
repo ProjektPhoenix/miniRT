@@ -11,11 +11,20 @@
 #include "mlx_wrapper.h"
 #include "scene.h"
 
+# define WIN_TITLE "miniRT"
+# define TITLEBAR_HEIGHT 10;
+
+typedef struct	s_pxl {
+	int	x;
+	int	y;
+	t_color	color;
+}	t_pxl;
+
 typedef struct s_viewp
 {
-	int	height;
-	int	width;
-	t_color **pxl;
+	int		height;
+	int		width;
+	t_pxl	**pxl;
 }	t_viewp;
 
 typedef struct	s_minirt

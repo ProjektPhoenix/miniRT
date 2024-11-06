@@ -18,50 +18,20 @@
 #include <stdbool.h>
 #include <libft.h>
 
-# define WIN_TITLE "miniRT"
-
-typedef struct	s_pxl {
-	int	x;
-	int	y;
-	t_vec	color;
-} t_pxl;
-
-/*
- * Input: image struct to write to, coordinate of pxl in image and pxl color.
- * Function modifies img content.
- * Returns: "0" upon success, "1" if pxl coordinates are outside image boundaries,
- * "2" if color information cannot be interpreted and "3" in case of other errors.
- */
-// static bool	draw_pixel(t_img *img, t_pxl *pxl)
-// {
-// 	unsigned int	color;
-
-// 	color = mlx_get_color_value()
-	
-// 	if (pxl->x > img->width || pxl->y > img->height)
-// 		return (1);
-// 	ft_memcpy(img->content + (pxl->y * img->line + pxl->x * img->bpp / 8), color, img->bpp / 8);
-// 	return (0);
-// }
-
-// static void	draw_frame(t_img *img, t_color *color, int width)
-// {
-	
-// }
-
-/*
- * the function allows to save an mlx image to an xpm image file, which can be
- * viewed later using other means. Files are saved in a hidden directory ".output"
- * relative to the working directory.
- */
-// void	save_img_to_xpm()
-// {
-	
-// }
-
-static void	init_img(t_img	*mlx_img)
+static void	init_img(t_minirt *rt)
 {
-	mlx_img->content = mlx_get_data_addr(mlx_img, &mlx_img->bpp, &mlx_img->line, &mlx_img->endian);
+	rt->img.width = rt->screen.width;
+	rt->img.height = rt->screen.height;
+	rt->img.ptr = mlx_new_image(rt->screen.mlx, rt->img.width, rt->img.height);
+	if (!rt->img.ptr)
+	{
+		mlx_destroy_window(rt->screen.mlx, rt->screen.win);
+		mlx_destroy_display(rt->screen.mlx);
+		error_exit("Creating MLX img failed.");
+	}
+	rt->img.content = mlx_get_data_addr(rt->img.ptr, &(rt->img.bpp), &(rt->img.line), &(rt->img.endian));
+	printf("Init_img complete, results:\n");
+	printf("Address of rt->img.ptr: %p", rt->img.ptr);
 }
 
 static void	init_interface(t_interface *screen)
@@ -70,7 +40,7 @@ static void	init_interface(t_interface *screen)
 	screen->mlx = mlx_init();
 	if (!screen->mlx)
 		error_exit("MLX could not be initialized");
-	// get_screen_size()
+	// get_screen_size() // minus TITLEBAR_HEIGHT
 	screen->width = 900;
 	screen->height = 600;
 	screen->win = NULL;
@@ -87,26 +57,10 @@ static void	*create_new_window(t_interface *screen, char* win_title)
 	return (screen->win);
 }
 
-void	draw_image(t_minirt *rt)
-{
-	printf("Function draw_image.\n");
-	// prepare_viewport()
-	// draw_viewport_to_img()
-	mlx_put_image_to_window(rt->screen.mlx, rt->screen.win, rt->img.ptr, 0, 0);
-	printf("Image put to window returned.\n");
-}
-
 int	init_mlx_interface(t_minirt *rt)
 {
 	init_interface(&rt->screen);
 	create_new_window(&rt->screen, WIN_TITLE);
-	rt->img.ptr = mlx_new_image(rt->screen.mlx, rt->screen.width, rt->screen.height - 70);
-	if (!rt->img.ptr)
-	{
-		mlx_destroy_window(rt->screen.mlx, rt->screen.win);
-		mlx_destroy_display(rt->screen.mlx);
-		error_exit("Creating MLX img failed.");
-	}
-	init_img(&rt->img);
+	init_img(rt);
 	return (0);
 }

@@ -80,6 +80,9 @@ int		ft_putptr(unsigned long long ptr);
 int		ft_conv_print_ptr(uintptr_t n);
 int		ft_conv_print_hex(unsigned int n, const char sign);
 int		ft_print_unsint(unsigned int n);
+//miniRT
+unsigned int	ft_argb_color(unsigned char alpha, unsigned char red, \
+					unsigned char green, unsigned char blue);
 
 typedef struct s_list
 {

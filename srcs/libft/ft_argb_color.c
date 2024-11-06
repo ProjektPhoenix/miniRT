@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   interface.h                                        :+:      :+:    :+:   */
+/*   ft_argb_color.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/27 21:11:09 by rpriess           #+#    #+#             */
-/*   Updated: 2024/11/03 14:42:03 by rpriess          ###   ########.fr       */
+/*   Created: 2024/03/26 10:31:10 by rpriess           #+#    #+#             */
+/*   Updated: 2024/04/30 14:43:00 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef MLX_WRAPPER_H
-# define MLX_WRAPPER_H
 
-typedef struct	s_interface {
-	void	*mlx;
-	void	*win;
-	int		height;
-	int		width;
-}	t_interface;
+/*
+ * Returns unsigned int representation of individual rgb values and an alpha
+ * channel given as individual arguments.
+ */
 
-typedef struct	s_img {
-	void	*ptr;
-	void	*content;
-	int		height;
-	int		width;
-	int		bpp;
-	int		line;
-	int		endian;
-}	t_img;
+unsigned int	ft_argb_color(unsigned char alpha, unsigned char red, \
+					unsigned char green, unsigned char blue)
+{
+	unsigned int	rgb;
 
-#endif
-
+	rgb = (alpha << 24) | (red << 16) | (green << 8) | blue;
+	return (rgb);
+}
