@@ -1,6 +1,6 @@
 NAME		:= miniRT
 CFLAGS_prod	:= -Wall -Wextra -Werror -Ofast
-CFLAGS_gdb	:= -Wall -Wextra -Werror -g #-Wunreachable-code -O3 
+CFLAGS_gdb	:= -Wall -Wextra -Werror -g -Wunreachable-code -O3 
 CFLAGS_dev	:= -Wall -Wextra -Werror -Wunreachable-code -fsanitize=address -O3
 LIBFTDIR	:= srcs/libft
 LIBFT		:= ${LIBFTDIR}/libft.a
