@@ -18,20 +18,15 @@
 #include <stdbool.h>
 #include <libft.h>
 
-void	init_img(t_minirt *rt)
+bool	init_img(t_minirt *rt)
 {
 	rt->img.width = rt->screen.width;
 	rt->img.height = rt->screen.height;
 	rt->img.ptr = mlx_new_image(rt->screen.mlx, rt->img.width, rt->img.height);
 	if (!rt->img.ptr)
-	{
-		mlx_destroy_window(rt->screen.mlx, rt->screen.win);
-		mlx_destroy_display(rt->screen.mlx);
-		error_exit("Creating MLX img failed.");
-	}
+		return (false);
 	rt->img.content = mlx_get_data_addr(rt->img.ptr, &(rt->img.bpp), &(rt->img.line), &(rt->img.endian));
-	printf("Init_img complete, results:\n");
-	printf("Address of rt->img.ptr: %p\n", rt->img.ptr);
+	return (true);
 }
 
 static bool	init_interface(t_interface *screen)
@@ -47,22 +42,30 @@ static bool	init_interface(t_interface *screen)
 	return (true);
 }
 
-static void	*create_new_window(t_interface *screen, char* win_title)
+static bool	create_new_window(t_interface *screen, char* win_title)
 {
 	screen->win = mlx_new_window(screen->mlx, screen->width, screen->height, win_title);
 	if (!screen->win)
-	{
-		mlx_destroy_display(screen->mlx);
-		error_exit("Creating MLX window failed.");
-	}
-	return (screen->win);
+		return (false);
+	return (true);
 }
 
 int	init_mlx_interface(t_minirt *rt)
 {
 	if (!init_interface(&rt->screen))
-		cleanup_scene_exit(&(rt->scene), "MLX could not be initialized", 1);
-	create_new_window(&rt->screen, WIN_TITLE);
-	init_img(rt);
+		cleanup_scene_exit(&(rt->scene), "MLX could not be initialized.", 1);
+	if (!create_new_window(&rt->screen, WIN_TITLE))
+	{
+		cleanup_scene(&(rt->scene));
+		mlx_destroy_display(rt->screen.mlx);
+		error_exit_status("Creating MLX window failed.", 1);
+	}
+	if (!init_img(rt))
+	{
+		cleanup_scene(&(rt->scene));
+		mlx_destroy_window(rt->screen.mlx, rt->screen.win);
+		mlx_destroy_display(rt->screen.mlx);
+		error_exit_status("Creating MLX img failed.", 1);
+	}
 	return (0);
 }
