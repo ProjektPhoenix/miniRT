@@ -72,4 +72,3 @@ void	minirt_init_loop(t_minirt *rt)
 	mlx_hook(rt->screen.win, DestroyNotify, NoEventMask, loop_cleanup, rt);
 	mlx_loop(rt->screen.mlx);
 }
-

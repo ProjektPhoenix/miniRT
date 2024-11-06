@@ -34,12 +34,12 @@ void	init_img(t_minirt *rt)
 	printf("Address of rt->img.ptr: %p\n", rt->img.ptr);
 }
 
-static void	init_interface(t_interface *screen)
+static bool	init_interface(t_interface *screen)
 {
 	screen->mlx = NULL;
 	screen->mlx = mlx_init();
 	if (!screen->mlx)
-		error_exit("MLX could not be initialized");
+		return (false);
 	// get_screen_size() // minus TITLEBAR_HEIGHT
 	screen->width = 900;
 	screen->height = 600;
@@ -59,7 +59,8 @@ static void	*create_new_window(t_interface *screen, char* win_title)
 
 int	init_mlx_interface(t_minirt *rt)
 {
-	init_interface(&rt->screen);
+	if (!init_interface(&rt->screen))
+		cleanup_scene_exit(&(rt->scene), "MLX could not be initialized", 1);
 	create_new_window(&rt->screen, WIN_TITLE);
 	init_img(rt);
 	return (0);
