@@ -44,6 +44,7 @@ static bool	init_interface(t_interface *screen)
 	screen->width = 900;
 	screen->height = 600;
 	screen->win = NULL;
+	return (true);
 }
 
 static void	*create_new_window(t_interface *screen, char* win_title)

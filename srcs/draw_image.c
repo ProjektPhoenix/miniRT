@@ -81,7 +81,7 @@ static void draw_animation(t_minirt *rt)
     }
 
 }
-
+/*
 // static void draw_square(t_img *img)
 // {
 //     t_pxl   pxl;
@@ -151,6 +151,7 @@ static void draw_animation(t_minirt *rt)
 // {
 
 // }
+*/
 
 void	draw_image(t_minirt *rt)
 {
