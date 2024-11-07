@@ -17,6 +17,8 @@
 #include <stdbool.h>
 #include <math.h>
 
+#include "debug.h"
+
 /*
  * Input: image struct to write to, coordinate of pxl in image and pxl color.
  * Function modifies img content.
@@ -151,12 +153,12 @@ static void	draw_frame(t_img *img, int frame_width)
 
 void draw_image(t_minirt *rt)
 {
-    printf("Function draw_image.\n");
+    debug("");
     // prepare_viewport()
     // draw_viewport_to_img()
     draw_square(&(rt->img));
     draw_frame(&(rt->img), 2);
     // draw_animation(rt);
     mlx_put_image_to_window(rt->screen.mlx, rt->screen.win, rt->img.ptr, 0, 0);
-    printf("Image put to window returned.\n");
+    debug("");
 }
