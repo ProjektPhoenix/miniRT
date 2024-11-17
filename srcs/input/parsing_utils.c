@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:26:08 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/10/30 17:56:21 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/11/17 15:39:02 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	init_scene(t_scene *scene)
 	scene->flag_A = false;
 	scene->flag_C = false;
 	scene->flag_L = false;
+	scene->id_count = 0;
 }
 /* takes as input one line from the .rt file and the scene - checks if starting element is valid */
 int	is_valid(char *str, t_scene *scene)
@@ -75,6 +76,8 @@ t_sphere	*add_sphere_node(t_scene *scene)
 	new->col.e[1] = 0.0;
 	new->col.e[2] = 0.0;
 	new->diameter = 0.0;
+	new->id = scene->id_count;
+	scene->id_count++;
 	new->next = NULL;
 	if (!scene->sphere)
 		scene->sphere = new;
@@ -108,6 +111,8 @@ t_cylinder	*add_cylinder_node(t_scene *scene)
 	new->dir.e[2] = 0.0;
 	new->diameter = 0.0;
 	new->height = 0.0;
+	new->id = scene->id_count;
+	scene->id_count++;
 	new->next = NULL;
 	if (!scene->cyl)
 		scene->cyl = new;
@@ -139,6 +144,8 @@ t_plane	*add_plane_node(t_scene *scene)
 	new->pos.e[0] = 0.0;
 	new->pos.e[1] = 0.0;
 	new->pos.e[2] = 0.0;
+	new->id = scene->id_count;
+	scene->id_count++;
 	new->next = NULL;
 	if (!scene->plane)
 		scene->plane = new;

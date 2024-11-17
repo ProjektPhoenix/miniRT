@@ -3,6 +3,7 @@
 
 #include "vector_setup.h"
 #include <stdbool.h>
+#include <math.h>
 
 typedef struct s_scene
 {
@@ -15,7 +16,15 @@ typedef struct s_scene
 	bool	flag_A;
 	bool	flag_C;
 	bool	flag_L;
+	int	id_count;
 } t_scene;
+
+typedef struct s_closest
+	{
+		double distance;
+		int	id;
+		t_point	hit_point;
+} t_closest;
 
 /* parsing */
 int	parse_file(char *file, t_scene *scene);
