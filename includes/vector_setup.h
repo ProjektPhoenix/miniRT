@@ -67,5 +67,6 @@ typedef struct s_cylinder
 /* set vectors and triples */
 void	set_triple_from_array(t_vec *triple, char **coord);
 t_point	create_point(double x, double y, double z);
+t_point	get_hit_point(t_ray ray, double t);
 
 #endif
