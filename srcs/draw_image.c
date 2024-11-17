@@ -6,7 +6,7 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:29:46 by rpriess           #+#    #+#             */
-/*   Updated: 2024/11/06 09:44:06 by rpriess          ###   ########.fr       */
+/*   Updated: 2024/11/17 17:24:20 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ static bool draw_pixel(t_img *img, t_pxl *pxl)
 
     color = ft_argb_color(255, (int)pxl->color.e[0], (int)pxl->color.e[1], (int)pxl->color.e[2]);
 
-    if (pxl->x > img->width || pxl->y > img->height || pxl->x < 0 || pxl->y < 0)
+    if (pxl->a > img->width || pxl->b > img->height || pxl->a < 0 || pxl->b < 0)
         return (1);
-    ft_memcpy(img->content + (pxl->y * img->line + pxl->x * img->bpp / 8), &color, img->bpp / 8);
+    ft_memcpy(img->content + (pxl->b * img->line + pxl->a * img->bpp / 8), &color, img->bpp / 8);
     return (0);
 }
 
@@ -97,8 +97,8 @@ static void draw_square(t_img *img)
     {
         while (i < 250)
         {
-            pxl.x = i;
-            pxl.y = j;
+            pxl.a = i;
+            pxl.b = j;
             draw_pixel(img, &pxl);
             i++;
         }
@@ -125,8 +125,8 @@ static void	draw_frame(t_img *img, int frame_width)
             if (i < frame_width || i >= img->width - frame_width \
                 || j <= frame_width || j >= img->height - frame_width)
             {
-                pxl.y = j;
-                pxl.x = i;
+                pxl.a = j;
+                pxl.b = i;
                 draw_pixel(img, &pxl);
             }
             i++;
