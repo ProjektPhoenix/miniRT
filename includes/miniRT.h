@@ -16,8 +16,8 @@
 # define TITLEBAR_HEIGHT 10;
 
 typedef struct	s_pxl {
-	int	x;
-	int	y;
+	int	a;
+	int	b;
 	t_color	color;
 }	t_pxl;
 
