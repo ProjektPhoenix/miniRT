@@ -16,7 +16,8 @@ LIBS_MAC    := -L./${MINILIBXDIR_MAC} -lmlx \
             -framework OpenGL -framework AppKit -lm \
             -L./${LIBFTDIR} -lft
 SRCS		:= srcs/main.c srcs/exits.c srcs/input/parsing.c srcs/input/parsing_utils.c srcs/input/transfer_input.c \
-			srcs/vector_functions/set_specs.c srcs/window_mngmt.c srcs/loop.c srcs/draw_image.c
+			srcs/vector_functions/set_specs.c srcs/window_mngmt.c srcs/loop.c srcs/draw_image.c \
+			srcs/vector_functions/vector_math.c
 OBJS		:= ${SRCS:.c=.o}
 SHELL		:= /bin/bash
 HDS		:= 
