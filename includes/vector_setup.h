@@ -1,10 +1,7 @@
 #ifndef VECTOR_SETUP_H
 # define VECTOR_SETUP_H
 
-typedef struct vec
-{
-	double e[3];
-}	t_vec;
+#include "vector_math.h"
 
 typedef t_vec t_point;
 typedef t_vec t_color;
@@ -67,6 +64,9 @@ typedef struct s_cylinder
 /* set vectors and triples */
 void	set_triple_from_array(t_vec *triple, char **coord);
 t_point	create_point(double x, double y, double z);
-t_point	get_hit_point(t_ray ray, double t);
+t_point	get_hit_point(t_ray *ray, double t);
+
+double find_t_sphere(t_ray *ray, t_sphere *sphere);
+void	find_closest(t_ray *ray, t_scene *scene, t_closest *obj);
 
 #endif

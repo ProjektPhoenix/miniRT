@@ -6,13 +6,14 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:35:44 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/11/17 17:10:19 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/11/17 18:01:22 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "../../includes/vector_setup.h"
-#include "../../includes/miniRT.h"
-#include "../libft/libft.h"
+#include "miniRT.h"
+#include "libft.h"
+#include "vector_math.h"
+#include "vector_setup.h"
 
 void	set_triple_from_array(t_vec *triple, char **coord)
 {
@@ -46,3 +47,5 @@ t_point	get_hit_point(t_ray ray, double t)
 	hit_point = add_vectors(ray.orig, scaled_dir);
 	return (hit_point);
 }
+
+
