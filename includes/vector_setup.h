@@ -40,6 +40,7 @@ typedef struct s_plane
 	t_point pos;
 	t_vec ortho;
 	t_color col;
+	int	id;
 	struct s_plane	*next;
 } t_plane;
 
@@ -48,6 +49,7 @@ typedef struct s_sphere
 	t_point	center;
 	double	diameter;
 	t_color col;
+	int	id;
 	struct s_sphere	*next;
 }	t_sphere;
 
@@ -58,10 +60,12 @@ typedef struct s_cylinder
 	double diameter;
 	double height;
 	t_color col;
+	int	id;
 	struct s_cylinder	*next;
 } t_cylinder;
 
 /* set vectors and triples */
 void	set_triple_from_array(t_vec *triple, char **coord);
+t_point	create_point(double x, double y, double z);
 
 #endif
