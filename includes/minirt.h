@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "vector_setup.h"
+#include "vector_math.h"
 #include "mlx_wrapper.h"
 #include "scene.h"
 
@@ -24,6 +25,8 @@ typedef struct s_viewp
 {
 	int		height;
 	int		width;
+	t_vec	dir_x;
+	t_vec	dir_y;
 	t_ray	**ray;
 }	t_viewp;
 
