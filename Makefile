@@ -17,7 +17,8 @@ LIBS_MAC    := -L./${MINILIBXDIR_MAC} -lmlx \
             -L./${LIBFTDIR} -lft
 SRCS		:= srcs/main.c srcs/exits.c srcs/input/parsing.c srcs/input/parsing_utils.c srcs/input/transfer_input.c \
 			srcs/vector_functions/set_specs.c srcs/window_mngmt.c srcs/loop.c srcs/draw_image.c \
-			srcs/vector_functions/vector_math.c srcs/color_calculation/hit_objects.c srcs/viewport_and_canvas.c
+			srcs/vector_functions/vector_math.c srcs/color_calculation/hit_objects.c srcs/viewport_and_canvas.c \
+      srcs/color_calculation/colors.c
 OBJS		:= ${SRCS:.c=.o}
 SHELL		:= /bin/bash
 HDS		:= 

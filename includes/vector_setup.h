@@ -14,7 +14,7 @@ typedef struct s_ray
 
 typedef struct s_ambl
 {
-	double intensity;
+	double intens;
 	t_color col;
 }	t_ambl;
 
@@ -28,7 +28,7 @@ typedef struct s_camera
 typedef struct s_light
 {
 	t_point	pos;
-	double intensity;
+	double intens;
 	t_color col;
 } t_light;
 

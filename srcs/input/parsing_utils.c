@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:26:08 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/11/18 15:51:59 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/11/18 20:09:34 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,13 @@
 /* takes scene as input and initialises all basic variables */
 void	init_scene(t_scene *scene)
 {
-	scene->camera.pos.e[0] = 0.0;
-	scene->camera.pos.e[1] = 0.0;
-	scene->camera.pos.e[2] = 0.0;
+	scene->camera.pos = create_triple(0, 0, 0);
 	scene->camera.fov = 0;
-	scene->ambient.intensity = 0.0;
-	scene->ambient.col.e[0] = 0;
-	scene->ambient.col.e[1] = 0;
-	scene->ambient.col.e[2] = 0;
-	scene->light.pos.e[0] = 0.0;
-	scene->light.pos.e[1] = 0.0;
-	scene->light.pos.e[2] = 0.0;
-	scene->light.intensity = 0.0;
+	scene->amb.intens = 1.0;
+	scene->amb.col = create_triple(0, 0, 0);
+	scene->light.pos = create_triple(0, 0, 0);
+	scene->light.intens = 0.0;
+	scene->light.col = create_triple(1, 1, 1);
 	scene->sphere = NULL;
 	scene->cyl = NULL;
 	scene->plane = NULL;

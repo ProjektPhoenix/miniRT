@@ -8,7 +8,7 @@
 typedef struct s_scene
 {
 	t_cam	camera;
-	t_ambl	ambient;
+	t_ambl	amb;
 	t_light	light;
 	t_plane	*plane;
 	t_cylinder	*cyl;
@@ -23,6 +23,7 @@ typedef struct s_closest
 	{
 		double distance;
 		int	id;
+		t_color	col;
 		t_point	hit_point;
 } t_closest;
 
@@ -43,7 +44,11 @@ t_cylinder	*add_cylinder_node(t_scene *scene);
 t_plane	*add_plane_node(t_scene *scene);
 void	check_alloc(t_scene *scene, char **coord, char **array, char *mssg);
 
+/* scene rendering */
 void	find_closest(t_ray *ray, t_scene *scene, t_closest *obj);
+t_color	calculate_obj_color(t_scene *scene, t_closest *obj);
+int	check_blocking_objects(t_ray *l_ray, t_scene *scene);
+t_color	calculate_background_color(t_scene *scene);
 
 /* just for testing, delete later */
 void	print_file_testing(t_scene *scene);
