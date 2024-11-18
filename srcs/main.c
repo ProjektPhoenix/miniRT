@@ -6,11 +6,11 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:41:39 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/10/30 17:48:38 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:33:51 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "minirt.h"
 #include "vector_setup.h"
 #include "scene.h"
 

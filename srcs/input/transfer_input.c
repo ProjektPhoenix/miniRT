@@ -6,14 +6,14 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 16:17:51 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/10/30 17:59:34 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:44:03 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/vector_setup.h"
-#include "../../includes/miniRT.h"
-#include "../libft/libft.h"
-#include "../../includes/scene.h"
+#include "vector_setup.h"
+#include "minirt.h"
+#include "libft.h"
+#include "scene.h"
 
 /* transfers the input of a line starting with 'C' (camera) into the camera struct */
 void	process_c(char **array, t_scene *scene)

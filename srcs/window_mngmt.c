@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   window_mngmt.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:25:07 by rpriess           #+#    #+#             */
-/*   Updated: 2024/11/03 18:34:04 by rpriess          ###   ########.fr       */
+/*   Updated: 2024/11/18 15:39:52 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector_setup.h"
-#include "miniRT.h"
+#include "minirt.h"
 #include <mlx.h>
 #include <mlx_wrapper.h>
 #include <error.h>

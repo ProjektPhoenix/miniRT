@@ -6,14 +6,13 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:02:42 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/10/30 17:58:23 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:55:29 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "../../includes/vector_setup.h"
-#include "../../includes/miniRT.h"
-#include "../libft/libft.h"
-#include "../../includes/scene.h"
+#include "minirt.h"
+#include "libft.h"
+#include "scene.h"
 
 /* takes as arguments the name of the .rt file and the scene, prepares file for parsing 
 needs to be added: propper error handling (file specs, minimum combination of elements etc.) */

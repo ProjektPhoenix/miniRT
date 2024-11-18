@@ -43,6 +43,8 @@ t_cylinder	*add_cylinder_node(t_scene *scene);
 t_plane	*add_plane_node(t_scene *scene);
 void	check_alloc(t_scene *scene, char **coord, char **array, char *mssg);
 
+void	find_closest(t_ray *ray, t_scene *scene, t_closest *obj);
+
 /* just for testing, delete later */
 void	print_file_testing(t_scene *scene);
 

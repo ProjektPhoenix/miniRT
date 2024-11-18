@@ -6,14 +6,14 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:26:08 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/11/17 15:39:02 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:51:59 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //#include "../../includes/vector_setup.h"
-#include "../../includes/miniRT.h"
-#include "../libft/libft.h"
-#include "../../includes/scene.h"
+#include "minirt.h"
+#include "libft.h"
+#include "scene.h"
 
 /* takes scene as input and initialises all basic variables */
 void	init_scene(t_scene *scene)
