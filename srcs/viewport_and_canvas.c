@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   viewport_and_canvas.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 18:08:15 by rpriess           #+#    #+#             */
-/*   Updated: 2024/11/17 19:37:03 by rpriess          ###   ########.fr       */
+/*   Updated: 2024/11/18 21:31:12 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	calculate_rays(t_minirt *rt)
 		{
 			ray.orig.e[1] = y;
 			ray.orig.e[2] = z;
-			pxl.color = get_ray_color(&ray, rt->scene);
+			pxl.color = get_ray_color(&ray, &(rt->scene));
 			draw_pixel(rt->img.ptr, &pxl);
 			y = y + 40/900;
 			(pxl.a)++;

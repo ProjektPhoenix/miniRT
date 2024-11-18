@@ -45,6 +45,7 @@ t_plane	*add_plane_node(t_scene *scene);
 void	check_alloc(t_scene *scene, char **coord, char **array, char *mssg);
 
 /* scene rendering */
+t_color	get_ray_color(t_ray *ray, t_scene *scene);
 void	find_closest(t_ray *ray, t_scene *scene, t_closest *obj);
 t_color	calculate_obj_color(t_scene *scene, t_closest *obj);
 int	check_blocking_objects(t_ray *l_ray, t_scene *scene);
