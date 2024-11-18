@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:02:42 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/11/18 15:55:29 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/11/18 20:09:46 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	process_a(char **array, t_scene *scene)
 	scene->flag_A = true;
 	if (!array[1])
 		cleanup_scene_exit(scene, "Error\nAmbient light is missing features", 2);
-	scene->ambient.intensity = ft_atod(array[1]);
+	scene->amb.intens = ft_atod(array[1]);
 	if (!array[2])
 		cleanup_scene_exit(scene, "Error\nAmbient light is missing colors", 2);
 	color = ft_split(array[2], ',');
@@ -85,7 +85,7 @@ void	process_a(char **array, t_scene *scene)
 		free_array(array);
 		cleanup_scene_exit(scene, "Error in splitting ambient light colors\n", 2);
 	}
-	set_triple_from_array(&scene->ambient.col, color);
+	set_triple_from_array(&scene->amb.col, color);
 }
 
 /* printing function to test input read */
@@ -96,8 +96,8 @@ void	print_file_testing(t_scene *scene)
 	t_plane	*temp_pl = scene->plane;
 
 	printf("Ambient: ratio %.2f, cols %.2f, %.2f, %.2f\n", 
-		scene->ambient.intensity, 
-		scene->ambient.col.e[0], scene->ambient.col.e[1], scene->ambient.col.e[2]);
+		scene->amb.intens, 
+		scene->amb.col.e[0], scene->amb.col.e[1], scene->amb.col.e[2]);
 	printf("Camera: view point %.2f, %.2f, %.2f, dir %.2f, %.2f, %.2f, fov %.2f\n", 
 		scene->camera.pos.e[0], scene->camera.pos.e[1], scene->camera.pos.e[2], 
 		scene->camera.dir.e[0], scene->camera.dir.e[1], scene->camera.dir.e[2], 
@@ -106,7 +106,7 @@ void	print_file_testing(t_scene *scene)
            scene->light.pos.e[0],
            scene->light.pos.e[1],
            scene->light.pos.e[2],
-           scene->light.intensity);
+           scene->light.intens);
 	int i = 0;
 	while (temp_sp)
 	{
