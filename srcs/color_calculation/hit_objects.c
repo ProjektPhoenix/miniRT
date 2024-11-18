@@ -6,21 +6,20 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 14:58:46 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/11/18 15:18:57 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/11/18 21:04:44 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scene.h"
 #include "vector_setup.h"
 #include "vector_math.h"
+#include "debug.h"
 
 /* get ray, return color:
 	- calculate hit point, yes no, where 
 	- find which is shortest distance
 	- check if light hits too 
 	- calculate / interpolate color */
-
-
 t_color	get_ray_color(t_ray *ray, t_scene *scene)
 {
 	t_closest	obj;
@@ -30,16 +29,17 @@ t_color	get_ray_color(t_ray *ray, t_scene *scene)
 	obj.distance = INFINITY;
 	obj.id = -1;
 	obj.hit_point = create_triple(0, 0, 0);
+	obj.col = create_triple(0, 0, 0);
 	find_closest(ray, scene, &obj); // find the closest intersection
 	if (obj.distance == 0)
 		return (create_triple(0, 0, 0)); //return black
 	else if (obj.distance != INFINITY) // if distance has been updated, meaning object has been hit
 	{
 		obj.hit_point = get_hit_point(ray, obj.distance);
-		//color = calculate_obj_color(ray, scene, &obj);
+		color = calculate_obj_color(scene, &obj);
 	}
-	/*else
-		color = calculate_background_color(ray, scene);*/
+	else
+		color = calculate_background_color(scene);
 	return (color);
 }
 
@@ -56,6 +56,7 @@ void	find_closest(t_ray *ray, t_scene *scene, t_closest *obj)
 		{
 			obj->distance = t;
 			obj->id = temp->id;
+			obj->col = temp->col;
 			if (obj->distance == 0)
 				break;
 		}
@@ -81,9 +82,12 @@ double find_t_sphere(t_ray *ray, t_sphere *sphere)
 	if (discriminant < 0) //no intersection
     		return (-1.0);
 	if (c == 0 || c < 0) //check if point is inside or outside of sphere
+	{
+		debug("CAMERA IS INSIDE SPHERE");
 		return (0);
+	}
 	if (discriminant == 0) //tangent 
-		return (-a / (2.0 *dot_product(ray->dir, ray->dir)));
+		return (-a / (2.0 * dot_product(ray->dir, ray->dir)));
 	t1 = (-a - sqrt(discriminant)) / (2.0 * dot_product(ray->dir, ray->dir));
 	t2 = (-a + sqrt(discriminant)) / (2.0 * dot_product(ray->dir, ray->dir));
 	return (fmin(t1, t2));
@@ -102,16 +106,7 @@ double	get_discriminant(t_ray *ray, t_sphere *sphere, double *c, double *a)
 	return (result);
 }
 
-/*t_color	calculate_obj_color(t_ray *ray, t_scene *scene, t_closest *obj)
-{
-	
-}
 
-
-t_color	calculate_background_color(t_ray *ray, t_scene *scene)
-{
-	
-}*/
 
 
 

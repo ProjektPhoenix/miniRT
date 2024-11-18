@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 16:17:51 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/11/18 15:44:03 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/11/18 20:09:56 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	process_l(char **array, t_scene *scene)
 	set_triple_from_array(&scene->light.pos, coord);
 	if (!array[2])
 		cleanup_scene_exit(scene, "Error\nLight is missing brightness ratio", 2);
-	scene->light.intensity = ft_atod(array[2]);
+	scene->light.intens = ft_atod(array[2]);
 }
 
 /* transfers the input of a line starting with 'sp' (sphere) into the sphere struct */
