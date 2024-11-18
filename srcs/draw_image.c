@@ -25,7 +25,7 @@
  * Returns: "0" upon success, "1" if pxl coordinates are outside image boundaries,
  * "2" if color information cannot be interpreted and "3" in case of other errors.
  */
-static bool draw_pixel(t_img *img, t_pxl *pxl)
+bool draw_pixel(t_img *img, t_pxl *pxl)
 {
     unsigned int color;
 
@@ -82,59 +82,59 @@ static bool draw_pixel(t_img *img, t_pxl *pxl)
 //     }
 // }
 
-static void draw_square(t_img *img)
-{
-    t_pxl   pxl;
-    int     i;
-    int     j;
+// static void draw_square(t_img *img)
+// {
+//     t_pxl   pxl;
+//     int     i;
+//     int     j;
 
-    i = 200;
-    j = 200;
-    pxl.color.e[0] = 255;
-    pxl.color.e[1] = 50;
-    pxl.color.e[2] = 50;
-    while (j < 250)
-    {
-        while (i < 250)
-        {
-            pxl.a = i;
-            pxl.b = j;
-            draw_pixel(img, &pxl);
-            i++;
-        }
-        i = 200;
-        j++;
-    }
-}
-static void	draw_frame(t_img *img, int frame_width)
-{
-    t_pxl   pxl;
-	int j;
-    int i;
+//     i = 200;
+//     j = 200;
+//     pxl.color.e[0] = 255;
+//     pxl.color.e[1] = 50;
+//     pxl.color.e[2] = 50;
+//     while (j < 250)
+//     {
+//         while (i < 250)
+//         {
+//             pxl.a = i;
+//             pxl.b = j;
+//             draw_pixel(img, &pxl);
+//             i++;
+//         }
+//         i = 200;
+//         j++;
+//     }
+// }
+// static void	draw_frame(t_img *img, int frame_width)
+// {
+//     t_pxl   pxl;
+// 	int j;
+//     int i;
 
-    pxl.color.e[0] = 255;
-    pxl.color.e[1] = 50;
-    pxl.color.e[2] = 50;
+//     pxl.color.e[0] = 255;
+//     pxl.color.e[1] = 50;
+//     pxl.color.e[2] = 50;
 
-    j = 0;
-    i = 0;
-    while (j < img->height)
-    {
-        while (i < img->width)
-        {
-            if (i < frame_width || i >= img->width - frame_width \
-                || j <= frame_width || j >= img->height - frame_width)
-            {
-                pxl.a = j;
-                pxl.b = i;
-                draw_pixel(img, &pxl);
-            }
-            i++;
-        }
-        i = 0;
-        j++;
-    }
-}
+//     j = 0;
+//     i = 0;
+//     while (j < img->height)
+//     {
+//         while (i < img->width)
+//         {
+//             if (i < frame_width || i >= img->width - frame_width \
+//                 || j <= frame_width || j >= img->height - frame_width)
+//             {
+//                 pxl.a = j;
+//                 pxl.b = i;
+//                 draw_pixel(img, &pxl);
+//             }
+//             i++;
+//         }
+//         i = 0;
+//         j++;
+//     }
+// }
 
 /*
  * the function allows to save an mlx image to an xpm image file, which can be
@@ -153,12 +153,11 @@ static void	draw_frame(t_img *img, int frame_width)
 
 void draw_image(t_minirt *rt)
 {
-    debug("");
+	calculate_rays(rt);
     // prepare_viewport()
     // draw_viewport_to_img()
-    draw_square(&(rt->img));
-    draw_frame(&(rt->img), 2);
+    // draw_square(&(rt->img));
+    // draw_frame(&(rt->img), 2);
     // draw_animation(rt);
     mlx_put_image_to_window(rt->screen.mlx, rt->screen.win, rt->img.ptr, 0, 0);
-    debug("");
 }
