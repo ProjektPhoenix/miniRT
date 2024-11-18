@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   draw_image.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:29:46 by rpriess           #+#    #+#             */
-/*   Updated: 2024/11/17 17:24:20 by rpriess          ###   ########.fr       */
+/*   Updated: 2024/11/18 15:33:41 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "minirt.h"
 #include "mlx_wrapper.h"
 #include <libft.h>
 #include <mlx.h>

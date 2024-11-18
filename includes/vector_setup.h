@@ -1,10 +1,7 @@
 #ifndef VECTOR_SETUP_H
 # define VECTOR_SETUP_H
 
-typedef struct vec
-{
-	double e[3];
-}	t_vec;
+#include "vector_math.h"
 
 typedef t_vec t_point;
 typedef t_vec t_color;
@@ -40,6 +37,7 @@ typedef struct s_plane
 	t_point pos;
 	t_vec ortho;
 	t_color col;
+	int	id;
 	struct s_plane	*next;
 } t_plane;
 
@@ -48,6 +46,7 @@ typedef struct s_sphere
 	t_point	center;
 	double	diameter;
 	t_color col;
+	int	id;
 	struct s_sphere	*next;
 }	t_sphere;
 
@@ -58,10 +57,16 @@ typedef struct s_cylinder
 	double diameter;
 	double height;
 	t_color col;
+	int	id;
 	struct s_cylinder	*next;
 } t_cylinder;
 
 /* set vectors and triples */
 void	set_triple_from_array(t_vec *triple, char **coord);
+t_point	create_triple(double x, double y, double z);
+t_point	get_hit_point(t_ray *ray, double t);
+
+double find_t_sphere(t_ray *ray, t_sphere *sphere);
+double	get_discriminant(t_ray *ray, t_sphere *sphere, double *c, double *a);
 
 #endif

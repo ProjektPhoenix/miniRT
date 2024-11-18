@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <errno.h>
-//#include <math.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include "vector_setup.h"

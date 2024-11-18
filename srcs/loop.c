@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 20:07:30 by rpriess           #+#    #+#             */
-/*   Updated: 2024/11/05 20:07:40 by rpriess          ###   ########.fr       */
+/*   Updated: 2024/11/18 15:42:57 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "miniRT.h"
+
 #include <mlx.h>
 #include <X11/Xlib.h>
 #include <libft.h>
+#include "minirt.h"
 
 // static void	change_parsing(t_spine *spine, int keycode)
 // {
