@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "vector_setup.h"
+#include "vector_math.h"
 #include "mlx_wrapper.h"
 #include "scene.h"
 
@@ -24,6 +25,8 @@ typedef struct s_viewp
 {
 	int		height;
 	int		width;
+	t_vec	dir_x;
+	t_vec	dir_y;
 	t_ray	**ray;
 }	t_viewp;
 
@@ -36,10 +39,12 @@ typedef struct	s_minirt
 }	t_minirt;
 
 /* utils */
+void	calculate_rays(t_minirt *rt);
 void	cleanup_exit(t_minirt *rt, char *mssg, int status);
 void	cleanup_scene(t_scene *scene);
 void	cleanup_scene_exit(t_scene *scene, char *mssg, int status);
 void	draw_image(t_minirt *rt);
+bool	draw_pixel(t_img *img, t_pxl *pxl);
 int		error_return(char *mssg);
 int		error_exit(char *mssg);
 int		error_exit_status(char *mssg, int status);
