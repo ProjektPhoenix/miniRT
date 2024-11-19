@@ -106,35 +106,36 @@ bool draw_pixel(t_img *img, t_pxl *pxl)
 //         j++;
 //     }
 // }
-// static void	draw_frame(t_img *img, int frame_width)
-// {
-//     t_pxl   pxl;
-// 	int j;
-//     int i;
+static void	draw_frame(t_img *img, int frame_width)
+{
+    t_pxl   pxl;
+	int j;
+    int i;
 
-//     pxl.color.e[0] = 255;
-//     pxl.color.e[1] = 50;
-//     pxl.color.e[2] = 50;
+    pxl.color.e[0] = 255;
+    pxl.color.e[1] = 50;
+    pxl.color.e[2] = 50;
 
-//     j = 0;
-//     i = 0;
-//     while (j < img->height)
-//     {
-//         while (i < img->width)
-//         {
-//             if (i < frame_width || i >= img->width - frame_width \
-//                 || j <= frame_width || j >= img->height - frame_width)
-//             {
-//                 pxl.a = j;
-//                 pxl.b = i;
-//                 draw_pixel(img, &pxl);
-//             }
-//             i++;
-//         }
-//         i = 0;
-//         j++;
-//     }
-// }
+	debug("Draw frame with frame width of %i in img of size %i x %i", frame_width, img->width, img->height);
+    j = 0;
+    i = 0;
+    while (j <= img->height)
+    {
+        while (i <= img->width)
+        {
+            if (i < frame_width || i >= img->width - frame_width \
+                || j <= frame_width || j >= img->height - frame_width)
+            {
+                pxl.a = i;
+                pxl.b = j;
+                draw_pixel(img, &pxl);
+            }
+            i++;
+        }
+        i = 0;
+        j++;
+    }
+}
 
 /*
  * the function allows to save an mlx image to an xpm image file, which can be
@@ -158,7 +159,7 @@ void draw_image(t_minirt *rt)
     // prepare_viewport()
     // draw_viewport_to_img()
     // draw_square(&(rt->img));
-    // draw_frame(&(rt->img), 2);
+    draw_frame(&(rt->img), 2);
     // draw_animation(rt);
     mlx_put_image_to_window(rt->screen.mlx, rt->screen.win, rt->img.ptr, 0, 0);
 }

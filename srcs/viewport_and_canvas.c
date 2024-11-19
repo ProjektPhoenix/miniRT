@@ -93,7 +93,6 @@ void	calculate_rays(t_minirt *rt)
 			draw_pixel(&(rt->img), &pxl);
 			y = y + 40.0/900.0;
 			(pxl.a)++;
-			debug("Ray calculated for pixel <%i,%i>, ray origin: <%f,%f,%f>", pxl.b, pxl.a, ray.orig.e[0], ray.orig.e[1], ray.orig.e[2]);
 		}
 		y = -20;
 		z = z + 25.0/600.0;
