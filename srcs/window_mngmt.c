@@ -18,6 +18,8 @@
 #include <stdbool.h>
 #include <libft.h>
 
+#include "debug.h"
+
 bool	init_img(t_minirt *rt)
 {
 	rt->img.width = rt->screen.width;
@@ -26,6 +28,7 @@ bool	init_img(t_minirt *rt)
 	if (!rt->img.ptr)
 		return (false);
 	rt->img.content = mlx_get_data_addr(rt->img.ptr, &(rt->img.bpp), &(rt->img.line), &(rt->img.endian));
+	debug("Defined image size: width - %i, height - %i", rt->img.width, rt->img.height);
 	return (true);
 }
 

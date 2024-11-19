@@ -16,6 +16,8 @@
 #include "scene.h"
 #include <math.h>
 
+#include "debug.h"
+
 // static t_vec	get_viewport_width_uvec()
 // {
 // 	t_vec	width_uvec;
@@ -69,6 +71,7 @@ void	calculate_rays(t_minirt *rt)
 	double	y;
 	double	z;
 
+	debug("");
 	ray.orig.e[0] = 0;
 	ray.dir.e[0] = 1;
 	ray.dir.e[1] = 0;
@@ -84,14 +87,19 @@ void	calculate_rays(t_minirt *rt)
 			ray.orig.e[1] = y;
 			ray.orig.e[2] = z;
 			pxl.color = get_ray_color(&ray, &(rt->scene));
-			draw_pixel(rt->img.ptr, &pxl);
-			y = y + 40/900;
+			// pxl.color.e[0] = 255;
+			// pxl.color.e[1] = 50;
+			// pxl.color.e[2] = 50;
+			draw_pixel(&(rt->img), &pxl);
+			y = y + 40.0/900.0;
 			(pxl.a)++;
 		}
 		y = -20;
-		z = z + 25/600;
+		z = z + 25.0/600.0;
+		pxl.a = 0;
 		(pxl.b)++;
 	}
+	debug("Calculated all rays");
 }
 
 // static void	calculate_rays(t_minirt *rt)
