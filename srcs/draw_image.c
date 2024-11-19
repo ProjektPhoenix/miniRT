@@ -153,6 +153,7 @@ bool draw_pixel(t_img *img, t_pxl *pxl)
 
 void draw_image(t_minirt *rt)
 {
+	debug("");
 	calculate_rays(rt);
     // prepare_viewport()
     // draw_viewport_to_img()
