@@ -25,8 +25,8 @@ typedef struct s_viewp
 {
 	int		height;
 	int		width;
-	t_vec	dir_x;
-	t_vec	dir_y;
+	t_vec	delta_w;
+	t_vec	delta_h;
 	t_ray	**ray;
 }	t_viewp;
 
@@ -52,6 +52,7 @@ void	free_array(char **str);
 int		ft_key_hook(int keycode, t_minirt *rt);
 bool	init_img(t_minirt *rt);
 int		init_mlx_interface(t_minirt *rt);
+void	init_viewport(t_minirt *rt);
 int		loop_cleanup(t_minirt *rt);
 void	minirt_init_loop(t_minirt *rt);
 

@@ -155,8 +155,8 @@ static void	draw_frame(t_img *img, int frame_width)
 void draw_image(t_minirt *rt)
 {
 	debug("");
+	init_viewport(rt);
 	calculate_rays(rt);
-    // prepare_viewport()
     // draw_viewport_to_img()
     // draw_square(&(rt->img));
     draw_frame(&(rt->img), 2);
