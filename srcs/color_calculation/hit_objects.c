@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_objects.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 14:58:46 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/11/18 21:04:44 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/11/25 14:03:32 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 	- calculate / interpolate color */
 t_color	get_ray_color(t_ray *ray, t_scene *scene)
 {
+	return (create_triple(255, 0, 0)); // red for testing
 	t_closest	obj;
 	t_color 	color;
 	color = create_triple(255, 255, 255); // just to test intersection calculation before color calculation

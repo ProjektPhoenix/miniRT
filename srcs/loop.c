@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 20:07:30 by rpriess           #+#    #+#             */
-/*   Updated: 2024/11/18 15:42:57 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/11/25 12:47:58 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
-#include <X11/Xlib.h>
+//#include <X11/Xlib.h>
+#include <OpenGL/gl.h>  // OpenGL functionality
+#include <OpenGL/glu.h> // Optional, for higher-level utilities
 #include <libft.h>
 #include "minirt.h"
 
@@ -70,6 +72,7 @@ int	ft_key_hook(int keycode, t_minirt *rt)
 void	minirt_init_loop(t_minirt *rt)
 {
 	mlx_key_hook(rt->screen.win, ft_key_hook, rt);
-	mlx_hook(rt->screen.win, DestroyNotify, NoEventMask, loop_cleanup, rt);
+	//mlx_hook(rt->screen.win, DestroyNotify, NoEventMask, loop_cleanup, rt);
+	mlx_hook(rt->screen.win, 17, 0, loop_cleanup, rt); // for MAC
 	mlx_loop(rt->screen.mlx);
 }

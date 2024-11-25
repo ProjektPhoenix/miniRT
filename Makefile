@@ -8,7 +8,7 @@ MINILIBXDIR	:= minilibx-linux
 MINILIBXDIR_MAC := minilibx_opengl
 MINILIBX	:= ${MINILIBXDIR}/libmlx.a
 INCL		:= -Iincludes -Iusr/include -I${LIBFTDIR} -I${MINILIBXDIR}
-INCL_MAC    := -Iusr/include -I${LIBFTDIR} -I${MINILIBXDIR_MAC}
+INCL_MAC    := -Iincludes -Iusr/include -I${LIBFTDIR} -I${MINILIBXDIR_MAC}
 LIBS		:= -L./${MINILIBXDIR} -lmlx \
 			-L/lib/ -lX11 -lXext -lm\
 			-L./${LIBFTDIR} -lft
@@ -39,7 +39,7 @@ else ifeq ($(MODE),mac)
  MINILIBXDIR = ${MINILIBXDIR_MAC}
  INCL = ${INCL_MAC}
  LIBS = ${LIBS_MAC}
-  MINILIBX = ${MINILIBXDIR_MAC}/libmlx.a
+ MINILIBX = ${MINILIBXDIR_MAC}/libmlx.a
 else
  CFLAGS = ${CFLAGS_prod}
 endif
