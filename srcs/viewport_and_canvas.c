@@ -41,26 +41,83 @@
 	
 // }
 
-// static t_point	get_viewport_center(t_scene)
+static t_vec	get_viewport_delta_h(t_minirt *rt)
+{
+	t_vec	delta_h;
+	t_vec	delta_w;
+	t_vec	camdir;
+
+	delta_w = rt->vp.delta_w;
+	camdir = rt->scene.camera.dir;
+	if (delta_w.e[1] != 0 && camdir.e[2] != 0)
+	{
+		delta_h.e[0] = sqrt(1 / (1.0 + pow(delta_w.e[0], 2)/pow(delta_w.e[1], 2) + pow(camdir.e[0]/camdir.e[2] - camdir.e[1] * delta_w.e[0] / (delta_w.e[1] * camdir.e[2]), 2)));
+		delta_h.e[1] = -1.0 * delta_w.e[0] * delta_h.e[0] / delta_w.e[1];
+		delta_h.e[2] = sqrt(1.0 - pow(delta_h.e[0], 2) - pow(delta_h.e[1], 2));
+	}
+	else if (camdir.e[2] == 0)
+	{
+		delta_h.e[0] = 0.0;
+		delta_h.e[1] = 0.0;
+		delta_h.e[2] = -1.0;
+	}
+	else if (delta_w.e[1] == 0)
+	{
+		delta_h.e[0] = 0.0;
+		delta_h.e[1] = 1.0 / (1.0 + pow(camdir.e[1], 2) / pow(camdir.e[2], 2));
+		delta_h.e[2] = -1.0 * delta_h.e[1] * camdir.e[1] / camdir.e[2];
+	}
+	debug("The viewport unit vector for traversing the height is: (%f,%f,%f)", delta_h.e[0], delta_h.e[1], delta_h.e[2]);
+	return (delta_h);
+}
+
+/*
+ * SONDERFÄLLE BERÜCKSICHTIGEN !!!
+ */
+static t_vec	get_viewport_delta_w(t_scene *scene)
+{
+	t_vec	delta_w;
+
+	delta_w.e[2] = 0.0;
+	if (scene->camera.dir.e[0] == 0 && scene->camera.dir.e[1] == 0)
+	{
+		delta_w.e[0] = 1.0;
+		delta_w.e[1] = 0.0;
+	}
+	else
+	{
+		delta_w.e[0] = sqrt(pow(scene->camera.dir.e[1], 2) / (pow(scene->camera.dir.e[0], 2) + pow(scene->camera.dir.e[1], 2)));
+		delta_w.e[1] = sqrt(1.0 - pow(delta_w.e[0], 2));
+	}
+	debug("The viewport unit vector for traversing the width is: (%f,%f,%f)", delta_w.e[0], delta_w.e[1], delta_w.e[2]);
+	return (delta_w);
+}
+
+// static t_point	get_viewport_center(t_scene *scene)
 // {
-	
+// 	t_point	vp_center;
+
+// 	vp_center = add_vectors(scene->camera.pos, get_unit_vector(scene->camera.dir));
+// 	return (vp_center);
 // }
 
-// static double	get_viewport_width(t_scene *scene)
-// {
-// 	double	width;
+static double	get_viewport_width(t_scene *scene)
+{
+	double	width;
 
-// 	width = 2 * tan(scene->camera.fov * M_PI / 360.0);
-// 	return (width);
-// }
+	width = 2 * tan(scene->camera.fov * M_PI / 360.0);
+	debug("Viewport width is %f", width);
+	return (width);
+}
 
-// static double	get_viewport_height(t_img *img, double width)
-// {
-// 	double	height;
+static double	get_viewport_height(t_img *img, double width)
+{
+	double	height;
 
-// 	height = width * img->height / img->width;
-// 	return (height);
-// }
+	height = width * img->height / img->width;
+	debug("Viewport height is %f", height);
+	return (height);
+}
 
 //static t_vec	get_
 
@@ -102,33 +159,38 @@ void	calculate_rays(t_minirt *rt)
 	debug("Calculated all rays");
 }
 
-// static void	calculate_rays(t_minirt *rt)
-// {
-// 	int		a;
-// 	int		b;
-// 	t_vec	vp_center;
-// 	t_ray	temp_ray;
+static void	calculate_rays(t_minirt *rt)
+{
+	int		a;
+	int		b;
+	t_pxl	pxl_canvas;
+	t_point	pxl_vp;
+	t_ray	ray;
 
-// 	a = 0;
-// 	b = 0;
-// 	temp_ray.orig = rt->scene.camera.pos;
-// 	rt->
-// 	while (b < rt->img.height)
-// 	{
-// 		while (a < rt->img.width)
-// 		{
-			
-// 			temp_ray.dir = vec1_minus_vec2();
-			
-// 			a++;
-// 		}
-// 		a = 0;
-// 	}
-// }
+	pxl_canvas.a = 0;
+	pxl_canvas.b = 0;
+	ray.orig = rt->scene.camera.pos;
+	while (pxl_canvas.b < rt->img.height)
+	{
+		while (pxl_canvas.a < rt->img.width)
+		{
+			pxl_vp.e[0] = 
+			pxl_vp.e[1] =
+			pxl_vp.e[2] = 
+			ray.dir = get_unit_vector(vec1_minus_vec2(pxl_vp, rt->scene.camera.pos));
+			pxl_canvas.color = get_ray_color(&ray, &(rt->scene));
+			draw_pixel(&(rt->img), &pxl_canvas);
+			pxl_canvas.a++;
+		}
+		pxl_canvas.a = 0;
+		pxl_canvas.b++;
+	}
+}
 
-// void	init_viewport(t_minirt *rt)
-// {
-// 	rt->vp.width = get_viewport_width(rt->scene);
-// 	rt->vp.height = get_viewport_height(rt->img, rt->vp.width);
-// //	rt->vp.dir_x = 
-// }
+void	init_viewport(t_minirt *rt)
+{
+	rt->vp.width = get_viewport_width(&(rt->scene));
+	rt->vp.height = get_viewport_height(&(rt->img), rt->vp.width);
+	rt->vp.delta_w = get_viewport_delta_w(&(rt->scene));
+	rt->vp.delta_h = get_viewport_delta_h(rt);
+}

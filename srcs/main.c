@@ -24,7 +24,7 @@ int	main(int argc, char **argv)
 	if (parse_file(argv[1], &rt.scene))
 		cleanup_scene_exit(&rt.scene, NULL, 2);
 	init_mlx_interface(&rt);
-	draw_image(&rt);
+	// draw_image(&rt);
 	minirt_init_loop(&rt);
 	// cleanup_exit(&rt, NULL, 2);
 	return (0);
