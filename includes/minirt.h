@@ -26,8 +26,8 @@ typedef struct s_viewp
 	int		height;
 	int		width;
 	t_point	upperleft;
-	t_vec	delta_w;
-	t_vec	delta_h;
+	t_vec	uvec_w;
+	t_vec	uvec_h;
 	t_ray	**ray;
 }	t_viewp;
 
