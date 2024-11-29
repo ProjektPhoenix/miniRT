@@ -101,7 +101,10 @@ static t_point	get_ray_dir_from_canvas_pxl(t_minirt *rt, t_pxl pxl)
 
 	vp = rt->vp;
 	vp_pxl = add_multiple_vectors(3, vp.upperleft, scalar_mply_vector((double)pxl.a + 0.5, vp.delta_w), scalar_mply_vector((double)pxl.b + 0.5, vp.delta_h));
-	ray_dir = get_unit_vector(vec1_minus_vec2(vp_pxl, rt->scene.camera.pos));
+	if ((pxl.a == 0 && pxl.b == 0) || (pxl.b == rt->img.height && pxl.a == rt->img.width))
+		debug("For canvas pixel (%d, %d), calculated viewport pixel coordinates: (%f, %f, %f)", pxl.a, pxl.b, vp_pxl.e[0], vp_pxl.e[1], vp_pxl.e[2]);
+	ray_dir = vec1_minus_vec2(vp_pxl, rt->scene.camera.pos);
+	// ray_dir = get_unit_vector(vec1_minus_vec2(vp_pxl, rt->scene.camera.pos));
 	return (ray_dir);
 }
 
