@@ -6,7 +6,7 @@
 /*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 20:07:30 by rpriess           #+#    #+#             */
-/*   Updated: 2024/11/29 11:58:06 by Henriette        ###   ########.fr       */
+/*   Updated: 2024/11/29 15:53:07 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	ft_key_hook(int keycode, t_minirt *rt)
 	// if (keycode == 'r' || keycode == 'R')
 	// 	reset_projection(spine);
 	// minirt_redraw(rt);
-    draw_image(rt);
+    //draw_image(rt);
 	return (0);
 }
 

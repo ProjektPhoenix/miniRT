@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_specs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:35:44 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/11/18 15:53:46 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/11/29 17:37:16 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft.h"
 #include "vector_math.h"
 #include "vector_setup.h"
+#include "debug.h"
 
 void	set_triple_from_array(t_vec *triple, char **coord)
 {
@@ -45,6 +46,7 @@ t_point	get_hit_point(t_ray *ray, double t)
 
 	scaled_dir = scalar_mply_vector(t, ray->dir);
 	hit_point = add_vectors(ray->orig, scaled_dir);
+	//debug("hit point: %.2f,  %.2f,  %.2f\n", hit_point.e[0], hit_point.e[1], hit_point.e[2]);
 	return (hit_point);
 }
 

@@ -6,7 +6,7 @@
 /*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:29:46 by rpriess           #+#    #+#             */
-/*   Updated: 2024/11/29 15:07:49 by Henriette        ###   ########.fr       */
+/*   Updated: 2024/11/29 16:01:33 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ bool draw_pixel(t_img *img, t_pxl *pxl)
 //         j++;
 //     }
 // }
-static void	draw_frame(t_img *img, int frame_width)
+/*static void	draw_frame(t_img *img, int frame_width)
 {
     t_pxl   pxl;
 	int j;
@@ -138,71 +138,6 @@ static void	draw_frame(t_img *img, int frame_width)
         i = 0;
         j++;
     }
-}
-
-/*static void draw_frame(t_img *img, int frame_width)
-{
-    t_pxl   pxl;
-    int j;
-    int i;
-    int *pxls;
-    int pxl_index;
-    unsigned int color;
-
-    pxls = (int *)(img->content);
-    j = 0;
-    while (j < img->height)
-    {
-        i = 0;
-        while (i < img->width)
-        {
-            if (i < frame_width || i >= img->width - frame_width 
-                || j < frame_width || j >= img->height - frame_width)
-                {
-                    pxl.a = i;
-                    pxl.b = j;
-                    pxl.color.e[0] = 255;
-                    pxl.color.e[1] = 0;
-                    pxl.color.e[2] = 0;
-                    pxl_index = (pxl.b * img->width) + pxl.a;
-                    color = ft_argb_color(255, pxl.color.e[0], pxl.color.e[1], pxl.color.e[2]);
-                    pxls[pxl_index] = color;
-                }
-                i++;
-        }
-        j++;
-    }
-}*/
-
-/*static unsigned int ft_rgb_color(unsigned char red, unsigned char green, unsigned char blue)
-{
-    return (red << 16) | (green << 8) | blue;
-}
-
-static void draw_frame(t_img *img, int frame_width)
-{
-    int *pixels = (int *)(img->content);
-    int i = 0;
-    int j = 0;
-
-    while (j < img->height)
-    {
-        i = 0;
-        while (i < img->width)
-        {
-            // Check if pixel is within the frame
-            if (i < frame_width || i >= img->width - frame_width || j < frame_width || j >= img->height - frame_width)
-            {
-                int pixel_index = j * img->width + i;  // Convert 2D (i, j) to 1D index
-                unsigned int color = ft_rgb_color(255, 0, 0);
-                printf("color: %#010x\n", color);
-                pixels[pixel_index] = color;  // Color for the frame (red)
-                //pixels[pixel_index] = ft_argb_color(255, 255, 0, 0);
-            }
-            i++;
-        }
-        j++;
-    }
 }*/
 
 /*
@@ -220,26 +155,17 @@ static void draw_frame(t_img *img, int frame_width)
 //
 // }
 
-/*static void fill_image(t_img *img, int color)
-{
-    int *pixels = (int *)(img->content);
-    int i = 0;
-    while (i < img->width * img->height)
-    {
-        pixels[i] = color;
-        i++;
-    }
-}*/
+
 
 void draw_image(t_minirt *rt)
 {
 	debug("");
-	//init_viewport(rt);
-	//calculate_rays(rt);
+	init_viewport(rt);
+	calculate_rays(rt);
     // draw_viewport_to_img()
     // draw_square(&(rt->img));
     //fill_image(&(rt->img), 0x00FF00);
-    draw_frame(&(rt->img), 2);
+    //draw_frame(&(rt->img), 2);
     // draw_animation(rt);
     mlx_put_image_to_window(rt->screen.mlx, rt->screen.win, rt->img.ptr, 0, 0);
 }
