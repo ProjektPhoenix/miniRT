@@ -6,7 +6,7 @@
 /*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 18:08:15 by rpriess           #+#    #+#             */
-/*   Updated: 2024/11/25 14:28:14 by Henriette        ###   ########.fr       */
+/*   Updated: 2024/11/29 13:04:29 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,94 +41,186 @@
 	
 // }
 
-// static t_point	get_viewport_center(t_scene)
-// {
-	
-// }
+static t_vec	get_viewport_uvec_h(t_minirt *rt)
+{
+	t_vec	uvec_h;
+	t_vec	uvec_w;
+	t_vec	camdir;
 
-// static double	get_viewport_width(t_scene *scene)
-// {
-// 	double	width;
+	uvec_w = rt->vp.uvec_w;
+	camdir = rt->scene.camera.dir;
+	if (uvec_w.e[1] != 0 && camdir.e[2] != 0)
+	{
+		uvec_h.e[0] = sqrt(1 / (1.0 + pow(uvec_w.e[0], 2)/pow(uvec_w.e[1], 2) + pow(camdir.e[0]/camdir.e[2] - camdir.e[1] * uvec_w.e[0] / (uvec_w.e[1] * camdir.e[2]), 2)));
+		uvec_h.e[1] = -1.0 * uvec_w.e[0] * uvec_h.e[0] / uvec_w.e[1];
+		uvec_h.e[2] = sqrt(1.0 - pow(uvec_h.e[0], 2) - pow(uvec_h.e[1], 2));
+	}
+	else if (camdir.e[2] == 0)
+	{
+		uvec_h.e[0] = 0.0;
+		uvec_h.e[1] = 0.0;
+		uvec_h.e[2] = -1.0;
+	}
+	else if (uvec_w.e[1] == 0)
+	{
+		uvec_h.e[0] = 0.0;
+		uvec_h.e[1] = 1.0 / (1.0 + pow(camdir.e[1], 2) / pow(camdir.e[2], 2));
+		uvec_h.e[2] = -1.0 * uvec_h.e[1] * camdir.e[1] / camdir.e[2];
+	}
+	debug("The viewport unit vector for traversing the height is: (%f,%f,%f)", uvec_h.e[0], uvec_h.e[1], uvec_h.e[2]);
+	return (uvec_h);
+}
 
-// 	width = 2 * tan(scene->camera.fov * M_PI / 360.0);
-// 	return (width);
-// }
+/*
+ * SONDERFÄLLE BERÜCKSICHTIGEN !!!
+ */
+static t_vec	get_viewport_uvec_w(t_scene *scene)
+{
+	t_vec	uvec_w;
 
-// static double	get_viewport_height(t_img *img, double width)
-// {
-// 	double	height;
+	uvec_w.e[2] = 0.0;
+	if (scene->camera.dir.e[0] == 0 && scene->camera.dir.e[1] == 0)
+	{
+		uvec_w.e[0] = 1.0;
+		uvec_w.e[1] = 0.0;
+	}
+	else
+	{
+		uvec_w.e[0] = sqrt(pow(scene->camera.dir.e[1], 2) / (pow(scene->camera.dir.e[0], 2) + pow(scene->camera.dir.e[1], 2)));
+		uvec_w.e[1] = sqrt(1.0 - pow(uvec_w.e[0], 2));
+	}
+	debug("The viewport unit vector for traversing the width is: (%f,%f,%f)", uvec_w.e[0], uvec_w.e[1], uvec_w.e[2]);
+	return (uvec_w);
+}
 
-// 	height = width * img->height / img->width;
-// 	return (height);
-// }
+static t_point	get_ray_dir_from_canvas_pxl(t_minirt *rt, t_pxl pxl)
+{
+	t_viewp	vp;	
+	t_point	vp_pxl;
+	t_vec	ray_dir;																																																																																																																																																						
+
+	vp = rt->vp;
+	vp_pxl = add_multiple_vectors(3, vp.upperleft, scalar_mply_vector((double)pxl.a + 0.5, vp.delta_w), scalar_mply_vector((double)pxl.b + 0.5, vp.delta_h));
+	if ((pxl.a == 0 && pxl.b == 0) || (pxl.b == rt->img.height && pxl.a == rt->img.width))
+		debug("For canvas pixel (%d, %d), calculated viewport pixel coordinates: (%f, %f, %f)", pxl.a, pxl.b, vp_pxl.e[0], vp_pxl.e[1], vp_pxl.e[2]);
+	ray_dir = vec1_minus_vec2(vp_pxl, rt->scene.camera.pos);
+	// ray_dir = get_unit_vector(vec1_minus_vec2(vp_pxl, rt->scene.camera.pos));
+	return (ray_dir);
+}
+
+static double	get_viewport_width(t_scene *scene)
+{
+	double	width;
+
+	width = 2 * tan(scene->camera.fov * M_PI / 360.0);
+	debug("Viewport width is %f", width);
+	return (width);
+}
+
+static double	get_viewport_height(t_img *img, double width)
+{
+	double	height;
+
+	height = width * (double)img->height / (double)img->width;
+	debug("Viewport height is %f", height);
+	return (height);
+}
 
 //static t_vec	get_
 
+// void	calculate_rays(t_minirt *rt)
+// {
+// 	t_ray	ray;
+// 	t_pxl	pxl;
+// 	double	y;
+// 	double	z;
+
+// 	debug("");
+// 	ray.orig.e[0] = 0;
+// 	ray.dir.e[0] = 1;
+// 	ray.dir.e[1] = 0;
+// 	ray.dir.e[2] = 0;
+// 	pxl.a = 0;
+// 	pxl.b = 0;
+// 	z = -15;
+// 	y = -20;
+// 	while (z <= 10)
+// 	{
+// 		while (y <= 20)
+// 		{
+// 			ray.orig.e[1] = y;
+// 			ray.orig.e[2] = z;
+// 			pxl.color = get_ray_color(&ray, &(rt->scene));
+// 			// pxl.color.e[0] = 255;
+// 			// pxl.color.e[1] = 50;
+// 			// pxl.color.e[2] = 50;
+// 			draw_pixel(&(rt->img), &pxl);
+// 			y = y + 40.0/900.0;
+// 			(pxl.a)++;
+// 		}
+// 		y = -20;
+// 		z = z + 25.0/600.0;
+// 		pxl.a = 0;
+// 		(pxl.b)++;
+// 	}
+// 	debug("Calculated all rays");
+// }
+
 void	calculate_rays(t_minirt *rt)
 {
+	t_pxl	pxl_canvas;
 	t_ray	ray;
-	t_pxl	pxl;
-	double	y;
-	double	z;
 
-	debug("");
-	ray.orig.e[0] = 0;
-	ray.dir.e[0] = 1;
-	ray.dir.e[1] = 0;
-	ray.dir.e[2] = 0;
-	pxl.a = 0;
-	pxl.b = 0;
-	z = -15;
-	y = -20;
-	while (z <= 10 && pxl.b < rt->img.height)
+	ray.orig = rt->scene.camera.pos;
+	pxl_canvas.a = rt->img.width / 2;
+	pxl_canvas.b = rt->img.height / 2;
+	ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
+	//debug("\nCalculated central ray:\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)", ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);
+	pxl_canvas.a = 0;
+	pxl_canvas.b = 0;
+	ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
+	//debug("\nCalculated viewport upper left ray:\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)", ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);
+	pxl_canvas.a = rt->img.width;
+	pxl_canvas.b = 0;
+	ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
+	//debug("\nCalculated viewport upper right ray:\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)", ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);
+	pxl_canvas.a = 0;
+	pxl_canvas.b = rt->img.height;
+	ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
+	//debug("\nCalculated viewport lower left ray:\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)", ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);
+	pxl_canvas.a = rt->img.width;
+	pxl_canvas.b = rt->img.height;
+	ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
+	//debug("\nCalculated viewport lower right ray:\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)", ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);
+	pxl_canvas.a = 0;
+	pxl_canvas.b = 0;
+	while (pxl_canvas.b < rt->img.height)
 	{
-		while (y <= 20 && pxl.a < rt->img.width)
+		while (pxl_canvas.a < rt->img.width)
 		{
-			ray.orig.e[1] = y;
-			ray.orig.e[2] = z;
-			//pxl.color = get_ray_color(&ray, &(rt->scene));
-			pxl.color.e[0] = 255;
-			pxl.color.e[1] = 50;
-			pxl.color.e[2] = 50;
-			draw_pixel(&(rt->img), &pxl);
-			y = y + 40.0/900.0;
-			(pxl.a)++;
+			ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
+			pxl_canvas.color = get_ray_color(&ray, &(rt->scene));
+			draw_pixel(&(rt->img), &pxl_canvas);
+			pxl_canvas.a++;
 		}
-		y = -20;
-		z = z + 25.0/600.0;
-		pxl.a = 0;
-		(pxl.b)++;
+		pxl_canvas.a = 0;
+		pxl_canvas.b++;
 	}
-	debug("Calculated all rays");
+	debug("All rays calculated.");
 }
 
-// static void	calculate_rays(t_minirt *rt)
-// {
-// 	int		a;
-// 	int		b;
-// 	t_vec	vp_center;
-// 	t_ray	temp_ray;
-
-// 	a = 0;
-// 	b = 0;
-// 	temp_ray.orig = rt->scene.camera.pos;
-// 	rt->
-// 	while (b < rt->img.height)
-// 	{
-// 		while (a < rt->img.width)
-// 		{
-			
-// 			temp_ray.dir = vec1_minus_vec2();
-			
-// 			a++;
-// 		}
-// 		a = 0;
-// 	}
-// }
-
-// void	init_viewport(t_minirt *rt)
-// {
-// 	rt->vp.width = get_viewport_width(rt->scene);
-// 	rt->vp.height = get_viewport_height(rt->img, rt->vp.width);
-// //	rt->vp.dir_x = 
-// }
+void	init_viewport(t_minirt *rt)
+{
+	rt->vp.width = get_viewport_width(&(rt->scene));
+	rt->vp.height = get_viewport_height(&(rt->img), rt->vp.width);
+	rt->vp.uvec_w = get_viewport_uvec_w(&(rt->scene));
+	rt->vp.uvec_h = get_viewport_uvec_h(rt);
+	rt->vp.delta_w = scalar_mply_vector(rt->vp.width / (double)rt->img.width, rt->vp.uvec_w);
+	rt->vp.delta_h = scalar_mply_vector(rt->vp.height / (double)rt->img.height, rt->vp.uvec_h);
+	rt->vp.upperleft = add_multiple_vectors(4, rt->scene.camera.pos, get_unit_vector(rt->scene.camera.dir), scalar_mply_vector(-0.5 * rt->vp.width, rt->vp.uvec_w), scalar_mply_vector(-0.5 * rt->vp.height, rt->vp.uvec_h));
+	debug("Viewport width: %f", rt->vp.width);
+	debug("Viewport height: %f", rt->vp.height);
+	debug("Viewport delta w: (%f, %f, %f)", rt->vp.delta_w.e[0], rt->vp.delta_w.e[1], rt->vp.delta_w.e[2]);
+	debug("Viewport delta h: (%f, %f, %f)", rt->vp.delta_h.e[0], rt->vp.delta_h.e[1], rt->vp.delta_h.e[2]);
+	debug("Calculated coordinates of viewport upper left corner: (%f, %f, %f)", rt->vp.upperleft.e[0], rt->vp.upperleft.e[1], rt->vp.upperleft.e[2]);
+}

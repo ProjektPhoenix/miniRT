@@ -6,7 +6,7 @@
 /*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 17:01:25 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/11/25 13:49:27 by Henriette        ###   ########.fr       */
+/*   Updated: 2024/11/29 12:14:24 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,14 @@ void cleanup_scene_exit(t_scene *scene, char *mssg, int status)
 
 void	cleanup_mlx(t_minirt *rt)
 {
-	//mlx_loop_end(rt->screen.mlx);
+	#ifdef __LINUX__
+		mlx_loop_end(rt->screen.mlx);
+	#endif
 	mlx_destroy_image(rt->screen.mlx, rt->img.ptr);
 	mlx_destroy_window(rt->screen.mlx, rt->screen.win);
-	//mlx_destroy_display(rt->screen.mlx);
-	mlx_destroy_window(rt->screen.mlx, rt->screen.win);
+	#ifdef __LINUX__
+			mlx_destroy_display(rt->screen.mlx);
+	#endif
 }
 
 void	cleanup_exit(t_minirt *rt, char *mssg, int status)

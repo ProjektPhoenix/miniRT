@@ -6,7 +6,7 @@
 /*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:25:07 by rpriess           #+#    #+#             */
-/*   Updated: 2024/11/25 13:47:13 by Henriette        ###   ########.fr       */
+/*   Updated: 2024/11/29 12:01:02 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 #include "minirt.h"
 #include <mlx.h>
 #include <mlx_wrapper.h>
-//#include <error.h>
+#ifdef __LINUX__
+	#include <error.h>
+#endif
 #include <stdbool.h>
 #include <libft.h>
 
@@ -60,15 +62,18 @@ int	init_mlx_interface(t_minirt *rt)
 	if (!create_new_window(&rt->screen, WIN_TITLE))
 	{
 		cleanup_scene(&(rt->scene));
-		//mlx_destroy_display(rt->screen.mlx);
-		mlx_destroy_window(rt->screen.mlx, rt->screen.win);
+		#ifdef __linux__
+			mlx_destroy_display(rt->screen.mlx);
+		#endif
 		error_exit_status("Creating MLX window failed.", 1);
 	}
 	if (!init_img(rt))
 	{
 		cleanup_scene(&(rt->scene));
 		mlx_destroy_window(rt->screen.mlx, rt->screen.win);
-		//mlx_destroy_display(rt->screen.mlx);
+		#ifdef __linux__
+			mlx_destroy_display(rt->screen.mlx);
+		#endif
 		error_exit_status("Creating MLX img failed.", 1);
 	}
 	return (0);

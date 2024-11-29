@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include "vector_math.h"
+// #include "vector_setup.h"
 #include <math.h>
+#include <stdarg.h>
 
 /*
  * Returns the difference vector of two vectors / points.
@@ -40,6 +42,34 @@ t_vec	add_vectors(t_vec vec_1, t_vec vec_2)
 	new_vec.e[0] = vec_1.e[0] + vec_2.e[0];
 	new_vec.e[1] = vec_1.e[1] + vec_2.e[1];
 	new_vec.e[2] = vec_1.e[2] + vec_2.e[2];
+	return (new_vec);
+}
+
+/*
+ * Returns the sum of multiple vectors.
+ * Number of vectors to add is specified in the first parameter.
+ * Vectors are given as further parameters with format t_vec.
+ */
+t_vec	add_multiple_vectors(int num_vectors, ...)
+{
+	va_list	args;
+	t_vec	new_vec;
+	t_vec	temp_vec;
+
+	// new_vec = create_triple(0.0, 0.0, 0.0);
+	new_vec.e[0] = 0.0;
+	new_vec.e[1] = 0.0;
+	new_vec.e[2] = 0.0;
+	va_start(args, num_vectors);
+	while (num_vectors > 0)
+	{
+		temp_vec = va_arg(args, t_vec);
+		new_vec.e[0] = new_vec.e[0] + temp_vec.e[0];
+		new_vec.e[1] = new_vec.e[1] + temp_vec.e[1];
+		new_vec.e[2] = new_vec.e[2] + temp_vec.e[2];
+		num_vectors--;
+	}
+	va_end(args);
 	return (new_vec);
 }
 
@@ -147,7 +177,7 @@ int	main(void)
 	printf("Unit vector of input vector 3: <%f,%f,%f>\n", result_vec.e[0], result_vec.e[1], result_vec.e[2]);
 	result = dot_product(test_vec, test_vec2);
 	printf("Dot product of input vector 1 and input vector 2: %f\n", result);
-	result_vec = add_vectors(test_vec, test_vec2);
+	result_vec = add_vectors(3, test_vec, test_vec2, test_vec3);
 	printf("Sum of input vectors: <%f,%f,%f>\n", result_vec.e[0], result_vec.e[1], result_vec.e[2]);
 	result_vec = vec1_minus_vec2(test_vec, test_vec2);
 	printf("Difference of input vectors (vector 1 minus vector 2): <%f,%f,%f>\n", result_vec.e[0], result_vec.e[1], result_vec.e[2]);

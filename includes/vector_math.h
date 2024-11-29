@@ -17,7 +17,8 @@ typedef struct	s_vec {
 	double e[3];
 }	t_vec;
 
-t_vec	add_vectors(t_vec vec_1, t_vec vec_2);
+t_vec	add_vectors(t_vec vector1, t_vec vector2);
+t_vec	add_multiple_vectors(int num_vectors, ...);
 t_vec	cross_product(t_vec vec_1, t_vec vec_2);
 double	dot_product(t_vec vec_1, t_vec vec_2);
 double	get_magnitude(t_vec vec);
