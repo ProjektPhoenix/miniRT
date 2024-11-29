@@ -28,6 +28,8 @@ typedef struct s_viewp
 	t_point	upperleft;
 	t_vec	uvec_w;
 	t_vec	uvec_h;
+	t_vec	delta_w;
+	t_vec	delta_h;
 	t_ray	**ray;
 }	t_viewp;
 

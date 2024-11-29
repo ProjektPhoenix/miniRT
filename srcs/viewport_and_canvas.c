@@ -95,30 +95,12 @@ static t_vec	get_viewport_uvec_w(t_scene *scene)
 
 static t_point	get_ray_dir_from_canvas_pxl(t_minirt *rt, t_pxl pxl)
 {
-	t_point	cam_pos;
+	t_viewp	vp;	
 	t_point	vp_pxl;
-	t_vec	cam_dir;
-	t_vec	ray_dir;
-	t_point	vp_ul;
-	t_vec	delta_w;
-	t_vec	delta_h;
-	static int		count = 0;																																																																																																																																																										
+	t_vec	ray_dir;																																																																																																																																																						
 
-	cam_pos = rt->scene.camera.pos;
-	cam_dir = rt->scene.camera.dir;
-	delta_w = scalar_mply_vector(rt->vp.width / (double)rt->img.width, rt->vp.uvec_w);
-	if (count == 0)
-		debug("Viewport delta w: (%f, %f, %f)", delta_w.e[0], delta_w.e[1], delta_w.e[2]);
-	delta_h = scalar_mply_vector(rt->vp.height / (double)rt->img.height, rt->vp.uvec_h);
-	if (count == 0)
-		debug("Viewport delta w: (%f, %f, %f)", delta_h.e[0], delta_h.e[1], delta_h.e[2]);
-	vp_ul = add_multiple_vectors(4, cam_pos, get_unit_vector(cam_dir), scalar_mply_vector(-0.5 * rt->vp.width, rt->vp.uvec_w), scalar_mply_vector(-0.5 * rt->vp.height, rt->vp.uvec_h));
-	if (count == 0)
-	{
-		debug("Calculated coordinates of viewport upper left corner: (%f, %f, %f)", vp_ul.e[0], vp_ul.e[1], vp_ul.e[2]);
-		count++;
-	}
-	vp_pxl = add_multiple_vectors(3, vp_ul, scalar_mply_vector((double)pxl.a + 0.5, delta_w), scalar_mply_vector((double)pxl.b + 0.5, delta_h));
+	vp = rt->vp;
+	vp_pxl = add_multiple_vectors(3, vp.upperleft, scalar_mply_vector((double)pxl.a + 0.5, vp.delta_w), scalar_mply_vector((double)pxl.b + 0.5, vp.delta_h));
 	ray_dir = get_unit_vector(vec1_minus_vec2(vp_pxl, rt->scene.camera.pos));
 	return (ray_dir);
 }
@@ -230,6 +212,12 @@ void	init_viewport(t_minirt *rt)
 	rt->vp.height = get_viewport_height(&(rt->img), rt->vp.width);
 	rt->vp.uvec_w = get_viewport_uvec_w(&(rt->scene));
 	rt->vp.uvec_h = get_viewport_uvec_h(rt);
+	rt->vp.delta_w = scalar_mply_vector(rt->vp.width / (double)rt->img.width, rt->vp.uvec_w);
+	rt->vp.delta_h = scalar_mply_vector(rt->vp.height / (double)rt->img.height, rt->vp.uvec_h);
+	rt->vp.upperleft = add_multiple_vectors(4, rt->scene.camera.pos, get_unit_vector(rt->scene.camera.dir), scalar_mply_vector(-0.5 * rt->vp.width, rt->vp.uvec_w), scalar_mply_vector(-0.5 * rt->vp.height, rt->vp.uvec_h));
 	debug("Viewport width: %f", rt->vp.width);
 	debug("Viewport height: %f", rt->vp.height);
+	debug("Viewport delta w: (%f, %f, %f)", rt->vp.delta_w.e[0], rt->vp.delta_w.e[1], rt->vp.delta_w.e[2]);
+	debug("Viewport delta h: (%f, %f, %f)", rt->vp.delta_h.e[0], rt->vp.delta_h.e[1], rt->vp.delta_h.e[2]);
+	debug("Calculated coordinates of viewport upper left corner: (%f, %f, %f)", rt->vp.upperleft.e[0], rt->vp.upperleft.e[1], rt->vp.upperleft.e[2]);
 }
