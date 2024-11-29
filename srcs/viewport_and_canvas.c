@@ -118,7 +118,7 @@ static t_point	get_ray_dir_from_canvas_pxl(t_minirt *rt, t_pxl pxl)
 		debug("Calculated coordinates of viewport upper left corner: (%f, %f, %f)", vp_ul.e[0], vp_ul.e[1], vp_ul.e[2]);
 		count++;
 	}
-	vp_pxl = add_multiple_vectors(3, vp_ul, scalar_mply_vector(pxl.a + 0.5, delta_w), scalar_mply_vector(pxl.b + 0.5, delta_h));
+	vp_pxl = add_multiple_vectors(3, vp_ul, scalar_mply_vector((double)pxl.a + 0.5, delta_w), scalar_mply_vector((double)pxl.b + 0.5, delta_h));
 	ray_dir = get_unit_vector(vec1_minus_vec2(vp_pxl, rt->scene.camera.pos));
 	return (ray_dir);
 }
