@@ -102,12 +102,22 @@ static t_point	get_ray_dir_from_canvas_pxl(t_minirt *rt, t_pxl pxl)
 	t_point	vp_ul;
 	t_vec	delta_w;
 	t_vec	delta_h;
+	static int		count = 0;																																																																																																																																																										
 
 	cam_pos = rt->scene.camera.pos;
 	cam_dir = rt->scene.camera.dir;
-	delta_w = scalar_mply_vector(rt->vp.width / rt->img.width, rt->vp.uvec_w);
-	delta_h = scalar_mply_vector(rt->vp.height / rt->img.height, rt->vp.uvec_h);
-	vp_ul = add_multiple_vectors(2, cam_pos, get_unit_vector(cam_dir), scalar_mply_vector(-0.5 * rt->vp.width, rt->vp.uvec_w), scalar_mply_vector(-0.5 * rt->vp.height, rt->vp.uvec_h));
+	delta_w = scalar_mply_vector(rt->vp.width / (double)rt->img.width, rt->vp.uvec_w);
+	if (count == 0)
+		debug("Viewport delta w: (%f, %f, %f)", delta_w.e[0], delta_w.e[1], delta_w.e[2]);
+	delta_h = scalar_mply_vector(rt->vp.height / (double)rt->img.height, rt->vp.uvec_h);
+	if (count == 0)
+		debug("Viewport delta w: (%f, %f, %f)", delta_h.e[0], delta_h.e[1], delta_h.e[2]);
+	vp_ul = add_multiple_vectors(4, cam_pos, get_unit_vector(cam_dir), scalar_mply_vector(-0.5 * rt->vp.width, rt->vp.uvec_w), scalar_mply_vector(-0.5 * rt->vp.height, rt->vp.uvec_h));
+	if (count == 0)
+	{
+		debug("Calculated coordinates of viewport upper left corner: (%f, %f, %f)", vp_ul.e[0], vp_ul.e[1], vp_ul.e[2]);
+		count++;
+	}
 	vp_pxl = add_multiple_vectors(3, vp_ul, scalar_mply_vector(pxl.a + 0.5, delta_w), scalar_mply_vector(pxl.b + 0.5, delta_h));
 	ray_dir = get_unit_vector(vec1_minus_vec2(vp_pxl, rt->scene.camera.pos));
 	return (ray_dir);
@@ -126,7 +136,7 @@ static double	get_viewport_height(t_img *img, double width)
 {
 	double	height;
 
-	height = width * img->height / img->width;
+	height = width * (double)img->height / (double)img->width;
 	debug("Viewport height is %f", height);
 	return (height);
 }
@@ -176,9 +186,29 @@ void	calculate_rays(t_minirt *rt)
 	t_pxl	pxl_canvas;
 	t_ray	ray;
 
+	ray.orig = rt->scene.camera.pos;
+	pxl_canvas.a = rt->img.width / 2;
+	pxl_canvas.b = rt->img.height / 2;
+	ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
+	debug("\nCalculated central ray:\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)", ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);
 	pxl_canvas.a = 0;
 	pxl_canvas.b = 0;
-	ray.orig = rt->scene.camera.pos;
+	ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
+	debug("\nCalculated viewport upper left ray:\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)", ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);
+	pxl_canvas.a = rt->img.width;
+	pxl_canvas.b = 0;
+	ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
+	debug("\nCalculated viewport upper right ray:\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)", ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);
+	pxl_canvas.a = 0;
+	pxl_canvas.b = rt->img.height;
+	ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
+	debug("\nCalculated viewport lower left ray:\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)", ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);
+	pxl_canvas.a = rt->img.width;
+	pxl_canvas.b = rt->img.height;
+	ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
+	debug("\nCalculated viewport lower right ray:\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)", ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);
+	pxl_canvas.a = 0;
+	pxl_canvas.b = 0;
 	while (pxl_canvas.b < rt->img.height)
 	{
 		while (pxl_canvas.a < rt->img.width)
@@ -191,6 +221,7 @@ void	calculate_rays(t_minirt *rt)
 		pxl_canvas.a = 0;
 		pxl_canvas.b++;
 	}
+	debug("All rays calculated.");
 }
 
 void	init_viewport(t_minirt *rt)
@@ -199,4 +230,6 @@ void	init_viewport(t_minirt *rt)
 	rt->vp.height = get_viewport_height(&(rt->img), rt->vp.width);
 	rt->vp.uvec_w = get_viewport_uvec_w(&(rt->scene));
 	rt->vp.uvec_h = get_viewport_uvec_h(rt);
+	debug("Viewport width: %f", rt->vp.width);
+	debug("Viewport height: %f", rt->vp.height);
 }

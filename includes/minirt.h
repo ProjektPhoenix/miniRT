@@ -23,8 +23,8 @@ typedef struct	s_pxl {
 
 typedef struct s_viewp
 {
-	int		height;
-	int		width;
+	double	height;
+	double	width;
 	t_point	upperleft;
 	t_vec	uvec_w;
 	t_vec	uvec_h;

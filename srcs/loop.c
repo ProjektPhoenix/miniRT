@@ -14,6 +14,7 @@
 #include <X11/Xlib.h>
 #include <libft.h>
 #include "minirt.h"
+#include "debug.h"
 
 // static void	change_parsing(t_spine *spine, int keycode)
 // {
@@ -54,6 +55,7 @@
 
 int	ft_key_hook(int keycode, t_minirt *rt)
 {
+	debug("");
 	if (keycode == 0xff1b || keycode == 'q' || keycode == 53)
 		cleanup_exit(rt, NULL, 0);
 	// change_color(spine, keycode);
@@ -69,6 +71,7 @@ int	ft_key_hook(int keycode, t_minirt *rt)
 
 void	minirt_init_loop(t_minirt *rt)
 {
+	debug("loop init");
 	mlx_key_hook(rt->screen.win, ft_key_hook, rt);
 	mlx_hook(rt->screen.win, DestroyNotify, NoEventMask, loop_cleanup, rt);
 	mlx_loop(rt->screen.mlx);
