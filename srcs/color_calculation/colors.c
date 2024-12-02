@@ -6,7 +6,7 @@
 /*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:12:12 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/11/29 18:00:29 by Henriette        ###   ########.fr       */
+/*   Updated: 2024/12/02 16:18:15 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,11 @@ t_color	calculate_obj_color(t_scene *scene, t_closest *obj)
 	double l_dist;
 	double attenuation;
 	t_color	color;
-	
-	l_ray.orig = obj->hit_point;
-	l_ray.dir = vec1_minus_vec2(scene->light.pos, l_ray.orig);
+
+	obj->normal_v = assign_normal(scene, obj);
+	make_light_ray(&l_ray, scene, obj);
 	//debug("l_ray dir %.2f, %.2f, %.2f\n", l_ray.dir.e[0], l_ray.dir.e[1], l_ray.dir.e[2]);
-	blocked = false;
-	if (check_blocking_objects(&l_ray, scene) == -1) //for now returns 0, needs to be checked and adjusted
-		blocked = true;
+	blocked = check_blocking_objects(&l_ray, scene);
 	color = add_vectors(scalar_mply_vector(scene->amb.intens, scene->amb.col), obj->col);
 	//color = obj->col;
 	if (blocked == false)
@@ -46,18 +44,38 @@ t_color	calculate_obj_color(t_scene *scene, t_closest *obj)
 	return (color);
 }
 
+t_vec	assign_normal(t_scene *scene, t_closest *obj)
+{
+	if (obj->type == SPHERE)
+	{
+		return (get_normal_v_sph(obj->hit_point, obj->center));
+	}
+	return (create_triple(0, 0, 0)); // this just placeholder until other shapes are added
+}
+
+void	make_light_ray(t_ray *l_ray, t_scene *scene, t_closest *obj)
+{
+	double offset;
+
+	offset = 1e-4;
+	l_ray->orig = add_vectors(obj->hit_point, scalar_mply_vector(offset, obj->normal_v));
+	l_ray->dir = vec1_minus_vec2(scene->light.pos, l_ray->orig);
+	l_ray->dir = get_unit_vector(l_ray->dir);
+}
+
 /* checks if any objects are in the way of the hit point and the light 
 	- for now only sphere, needs to be expanded to other objects */
 int	check_blocking_objects(t_ray *l_ray, t_scene *scene)
 {
-	return (0);
 	t_sphere	*temp;
+	double	t;
 
 	temp = scene->sphere;
 	while(temp)
 	{
-		if (find_t_sphere(l_ray, temp) != -1)
-			return (-1);
+		t = find_t_sphere(l_ray, temp);
+		if (t == -1) // no intersection
+			
 		temp = temp->next;
 	}
 	// continue with other objects

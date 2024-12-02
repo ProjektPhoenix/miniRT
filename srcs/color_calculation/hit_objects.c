@@ -6,7 +6,7 @@
 /*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 14:58:46 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/11/29 17:17:27 by Henriette        ###   ########.fr       */
+/*   Updated: 2024/12/02 13:51:11 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	find_closest(t_ray *ray, t_scene *scene, t_closest *obj)
 			obj->distance = t;
 			obj->id = temp->id;
 			obj->col = temp->col;
+			obj->type = SPHERE;
 			if (obj->distance == 0)
 				break;
 		}
