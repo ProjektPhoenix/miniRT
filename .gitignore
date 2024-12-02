@@ -3,6 +3,7 @@
 
 # Temporary files
 *.temp
+minilibx-linux/test/mlx-test
 
 # Object files
 *.o

@@ -116,7 +116,7 @@ static void	draw_frame(t_img *img, int frame_width)
     pxl.color.e[1] = 50;
     pxl.color.e[2] = 50;
 
-	debug("Draw frame with frame width of %i in img of size %i x %i", frame_width, img->width, img->height);
+	debug("Draw frame with frame thickness of %i in img of size %i x %i", frame_width, img->width, img->height);
     j = 0;
     i = 0;
     while (j <= img->height)
@@ -155,8 +155,8 @@ static void	draw_frame(t_img *img, int frame_width)
 void draw_image(t_minirt *rt)
 {
 	debug("");
+	init_viewport(rt);
 	calculate_rays(rt);
-    // prepare_viewport()
     // draw_viewport_to_img()
     // draw_square(&(rt->img));
     draw_frame(&(rt->img), 2);
