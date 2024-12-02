@@ -14,7 +14,7 @@ SRCS = ft_isalpha.c ft_bzero.c ft_isalnum.c\
 	ft_lstclear.c ft_lstiter.c ft_lstmap.c ft_printf.c \
 	printoutfunctions.c ptr_conv.c ft_atod.c \
 	get_next_line_new.c ft_strjoin_altered.c ft_strncmp_ed.c \
-	ft_split_space.c ft_argb_color.c 
+	ft_split_space.c ft_argb_color.c ft_rgb_color.c
 
 OBJS = $(SRCS:.c=.o)
 AR = ar rc

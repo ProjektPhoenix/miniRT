@@ -5,6 +5,10 @@
 #include <stdbool.h>
 #include <math.h>
 
+#define SPHERE 1
+#define CYL 2
+#define PLANE 3
+
 typedef struct s_scene
 {
 	t_cam	camera;
@@ -25,6 +29,9 @@ typedef struct s_closest
 		int	id;
 		t_color	col;
 		t_point	hit_point;
+		t_vec	normal_v;
+		int	type;
+		t_point center;
 } t_closest;
 
 /* parsing */

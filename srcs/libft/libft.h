@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 13:25:34 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/10/30 17:42:56 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/12/02 19:34:59 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ int		ft_conv_print_hex(unsigned int n, const char sign);
 int		ft_print_unsint(unsigned int n);
 //miniRT
 unsigned int	ft_argb_color(unsigned char alpha, unsigned char red, \
+					unsigned char green, unsigned char blue);
+unsigned int	ft_rgb_color(unsigned char red, \
 					unsigned char green, unsigned char blue);
 
 typedef struct s_list
