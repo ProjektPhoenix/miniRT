@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_image.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:29:46 by rpriess           #+#    #+#             */
-/*   Updated: 2024/11/18 15:33:41 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/12/02 19:35:38 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ bool draw_pixel(t_img *img, t_pxl *pxl)
 {
     unsigned int color;
 
-    color = ft_argb_color(255, (int)pxl->color.e[0], (int)pxl->color.e[1], (int)pxl->color.e[2]);
+    //color = ft_argb_color(255, (int)pxl->color.e[0], (int)pxl->color.e[1], (int)pxl->color.e[2]);
+    color = ft_rgb_color((int)pxl->color.e[0], (int)pxl->color.e[1], (int)pxl->color.e[2]);
+
 
     if (pxl->a > img->width || pxl->b > img->height || pxl->a < 0 || pxl->b < 0)
         return (1);
@@ -119,9 +121,9 @@ static void	draw_frame(t_img *img, int frame_width)
 	debug("Draw frame with frame thickness of %i in img of size %i x %i", frame_width, img->width, img->height);
     j = 0;
     i = 0;
-    while (j <= img->height)
+    while (j < img->height)
     {
-        while (i <= img->width)
+        while (i < img->width)
         {
             if (i < frame_width || i >= img->width - frame_width \
                 || j <= frame_width || j >= img->height - frame_width)

@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   vector_math.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:13:45 by rpriess           #+#    #+#             */
-/*   Updated: 2024/11/17 17:57:11 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/12/02 19:34:31 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector_math.h"
-// #include "vector_setup.h"
+//#include "vector_setup.h"
 #include <math.h>
 #include <stdarg.h>
 
@@ -111,6 +111,14 @@ t_vec	get_unit_vector(t_vec vec)
 	magnitude = get_magnitude(vec);
 
 	return (scalar_mply_vector(1/magnitude, vec));
+}
+
+t_vec get_normal_v_sph(t_vec hit_p, t_vec center)
+{
+	t_vec	normal;
+
+	normal = vec1_minus_vec2(hit_p, center);
+	return (get_unit_vector(normal));
 }
 
 /*
