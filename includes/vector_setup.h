@@ -30,6 +30,9 @@ typedef struct s_light
 	t_point	pos;
 	double intens;
 	t_color col;
+	double atten_a;
+	double atten_b;
+	double atten_c;
 } t_light;
 
 typedef struct s_plane

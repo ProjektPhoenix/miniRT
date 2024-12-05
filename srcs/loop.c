@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 20:07:30 by rpriess           #+#    #+#             */
-/*   Updated: 2024/12/02 19:27:50 by Henriette        ###   ########.fr       */
+/*   Updated: 2024/12/05 13:13:40 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
-#ifdef __LINUX__
+#ifdef __linux__
 	#include <X11/Xlib.h>
 #elif __APPLE__
 	#include <OpenGL/gl.h>

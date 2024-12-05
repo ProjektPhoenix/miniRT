@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:26:08 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/11/18 20:09:34 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/12/05 18:14:35 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ void	init_scene(t_scene *scene)
 	scene->amb.col = create_triple(0, 0, 0);
 	scene->light.pos = create_triple(0, 0, 0);
 	scene->light.intens = 0.0;
+	scene->light.atten_a = 1.0;
+	scene->light.atten_b = 0.1;
+	scene->light.atten_c = 0.02;
 	scene->light.col = create_triple(1, 1, 1);
 	scene->sphere = NULL;
 	scene->cyl = NULL;

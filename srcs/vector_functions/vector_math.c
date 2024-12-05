@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_math.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:13:45 by rpriess           #+#    #+#             */
-/*   Updated: 2024/12/02 19:34:31 by Henriette        ###   ########.fr       */
+/*   Updated: 2024/12/05 14:08:17 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ t_vec	get_unit_vector(t_vec vec)
 	double	magnitude;
 
 	magnitude = get_magnitude(vec);
-
+	if (magnitude == 0.0)
+		return (vec);
 	return (scalar_mply_vector(1/magnitude, vec));
 }
 

@@ -55,8 +55,10 @@ void	check_alloc(t_scene *scene, char **coord, char **array, char *mssg);
 t_color	get_ray_color(t_ray *ray, t_scene *scene);
 void	find_closest(t_ray *ray, t_scene *scene, t_closest *obj);
 t_color	calculate_obj_color(t_scene *scene, t_closest *obj);
-int	check_blocking_objects(t_ray *l_ray, t_scene *scene);
+bool	check_blocking_objects(t_ray *l_ray, t_scene *scene, t_closest *obj);
 t_color	calculate_background_color(t_scene *scene);
+void	make_light_ray(t_ray *l_ray, t_scene *scene, t_closest *obj);
+t_vec	assign_normal(t_closest *obj);
 
 /* just for testing, delete later */
 void	print_file_testing(t_scene *scene);

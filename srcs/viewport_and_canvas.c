@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 18:08:15 by rpriess           #+#    #+#             */
-/*   Updated: 2024/11/18 21:31:12 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/12/05 16:29:32 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,8 +172,13 @@ void	calculate_rays(t_minirt *rt)
 	t_ray	ray;
 
 	ray.orig = rt->scene.camera.pos;
+	// hier Test Block
+	//ray.dir = rt->scene.camera.dir;
+	//pxl_canvas.color = get_ray_color(&ray, &rt->scene);
 	pxl_canvas.a = rt->img.width / 2;
 	pxl_canvas.b = rt->img.height / 2;
+	//draw_pixel(&(rt->img), &pxl_canvas); 
+	// bis hier
 	ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
 	debug("\nCalculated central ray:\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)", ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);
 	pxl_canvas.a = 0;

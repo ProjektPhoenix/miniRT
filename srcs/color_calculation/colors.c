@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:12:12 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/12/02 19:32:57 by Henriette        ###   ########.fr       */
+/*   Updated: 2024/12/05 21:24:39 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,35 +16,88 @@
 #include "vector_math.h"
 #include "debug.h"
 
-t_color	calculate_obj_color(t_scene *scene, t_closest *obj)
+/*static t_color	debug_norm_vecs(t_closest *obj)
 {
-	//t_ray	l_ray;
-	//bool	blocked;
-	//double l_dist;
-	//double attenuation;
-	t_color	color;
+	t_vec debug_normal;
+	t_color debug_color ;
 
-	/*obj->normal_v = assign_normal(scene, obj);
-	make_light_ray(&l_ray, scene, obj);
-	//debug("l_ray dir %.2f, %.2f, %.2f\n", l_ray.dir.e[0], l_ray.dir.e[1], l_ray.dir.e[2]);
-	blocked = check_blocking_objects(&l_ray, scene);*/
-	color = add_vectors(scalar_mply_vector(scene->amb.intens, scene->amb.col), obj->col);
-	//color = obj->col;
-	/*if (blocked == false)
-	{
-		//debug("inside blocked false\n");
-		l_dist = get_magnitude(l_ray.dir);
-		debug("distance to light from hit point: %.2f\n", l_dist);
-		attenuation = 1.0 / (l_dist * l_dist + 100);
-		if (attenuation < 0.1)
-			attenuation = 0.1;
-		//scene->light.intens = scene->light.intens *1000 * attenuation;
-		color = add_vectors(color, scalar_mply_vector(scene->light.intens, scene->light.col));
-	}*/
+	debug_normal = obj->normal_v;
+	debug_color = create_triple(((debug_normal.e[0] + 1.0) * 127.5),((debug_normal.e[1] + 1.0) * 127.5),((debug_normal.e[2] + 1.0) * 127.5));
+	return (debug_color);
+}*/
+
+static t_color normalise_color(t_color col)
+{
+	t_color color;
+	
+	color.e[0] = col.e[0] / 255.0;
+	color.e[1] = col.e[1] / 255.0;
+	color.e[2] = col.e[2] / 255.0;
 	return (color);
 }
 
-/*t_vec	assign_normal(t_scene *scene, t_closest *obj)
+t_color	calculate_obj_color(t_scene *scene, t_closest *obj)
+{
+	t_ray	l_ray;
+	bool	blocked;
+	double l_dist;
+	double diffuse_intens;
+	double attenuation;
+	t_color	color;
+
+	obj->normal_v = assign_normal(obj);
+	//return (debug_norm_vecs(obj));
+	make_light_ray(&l_ray, scene, obj);
+	blocked = check_blocking_objects(&l_ray, scene, obj);
+	//color = obj->col;
+	t_color norm_obj_col = normalise_color(obj->col);
+	t_color norm_amb_col = normalise_color(scene->amb.col);
+	t_color norm_light_col = normalise_color(scene->light.col);
+	color = add_vectors(scalar_mply_vector(1 - scene->amb.intens, norm_obj_col), 
+		scalar_mply_vector(scene->amb.intens, norm_amb_col));
+	if (blocked == false)
+	{
+		l_dist = get_magnitude(l_ray.dir);
+		l_ray.dir = get_unit_vector(l_ray.dir);
+		//printf("l_ray dir %.2f, %.2f, %.2f - ", l_ray.dir.e[0], l_ray.dir.e[1], l_ray.dir.e[2]);
+		//printf("from hit_point %.2f, %.2f, %.2f\n", obj->hit_point.e[0], obj->hit_point.e[1], obj->hit_point.e[2]);
+		diffuse_intens = dot_product(l_ray.dir, obj->normal_v);
+		attenuation = 1.0 / (l_dist * l_dist);
+		if (diffuse_intens > 0.0)
+		{
+			diffuse_intens *= attenuation;
+			diffuse_intens = fmin(diffuse_intens, 1.0);
+			color = add_vectors(color, scalar_mply_vector(scene->light.intens * diffuse_intens, norm_light_col));
+				//printf("Ambient Color: %.2f, %.2f, %.2f\n", scene->amb.col.e[0], scene->amb.col.e[1], scene->amb.col.e[2]);
+//printf("Base Color: %.2f, %.2f, %.2f\n", obj->col.e[0], obj->col.e[1], obj->col.e[2]);
+//printf("Ambient intensity: %.2f\n", scene->amb.intens);
+printf("Mixed Color: %.2f, %.2f, %.2f\n", color.e[0], color.e[1], color.e[2]);
+		}
+	
+		/*//debug("inside blocked false\n");
+		//debug("distance to light from hit point: %.2f\n", l_dist);
+		//debug("hit point:  %.2f, %.2f, %.2f, normal vector: %.2f, %.2f, %.2f\n", obj->hit_point.e[0], obj->hit_point.e[1], obj->hit_point.e[2], obj->normal_v.e[0], obj->normal_v.e[1], obj->normal_v.e[2]);
+		diffuse_intes = dot_product(get_unit_vector(l_ray.dir), obj->normal_v);
+		attenuation = 1.0 / (scene->light.atten_a + scene->light.atten_b * l_dist + scene->light.atten_c * l_dist * l_dist);
+		if (diffuse_intes > 0.0)
+		{
+			//debug("diffuse intensity: %f\n", diffuse_intes);
+			color = add_vectors(color, scalar_mply_vector(scene->light.intens * diffuse_intes, scene->light.col));
+		}*/
+	}
+	int r_value = (int)(fmin(color.e[0] * 255.0, 255.0));
+	int g_value = (int)(fmin(color.e[1] * 255.0, 255.0));
+	int b_value = (int)(fmin(color.e[2] * 255.0, 255.0));
+	return create_triple(r_value, g_value, b_value);
+	//return (color);
+}
+
+/*double	diffuse_shading
+{
+	
+}*/
+
+t_vec	assign_normal(t_closest *obj)
 {
 	if (obj->type == SPHERE)
 	{
@@ -59,13 +112,13 @@ void	make_light_ray(t_ray *l_ray, t_scene *scene, t_closest *obj)
 
 	offset = 1e-4;
 	l_ray->orig = add_vectors(obj->hit_point, scalar_mply_vector(offset, obj->normal_v));
+	//l_ray->orig = obj->hit_point;
 	l_ray->dir = vec1_minus_vec2(scene->light.pos, l_ray->orig);
-	l_ray->dir = get_unit_vector(l_ray->dir);
-}*/
+}
 
 /* checks if any objects are in the way of the hit point and the light 
 	- for now only sphere, needs to be expanded to other objects */
-/*int	check_blocking_objects(t_ray *l_ray, t_scene *scene)
+bool	check_blocking_objects(t_ray *l_ray, t_scene *scene, t_closest *obj)
 {
 	t_sphere	*temp;
 	double	t;
@@ -73,14 +126,20 @@ void	make_light_ray(t_ray *l_ray, t_scene *scene, t_closest *obj)
 	temp = scene->sphere;
 	while(temp)
 	{
-		t = find_t_sphere(l_ray, temp);
-		if (t == -1) // no intersection
-			
+		if (obj->id != temp->id)
+		{
+			t = find_t_sphere(l_ray, temp);
+			if (t > 0 && t < get_magnitude(l_ray->dir))
+			{
+				debug("object is blocking light\n");
+				return (true);
+			}
+		}
 		temp = temp->next;
 	}
 	// continue with other objects
-	return (0);
-}*/
+	return (false);
+}
 
 t_color	calculate_background_color(t_scene *scene)
 {

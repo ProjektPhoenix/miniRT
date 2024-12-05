@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:02:42 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/11/18 20:09:46 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/12/05 16:59:58 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	parse_file(char *file, t_scene *scene)
 	init_scene(scene);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		return (perror("Error opening file"), 1);
+		perror_exit("Error opening file");
 	line = get_next_line_new(fd);
 	while (line)
 	{
