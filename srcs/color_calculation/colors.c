@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:12:12 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/12/08 21:39:04 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/12/08 22:11:17 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_color	calculate_obj_color(t_scene *scene, t_closest *obj)
 	t_color norm_light_col = normalise_color(scene->light.col);
 	t_color ambient_col = scalar_mply_vector(scene->amb.intens, norm_amb_col);
 	color = add_vectors(ambient_col, norm_obj_col);
+	//color = add_vectors(scalar_mply_vector(scene->amb.intens, scene->amb.col), obj->col);
 	//debug("color before ligth calc: %.2f, %.2f, %.2f\n", color.e[0], color.e[1], color.e[2]);
 	if (blocked == false)
 	{
@@ -83,7 +84,7 @@ t_color	calculate_obj_color(t_scene *scene, t_closest *obj)
 			//diffuse_intens = 0.0;
 		//else
 			//debug("dot product/diffuse intensity: %f\n", diffuse_intens);
-		diffuse_intens *= attenuation * 100;
+		diffuse_intens *= attenuation * 300;
 		
 		t_color diffuse_light = scalar_mply_vector(scene->light.intens * diffuse_intens, norm_light_col);
 		diffuse_contr = add_vectors(diffuse_light, norm_obj_col);
