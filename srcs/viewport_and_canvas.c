@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 18:08:15 by rpriess           #+#    #+#             */
-/*   Updated: 2024/12/05 16:29:32 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/12/08 21:36:14 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ static t_point	get_ray_dir_from_canvas_pxl(t_minirt *rt, t_pxl pxl)
 	vp_pxl = add_multiple_vectors(3, vp.upperleft, scalar_mply_vector((double)pxl.a + 0.5, vp.delta_w), scalar_mply_vector((double)pxl.b + 0.5, vp.delta_h));
 	if ((pxl.a == 0 && pxl.b == 0) || (pxl.b == rt->img.height && pxl.a == rt->img.width))
 		debug("For canvas pixel (%d, %d), calculated viewport pixel coordinates: (%f, %f, %f)", pxl.a, pxl.b, vp_pxl.e[0], vp_pxl.e[1], vp_pxl.e[2]);
-	ray_dir = vec1_minus_vec2(vp_pxl, rt->scene.camera.pos);
-	// ray_dir = get_unit_vector(vec1_minus_vec2(vp_pxl, rt->scene.camera.pos));
+	// ray_dir = vec1_minus_vec2(vp_pxl, rt->scene.camera.pos);
+	ray_dir = get_unit_vector(vec1_minus_vec2(vp_pxl, rt->scene.camera.pos));
 	return (ray_dir);
 }
 
@@ -173,7 +173,7 @@ void	calculate_rays(t_minirt *rt)
 
 	ray.orig = rt->scene.camera.pos;
 	// hier Test Block
-	//ray.dir = rt->scene.camera.dir;
+	//ray.dir = get_unit_vector(vec1_minus_vec2(create_triple(14,2,0), ray.orig));
 	//pxl_canvas.color = get_ray_color(&ray, &rt->scene);
 	pxl_canvas.a = rt->img.width / 2;
 	pxl_canvas.b = rt->img.height / 2;

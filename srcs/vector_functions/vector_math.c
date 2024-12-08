@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:13:45 by rpriess           #+#    #+#             */
-/*   Updated: 2024/12/05 14:08:17 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/12/08 21:42:18 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 //#include "vector_setup.h"
 #include <math.h>
 #include <stdarg.h>
+#include <stdio.h>
 
 /*
  * Returns the difference vector of two vectors / points.

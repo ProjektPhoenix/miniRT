@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 14:58:46 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/12/05 13:20:20 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/12/08 21:35:10 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,11 @@ void	find_closest(t_ray *ray, t_scene *scene, t_closest *obj)
 			obj->type = SPHERE;
 			if (obj->distance == 0)
 				break;
+			obj->center = temp->center;
 		}
 		temp = temp->next;
 	}
+	
 	//continue with other objects
 }
 
