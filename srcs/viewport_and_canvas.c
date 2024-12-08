@@ -14,6 +14,7 @@
 #include "vector_setup.h"
 #include "vector_math.h"
 #include "scene.h"
+#include <libft.h>
 #include <math.h>
 
 #include "debug.h"
@@ -52,7 +53,7 @@ static t_vec	get_viewport_uvec_h(t_minirt *rt)
 	if (uvec_w.e[1] != 0 && camdir.e[2] != 0)
 	{
 		uvec_h.e[0] = sqrt(1 / (1.0 + pow(uvec_w.e[0], 2)/pow(uvec_w.e[1], 2) + pow(camdir.e[0]/camdir.e[2] - camdir.e[1] * uvec_w.e[0] / (uvec_w.e[1] * camdir.e[2]), 2)));
-		uvec_h.e[1] = -1.0 * uvec_w.e[0] * uvec_h.e[0] / uvec_w.e[1];
+		uvec_h.e[1] = ft_abs(uvec_w.e[0] * uvec_h.e[0] / uvec_w.e[1]);
 		uvec_h.e[2] = -1 * sqrt(1.0 - pow(uvec_h.e[0], 2) - pow(uvec_h.e[1], 2));
 	}
 	else if (camdir.e[2] == 0)
@@ -67,6 +68,10 @@ static t_vec	get_viewport_uvec_h(t_minirt *rt)
 		uvec_h.e[1] = 1.0 / (1.0 + pow(camdir.e[1], 2) / pow(camdir.e[2], 2));
 		uvec_h.e[2] = -1.0 * uvec_h.e[1] * camdir.e[1] / camdir.e[2];
 	}
+	if ((camdir.e[0] > 0 && camdir.e[2] < 0) || (camdir.e[0] > 0 && camdir.e[2] < 0))
+		uvec_h.e[0] = -1 * uvec_h.e[0];
+	if ((camdir.e[1] > 0 && camdir.e[2] < 0) || (camdir.e[1] > 0 && camdir.e[2] < 0))
+		uvec_h.e[1] = -1 * uvec_h.e[1];
 	debug("The viewport unit vector for traversing the height is: (%f,%f,%f)", uvec_h.e[0], uvec_h.e[1], uvec_h.e[2]);
 	return (uvec_h);
 }
@@ -84,11 +89,20 @@ static t_vec	get_viewport_uvec_w(t_scene *scene)
 		uvec_w.e[0] = 1.0;
 		uvec_w.e[1] = 0.0;
 	}
+	else if (scene->camera.dir.e[0] == 0)
+	{
+		uvec_w.e[0] = 0.0;
+		uvec_w.e[1] = 1.0;
+	}
 	else
 	{
-		uvec_w.e[0] = -1 * sqrt(pow(scene->camera.dir.e[1], 2) / (pow(scene->camera.dir.e[0], 2) + pow(scene->camera.dir.e[1], 2)));
+		uvec_w.e[0] = sqrt(pow(scene->camera.dir.e[1], 2) / (pow(scene->camera.dir.e[0], 2) + pow(scene->camera.dir.e[1], 2)));
 		uvec_w.e[1] = sqrt(1.0 - pow(uvec_w.e[0], 2));
 	}
+	if (scene->camera.dir.e[0] < 0)
+		uvec_w.e[1] = -1 * uvec_w.e[1];
+	if (scene->camera.dir.e[1] > 0)
+		uvec_w.e[0] = -1 * uvec_w.e[1];
 	debug("The viewport unit vector for traversing the width is: (%f,%f,%f)", uvec_w.e[0], uvec_w.e[1], uvec_w.e[2]);
 	return (uvec_w);
 }
