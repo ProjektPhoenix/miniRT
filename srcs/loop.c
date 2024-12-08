@@ -69,7 +69,7 @@ int	ft_key_hook(int keycode, t_minirt *rt)
 	// if (keycode == 'r' || keycode == 'R')
 	// 	reset_projection(spine);
 	// minirt_redraw(rt);
-    draw_image(rt);
+    // draw_image(rt);
 	return (0);
 }
 
