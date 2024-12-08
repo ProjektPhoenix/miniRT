@@ -53,7 +53,7 @@ static t_vec	get_viewport_uvec_h(t_minirt *rt)
 	{
 		uvec_h.e[0] = sqrt(1 / (1.0 + pow(uvec_w.e[0], 2)/pow(uvec_w.e[1], 2) + pow(camdir.e[0]/camdir.e[2] - camdir.e[1] * uvec_w.e[0] / (uvec_w.e[1] * camdir.e[2]), 2)));
 		uvec_h.e[1] = -1.0 * uvec_w.e[0] * uvec_h.e[0] / uvec_w.e[1];
-		uvec_h.e[2] = sqrt(1.0 - pow(uvec_h.e[0], 2) - pow(uvec_h.e[1], 2));
+		uvec_h.e[2] = -1 * sqrt(1.0 - pow(uvec_h.e[0], 2) - pow(uvec_h.e[1], 2));
 	}
 	else if (camdir.e[2] == 0)
 	{
@@ -86,7 +86,7 @@ static t_vec	get_viewport_uvec_w(t_scene *scene)
 	}
 	else
 	{
-		uvec_w.e[0] = sqrt(pow(scene->camera.dir.e[1], 2) / (pow(scene->camera.dir.e[0], 2) + pow(scene->camera.dir.e[1], 2)));
+		uvec_w.e[0] = -1 * sqrt(pow(scene->camera.dir.e[1], 2) / (pow(scene->camera.dir.e[0], 2) + pow(scene->camera.dir.e[1], 2)));
 		uvec_w.e[1] = sqrt(1.0 - pow(uvec_w.e[0], 2));
 	}
 	debug("The viewport unit vector for traversing the width is: (%f,%f,%f)", uvec_w.e[0], uvec_w.e[1], uvec_w.e[2]);
