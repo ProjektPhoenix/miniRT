@@ -25,6 +25,7 @@
 #  define BUFFER_SIZE 4
 # endif
 
+double	ft_abs(double j);
 void	ft_bzero(void *s, size_t n);
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
