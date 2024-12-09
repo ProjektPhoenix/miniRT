@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:12:12 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/12/09 19:00:42 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/12/09 19:10:20 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,10 @@ void	add_light(t_ray *l_ray, t_col_mix *mix, t_scene *scene, t_vec norm)
 	l_dist = get_magnitude(l_ray->dir);
 	l_ray->dir = get_unit_vector(l_ray->dir);
 	mix->diff_intens = fmax(dot_product(l_ray->dir, norm), 0.0);
-	mix->attenuation = 1.0 / (l_dist * l_dist);
-	//mix->attenuation = 1.0 / (1.0 + 0.1 * l_dist + 0.01 * l_dist * l_dist);
-	mix->diff_intens *= mix->attenuation * 100;
+	//mix->attenuation = 1.0 / (l_dist * l_dist);
+	//mix->attenuation = exp(-0.1 * l_dist) / (l_dist * l_dist);
+	mix->attenuation = 1.0 / (1.0 + 0.1 * l_dist + 0.01 * l_dist * l_dist);
+	mix->diff_intens *= mix->attenuation * 10;
 	//debug("diff_intens:%.2f\n", mix->diff_intens);
 	diff_light = scalar_mply_vector(scene->light.intens * mix->diff_intens, mix->norm_light);
 	if (!scene->amb.intens)
