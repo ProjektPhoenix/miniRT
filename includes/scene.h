@@ -34,6 +34,19 @@ typedef struct s_closest
 		t_point center;
 } t_closest;
 
+typedef struct s_col_mix
+{
+	t_color final;
+	t_color norm_obj;
+	t_color norm_amb;
+	t_color norm_light;
+	t_color amb_contr;
+	double diff_intens;
+	t_color diff_contr;
+	double attenuation;
+} t_col_mix;
+
+
 /* parsing */
 int	parse_file(char *file, t_scene *scene);
 void	init_scene(t_scene *scene);
@@ -56,9 +69,13 @@ t_color	get_ray_color(t_ray *ray, t_scene *scene);
 void	find_closest(t_ray *ray, t_scene *scene, t_closest *obj);
 t_color	calculate_obj_color(t_scene *scene, t_closest *obj);
 bool	check_blocking_objects(t_ray *l_ray, t_scene *scene, t_closest *obj);
-t_color	calculate_background_color(t_scene *scene);
 void	make_light_ray(t_ray *l_ray, t_scene *scene, t_closest *obj);
 t_vec	assign_normal(t_closest *obj);
+
+/* color calculations */
+t_color	colmix_ambient_object(t_col_mix *mix, t_closest *obj, t_scene *scene);
+void	add_light(t_ray *l_ray, t_col_mix *mix, t_scene *scene, t_vec norm);
+t_color	calculate_background_color(t_scene *scene);
 
 /* just for testing, delete later */
 void	print_file_testing(t_scene *scene);
