@@ -50,6 +50,7 @@ void	draw_image(t_minirt *rt);
 bool	draw_pixel(t_img *img, t_pxl *pxl);
 int		error_return(char *mssg);
 int		error_exit(char *mssg);
+int		perror_exit(char *mssg);
 int		error_exit_status(char *mssg, int status);
 void	free_array(char **str);
 int		ft_key_hook(int keycode, t_minirt *rt);

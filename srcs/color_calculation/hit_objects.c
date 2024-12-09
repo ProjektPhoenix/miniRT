@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_objects.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 14:58:46 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/12/02 19:25:37 by Henriette        ###   ########.fr       */
+/*   Updated: 2024/12/08 21:35:10 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,11 @@ void	find_closest(t_ray *ray, t_scene *scene, t_closest *obj)
 			obj->type = SPHERE;
 			if (obj->distance == 0)
 				break;
+			obj->center = temp->center;
 		}
 		temp = temp->next;
 	}
+	
 	//continue with other objects
 }
 
@@ -94,11 +96,11 @@ double find_t_sphere(t_ray *ray, t_sphere *sphere)
 	discriminant = get_discriminant(ray, sphere, &c, &b);
 	if (discriminant < 0) //no intersection
     		return (-1.0);
-	/*if (c <= 0) //check if point is inside or outside of sphere
+	if (c < 0) //check if point is inside or outside of sphere
 	{
 		debug("POINT IS INSIDE SPHERE");
 		return (0);
-	}*/
+	}
 	if (discriminant == 0) //tangent 
 	{
 		t1 = -b / (2.0 * dot_product(ray->dir, ray->dir));

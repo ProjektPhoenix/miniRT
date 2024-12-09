@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exits.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 17:01:25 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/12/02 19:27:01 by Henriette        ###   ########.fr       */
+/*   Updated: 2024/12/05 18:19:27 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ int	error_return(char *mssg)
 int	error_exit(char *mssg)
 {
 	ft_putstr_fd(mssg, 2);
+	exit(1);
+}
+
+int	perror_exit(char *mssg)
+{
+	perror(mssg);
 	exit(1);
 }
 
@@ -61,12 +67,12 @@ void cleanup_scene_exit(t_scene *scene, char *mssg, int status)
 
 void	cleanup_mlx(t_minirt *rt)
 {
-	#ifdef __LINUX__
+	#ifdef __linux__
 		mlx_loop_end(rt->screen.mlx);
 	#endif
 	mlx_destroy_image(rt->screen.mlx, rt->img.ptr);
 	mlx_destroy_window(rt->screen.mlx, rt->screen.win);
-	#ifdef __LINUX__
+	#ifdef __linux__
 			mlx_destroy_display(rt->screen.mlx);
 	#endif
 }
