@@ -75,8 +75,9 @@ t_vec	assign_normal(t_closest *obj);
 
 /* color calculations */
 t_color	colmix_ambient_object(t_col_mix *mix, t_closest *obj, t_scene *scene);
-void	add_light(t_ray *l_ray, t_col_mix *mix, t_scene *scene, t_vec norm);
+void	add_light(t_ray *l_ray, t_col_mix *mix, t_scene *scene, t_closest *obj);
 t_color	calculate_background_color(t_scene *scene);
+t_color reflection(t_vec *l_ray_dir, t_vec *normal);
 
 /* just for testing, delete later */
 void	print_file_testing(t_scene *scene);

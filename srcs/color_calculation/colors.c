@@ -6,7 +6,7 @@
 /*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:12:12 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/12/12 20:52:30 by Henriette        ###   ########.fr       */
+/*   Updated: 2024/12/12 22:05:35 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,25 @@ t_color	calculate_obj_color(t_scene *scene, t_closest *obj)
 	blocked = check_blocking_objects(&l_ray, scene, obj);
 	mix.final = colmix_ambient_object(&mix, obj, scene);
 	if (!blocked)
-		add_light(&l_ray, &mix, scene, obj->normal_v);
+		add_light(&l_ray, &mix, scene, obj);
 	mix.final.e[0] = fmin(mix.final.e[0] * 255.0, 255.0);
 	mix.final.e[1] = fmin(mix.final.e[1] * 255.0, 255.0);
 	mix.final.e[2] = fmin(mix.final.e[2] * 255.0, 255.0);
 	return (mix.final);
 }
 
-void	add_light(t_ray *l_ray, t_col_mix *mix, t_scene *scene, t_vec norm)
+void	add_light(t_ray *l_ray, t_col_mix *mix, t_scene *scene, t_closest *obj)
 {
 	t_color diff_light;
+	/*t_vec reflect_dir;
+	double spec_intens;
+	t_vec view_dir;
+	t_color spec_light;*/
 
-	mix->diff_intens = fmax(dot_product(l_ray->dir, norm), 0.0);
+	mix->diff_intens = fmax(dot_product(l_ray->dir, obj->normal_v), 0.0);
 	//debug("dot product: %f - distance light: %f\n", mix->diff_intens, l_ray->dist);
 	//mix->attenuation = 1.0 / (l_ray->dist * l_ray->dist);
-	//mix->attenuation = exp(-0.1 * l_dist) / (l_dist * l_dist);
+	//mix->attenuation = exp(-0.1 * l_ray->dist) / (l_ray->dist * l_ray->dist);
 	mix->attenuation = 1.0 / (1.0 + 0.1 * l_ray->dist + 0.01 * l_ray->dist * l_ray->dist);
 	mix->diff_intens *= mix->attenuation * 10;
 	//debug("diff_intens:%.2f\n", mix->diff_intens);
@@ -75,6 +79,25 @@ void	add_light(t_ray *l_ray, t_col_mix *mix, t_scene *scene, t_vec norm)
 	else
 		mix->diff_contr = add_vectors(diff_light, scalar_mply_vector(mix->diff_intens * scene->light.intens, mix->final));
 	mix->final = add_vectors(mix->final, mix->diff_contr);
+	/*reflect_dir = reflection(&l_ray->dir, &obj->normal_v);
+	view_dir = vec1_minus_vec2(scene->camera.dir, obj->hit_point);
+	spec_intens = fmax(dot_product(get_unit_vector(reflect_dir), get_unit_vector(view_dir)), 0.0);
+	spec_intens = pow(spec_intens, 160);
+	spec_intens /= (l_ray->dist * l_ray->dist);
+	spec_light = scalar_mply_vector(scene->light.intens * spec_intens, scene->light.col);
+	mix->final = add_vectors(mix->final, scalar_mply_vector(0.4, spec_light));*/
+}
+
+t_color reflection(t_vec *l_ray_dir, t_vec *normal)
+{
+	t_color	reflect;
+	double dot;
+
+	dot = dot_product(*l_ray_dir, *normal);
+	reflect.e[0] = l_ray_dir->e[0] - 2 * dot * normal->e[0];
+	reflect.e[1] = l_ray_dir->e[1] - 2 * dot * normal->e[1];
+	reflect.e[2] = l_ray_dir->e[2] - 2 * dot * normal->e[2];
+	return (reflect);
 }
 
 t_color	colmix_ambient_object(t_col_mix *mix, t_closest *obj, t_scene *scene)
