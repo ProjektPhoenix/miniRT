@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:12:12 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/12/09 19:10:20 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/12/12 20:52:30 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,11 @@ t_color	calculate_obj_color(t_scene *scene, t_closest *obj)
 	t_ray	l_ray;
 	bool	blocked;
 
-	obj->normal_v = assign_normal(obj);
+	if (obj->type != PLANE)
+		obj->normal_v = assign_normal(obj);
 	make_light_ray(&l_ray, scene, obj);
+	l_ray.dist = get_magnitude(l_ray.dir);
+	l_ray.dir = get_unit_vector(l_ray.dir);
 	blocked = check_blocking_objects(&l_ray, scene, obj);
 	mix.final = colmix_ambient_object(&mix, obj, scene);
 	if (!blocked)
@@ -57,15 +60,13 @@ t_color	calculate_obj_color(t_scene *scene, t_closest *obj)
 
 void	add_light(t_ray *l_ray, t_col_mix *mix, t_scene *scene, t_vec norm)
 {
-	double l_dist;
 	t_color diff_light;
 
-	l_dist = get_magnitude(l_ray->dir);
-	l_ray->dir = get_unit_vector(l_ray->dir);
 	mix->diff_intens = fmax(dot_product(l_ray->dir, norm), 0.0);
-	//mix->attenuation = 1.0 / (l_dist * l_dist);
+	//debug("dot product: %f - distance light: %f\n", mix->diff_intens, l_ray->dist);
+	//mix->attenuation = 1.0 / (l_ray->dist * l_ray->dist);
 	//mix->attenuation = exp(-0.1 * l_dist) / (l_dist * l_dist);
-	mix->attenuation = 1.0 / (1.0 + 0.1 * l_dist + 0.01 * l_dist * l_dist);
+	mix->attenuation = 1.0 / (1.0 + 0.1 * l_ray->dist + 0.01 * l_ray->dist * l_ray->dist);
 	mix->diff_intens *= mix->attenuation * 10;
 	//debug("diff_intens:%.2f\n", mix->diff_intens);
 	diff_light = scalar_mply_vector(scene->light.intens * mix->diff_intens, mix->norm_light);
@@ -119,23 +120,34 @@ void	make_light_ray(t_ray *l_ray, t_scene *scene, t_closest *obj)
 	- for now only sphere, needs to be expanded to other objects */
 bool	check_blocking_objects(t_ray *l_ray, t_scene *scene, t_closest *obj)
 {
-	t_sphere	*temp;
+	t_sphere	*temp_s;
 	double	t;
-
+	t_plane *temp_p;
 	
-	temp = scene->sphere;
-	while(temp)
+	temp_s = scene->sphere;
+	while(temp_s)
 	{
-		if (obj->id != temp->id)
+		if (obj->id != temp_s->id)
 		{
-			t = find_t_sphere(l_ray, temp); //unit vector uebergeben 
-			if (t > 0 && t < get_magnitude(l_ray->dir))
+			t = find_t_sphere(l_ray, temp_s); //unit vector uebergeben 
+			if (t > 0 && t < l_ray->dist)
 			{
-				debug("object is blocking light\n");
+				debug("sphere is blocking light\n");
 				return (true);
 			}
 		}
-		temp = temp->next;
+		temp_s = temp_s->next;
+	}
+	temp_p = scene->plane;
+	while (temp_p)
+	{
+		if (obj->id != temp_p->id)
+		{
+			t = find_t_plane(l_ray, temp_p);
+			if (t > 0 && t < l_ray->dist)
+				return (true);
+		}
+		temp_p = temp_p->next;
 	}
 	// continue with other objects
 	return (false);

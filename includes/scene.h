@@ -51,6 +51,7 @@ typedef struct s_col_mix
 int	parse_file(char *file, t_scene *scene);
 void	init_scene(t_scene *scene);
 void	process_line(char *line, t_scene *scene);
+void	set_triple_from_array(t_vec *triple, char **coord, t_scene *scene);
 //int	count_lines(char *file);
 int	is_valid(char *str, t_scene *scene);
 void	process_a(char **array, t_scene *scene);

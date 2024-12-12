@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exits.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 17:01:25 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/12/05 18:19:27 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/12/12 20:26:30 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void cleanup_scene_exit(t_scene *scene, char *mssg, int status)
 void	cleanup_mlx(t_minirt *rt)
 {
 	#ifdef __linux__
-		mlx_loop_end(rt->screen.mlx);
+		mlx_l0oop_end(rt->screen.mlx);
 	#endif
 	mlx_destroy_image(rt->screen.mlx, rt->img.ptr);
 	mlx_destroy_window(rt->screen.mlx, rt->screen.win);
