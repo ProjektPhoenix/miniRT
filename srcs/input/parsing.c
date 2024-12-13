@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:02:42 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/12/12 21:12:02 by Henriette        ###   ########.fr       */
+/*   Updated: 2024/12/13 18:14:13 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int	parse_file(char *file, t_scene *scene)
 		line = get_next_line_new(fd);
 	}
 	close(fd);
-	/* add check for enough elements to make plausible scene */
+	if (make_error_check(scene))
+		cleanup_scene_exit(scene, NULL, 1);
 	print_file_testing(scene);
 	return (0);
 }
@@ -51,7 +52,7 @@ void	process_line(char *line, t_scene *scene)
 	{
 		free(line);
 		line = NULL;
-		error_exit("Error\nft_split error\n");
+		error_exit("Error: ft_split fail for line splitting\n");
 	}
 	is_valid(line_elmts[0], scene);
 	if (!ft_strncmp(line_elmts[0], "A", 2))
@@ -67,6 +68,67 @@ void	process_line(char *line, t_scene *scene)
 	else if (!ft_strncmp(line_elmts[0], "cy", 3))
 		process_cy(line_elmts, scene);
 	free_array(line_elmts);
+}
+static int	check_color(t_color col)
+{
+	if (col.e[0] < 0.0 || col.e[0] > 255.0 || col.e[1] < 0.0 
+		|| col.e[1] > 255.0 || col.e[2] < 0.0 || col.e[2] > 255.0)
+		return (printf("Error\nColor values need to be between 0 an 255\n"), 1);
+	return (0);
+}
+
+static int	check_vec(t_vec vec)
+{
+	if (vec.e[0] == 0 && vec.e[1] == 0 && vec.e[2] == 0)
+		return (printf("Error\nVectors cannot be 0,0,0\n"), 1);
+	return (0);
+}
+
+static int	check_objects(t_scene *scene)
+{
+	t_sphere *tmp_s;
+	t_plane *tmp_p;
+	t_cylinder *tmp_c;
+
+	tmp_s = scene->sphere;
+	tmp_p = scene->plane;
+	tmp_c = scene->cyl;
+	while(tmp_s)
+	{
+		if (check_color(tmp_s->col) || tmp_s->diameter == 0)
+			return (printf("Please verify details of sphere id %d\n", tmp_s->id), 1);
+		tmp_s = tmp_s->next;
+	}
+	while(tmp_p)
+	{
+		if (check_color(tmp_p->col) || check_vec(tmp_p->ortho))
+			return (printf("Please verify details of plane id %d\n", tmp_p->id), 1);
+		tmp_p = tmp_p->next;
+	}
+	while(tmp_c)
+	{
+		if (check_color(tmp_c->col) || check_vec(tmp_c->dir) || tmp_c->diameter == 0)
+			return (printf("Please verify details of cylinder id %d\n", tmp_c->id), 1);
+		tmp_c = tmp_c->next;
+	}
+	return (0);
+}
+
+int	make_error_check(t_scene *scene)
+{
+	if (scene->camera.fov > 179.0)
+		return (printf("Error\nCamera FOV has to be below 180\n"), 1);
+	if (scene->camera.dir.e[0] == 0 && scene->camera.dir.e[1] == 0 && scene->camera.dir.e[2] == 0)
+		return (printf("Error\nCamera direction cannot be 0,0,0\n"), 1);
+	if (scene->amb.intens > 1 || scene->amb.intens < 0)
+		return (printf("Error\nAmbient intensity needs to be between 0 and 1\n"), 1);
+	if (scene->light.intens > 1 || scene->light.intens < 0)
+		return (printf("Error\nLight intensity needs to be between 0 and 1\n"), 1);
+	if (check_color(scene->amb.col) || check_color(scene->light.col))
+		return (1);
+	if (check_objects(scene))
+		return (1);
+	return (0);	
 }
 
 /* transfers the input of a line starting with 'A' (ambient light) into the ambl struct */

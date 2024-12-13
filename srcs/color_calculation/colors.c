@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:12:12 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/12/12 22:05:35 by Henriette        ###   ########.fr       */
+/*   Updated: 2024/12/13 17:54:44 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ t_color	calculate_obj_color(t_scene *scene, t_closest *obj)
 void	add_light(t_ray *l_ray, t_col_mix *mix, t_scene *scene, t_closest *obj)
 {
 	t_color diff_light;
+	//double att_factor;
 	/*t_vec reflect_dir;
 	double spec_intens;
 	t_vec view_dir;
@@ -69,10 +70,12 @@ void	add_light(t_ray *l_ray, t_col_mix *mix, t_scene *scene, t_closest *obj)
 	mix->diff_intens = fmax(dot_product(l_ray->dir, obj->normal_v), 0.0);
 	//debug("dot product: %f - distance light: %f\n", mix->diff_intens, l_ray->dist);
 	//mix->attenuation = 1.0 / (l_ray->dist * l_ray->dist);
-	//mix->attenuation = exp(-0.1 * l_ray->dist) / (l_ray->dist * l_ray->dist);
-	mix->attenuation = 1.0 / (1.0 + 0.1 * l_ray->dist + 0.01 * l_ray->dist * l_ray->dist);
-	mix->diff_intens *= mix->attenuation * 10;
+	//mix->attenuation = exp(-0.1 * l_ray->dist);
+	//mix->attenuation = 1.0 / (1.0 + 0.1 * l_ray->dist + 0.01 * l_ray->dist * l_ray->dist);
+	//att_factor = 150 / (l_ray->dist + 1);
+	//mix->diff_intens *= mix->attenuation * 10;
 	//debug("diff_intens:%.2f\n", mix->diff_intens);
+	//debug("light distance:%.2f\n", l_ray->dist);
 	diff_light = scalar_mply_vector(scene->light.intens * mix->diff_intens, mix->norm_light);
 	if (!scene->amb.intens)
 		mix->diff_contr = add_vectors(diff_light, scalar_mply_vector(mix->diff_intens * scene->light.intens, mix->norm_obj));
@@ -80,12 +83,13 @@ void	add_light(t_ray *l_ray, t_col_mix *mix, t_scene *scene, t_closest *obj)
 		mix->diff_contr = add_vectors(diff_light, scalar_mply_vector(mix->diff_intens * scene->light.intens, mix->final));
 	mix->final = add_vectors(mix->final, mix->diff_contr);
 	/*reflect_dir = reflection(&l_ray->dir, &obj->normal_v);
-	view_dir = vec1_minus_vec2(scene->camera.dir, obj->hit_point);
-	spec_intens = fmax(dot_product(get_unit_vector(reflect_dir), get_unit_vector(view_dir)), 0.0);
+	view_dir = vec1_minus_vec2(get_unit_vector(scene->camera.dir), obj->hit_point);
+	spec_intens = fmax(dot_product(reflect_dir, get_unit_vector(view_dir)), 0.0);
 	spec_intens = pow(spec_intens, 160);
 	spec_intens /= (l_ray->dist * l_ray->dist);
-	spec_light = scalar_mply_vector(scene->light.intens * spec_intens, scene->light.col);
-	mix->final = add_vectors(mix->final, scalar_mply_vector(0.4, spec_light));*/
+	//spec_intens /= (1.0 + 0.1 * l_ray->dist + 0.01 * l_ray->dist * l_ray->dist);
+	spec_light = scalar_mply_vector(scene->light.intens * spec_intens, mix->norm_light);
+	mix->final = add_vectors(mix->final, scalar_mply_vector(0.3, spec_light));*/
 }
 
 t_color reflection(t_vec *l_ray_dir, t_vec *normal)
@@ -94,10 +98,14 @@ t_color reflection(t_vec *l_ray_dir, t_vec *normal)
 	double dot;
 
 	dot = dot_product(*l_ray_dir, *normal);
+	//printf("l_ray_dir: %.2f, %.2f, %.2f - norm vec: %.2f, %.2f, %.2f - dot: %.2f\n",
+		//l_ray_dir->e[0], l_ray_dir->e[1], l_ray_dir->e[2], normal->e[0], normal->e[1], normal->e[2], dot);
 	reflect.e[0] = l_ray_dir->e[0] - 2 * dot * normal->e[0];
 	reflect.e[1] = l_ray_dir->e[1] - 2 * dot * normal->e[1];
 	reflect.e[2] = l_ray_dir->e[2] - 2 * dot * normal->e[2];
-	return (reflect);
+	//printf("reflect vec: %.2f, %.2f, %.2f\n",
+		//reflect.e[0], reflect.e[1], reflect.e[2]);
+	return (get_unit_vector(reflect));
 }
 
 t_color	colmix_ambient_object(t_col_mix *mix, t_closest *obj, t_scene *scene)
@@ -155,7 +163,7 @@ bool	check_blocking_objects(t_ray *l_ray, t_scene *scene, t_closest *obj)
 			t = find_t_sphere(l_ray, temp_s); //unit vector uebergeben 
 			if (t > 0 && t < l_ray->dist)
 			{
-				debug("sphere is blocking light\n");
+				//debug("sphere is blocking light\n");
 				return (true);
 			}
 		}

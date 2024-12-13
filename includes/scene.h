@@ -64,6 +64,7 @@ t_sphere	*add_sphere_node(t_scene *scene);
 t_cylinder	*add_cylinder_node(t_scene *scene);
 t_plane	*add_plane_node(t_scene *scene);
 void	check_alloc(t_scene *scene, char **coord, char **array, char *mssg);
+int	make_error_check(t_scene *scene);
 
 /* scene rendering */
 t_color	get_ray_color(t_ray *ray, t_scene *scene);

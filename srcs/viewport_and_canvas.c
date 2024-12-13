@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   viewport_and_canvas.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 18:08:15 by rpriess           #+#    #+#             */
-/*   Updated: 2024/12/12 20:32:34 by Henriette        ###   ########.fr       */
+/*   Updated: 2024/12/13 14:10:20 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ void	calculate_rays(t_minirt *rt)
 
 	ray.orig = rt->scene.camera.pos;
 	// hier Test Block
-	//ray.dir = get_unit_vector(vec1_minus_vec2(create_triple(-2,14,0), ray.orig));
+	//ray.dir = get_unit_vector(vec1_minus_vec2(create_triple(14,2,0), ray.orig));
 	//pxl_canvas.color = get_ray_color(&ray, &rt->scene);
 	pxl_canvas.a = rt->img.width / 2;
 	pxl_canvas.b = rt->img.height / 2;
