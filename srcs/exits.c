@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 17:01:25 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/12/05 18:19:27 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:59:22 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int	perror_exit(char *mssg)
 
 int	error_exit_status(char *mssg, int status)
 {
-	ft_putstr_fd(mssg, 2);
+	if (mssg)
+		ft_putstr_fd(mssg, 2);
 	exit(status);
 }
 

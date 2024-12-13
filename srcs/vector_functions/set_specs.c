@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_specs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:35:44 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/12/08 20:07:27 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/12/12 21:49:24 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 #include "vector_math.h"
 #include "vector_setup.h"
 
-void	set_triple_from_array(t_vec *triple, char **coord)
+void	set_triple_from_array(t_vec *triple, char **coord, t_scene *scene)
 {
+	if (!coord[0] || !coord[1] || !coord[2])
+		cleanup_scene_exit(scene, "Error: Please verify format for triplets, must be ints or floats without spaces\n", 1);
 	triple->e[0] = ft_atod(coord[0]);
 	triple->e[1] = ft_atod(coord[1]);
 	triple->e[2] = ft_atod(coord[2]);

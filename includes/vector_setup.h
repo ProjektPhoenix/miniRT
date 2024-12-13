@@ -10,6 +10,7 @@ typedef struct s_ray
 {
 	t_point	orig;
 	t_vec	dir;
+	double	dist;
 }	t_ray;
 
 typedef struct s_ambl
@@ -62,11 +63,11 @@ typedef struct s_cylinder
 } t_cylinder;
 
 /* set vectors and triples */
-void	set_triple_from_array(t_vec *triple, char **coord);
 t_point	create_triple(double x, double y, double z);
 t_point	get_hit_point(t_ray *ray, double t);
 
 double find_t_sphere(t_ray *ray, t_sphere *sphere);
 double	get_discriminant(t_ray *ray, t_sphere *sphere, double *c, double *a);
+double find_t_plane(t_ray *ray, t_plane *plane);
 
 #endif

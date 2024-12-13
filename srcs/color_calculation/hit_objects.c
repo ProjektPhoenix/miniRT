@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_objects.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 14:58:46 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/12/08 21:35:10 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/12/12 20:52:08 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,29 +56,70 @@ t_color	get_ray_color(t_ray *ray, t_scene *scene)
 
 void	find_closest(t_ray *ray, t_scene *scene, t_closest *obj)
 {
-	t_sphere	*temp;
+	t_sphere	*temp_s;
+	t_plane	*temp_p;
 	double	t;
 
-	temp = scene->sphere;
-	while(temp)
+	temp_s = scene->sphere;
+	while(temp_s)
 	{
-		t = find_t_sphere(ray, temp); // find t_sphere returns negative value if no hit point or hit point behind camera
+		t = find_t_sphere(ray, temp_s); // find t_sphere returns negative value if no hit point or hit point behind camera
 		//debug("t: %.2f\n", t);
 		if (t >= 0 && t < obj->distance)
 		{
 			obj->distance = t;
-			obj->id = temp->id;
-			obj->col = temp->col;
-			obj->type = SPHERE;
 			if (obj->distance == 0)
 				break;
-			obj->center = temp->center;
+			obj->id = temp_s->id;
+			//debug("object id: %d sphere id: %d\n", obj->id, temp_s->id);
+			obj->col = temp_s->col;
+			obj->type = SPHERE;
+			obj->center = temp_s->center;
 		}
-		temp = temp->next;
+		temp_s = temp_s->next;
 	}
-	
+	temp_p = scene->plane;
+	while (temp_p)
+	{
+		t = find_t_plane(ray, temp_p);
+		//if (t != INFINITY)
+			//debug("t: %.2f\n", t);
+		if (t >= 0 && t < obj->distance)
+		{
+			obj->distance = t;
+			if (obj->distance == 0)
+				break;
+			obj->id = temp_p->id;
+			obj->col = temp_p->col;
+			obj->type = PLANE;
+			obj->normal_v = temp_p->ortho;
+		}
+		temp_p = temp_p->next;
+	}
 	//continue with other objects
 }
+
+double find_t_plane(t_ray *ray, t_plane *plane)
+{
+	t_vec norm_v;
+	double d; // signed distance from world origin 0 ,0, 0 to plane 
+	double denominator;
+	double t;
+
+	norm_v = get_unit_vector(plane->ortho);
+	//debug("norm vec unit : %f, %f, %f\n", norm_v.e[0], norm_v.e[1], norm_v.e[2]);
+	denominator = dot_product(norm_v, ray->dir);
+	if (fabs(denominator) < 1e-6) // if denominator is 0: both vectors are parallel, so no intersection -  taking into account float point precision margin 
+	{
+		//debug("denom is 0\n");
+		return (INFINITY);
+	}
+	d = -1 * dot_product(norm_v, plane->pos);
+	//debug("d is %f\n", d);
+	t = -1 * ((dot_product(norm_v, ray->orig) + d) / denominator);
+	return (t);
+}
+
 
 /* takes as input a ray and a sphere, returns -1 if no intersection has been found 
 or a double t which is th position of intersection on the ray 
@@ -124,11 +165,7 @@ double	get_discriminant(t_ray *ray, t_sphere *sphere, double *c, double *b)
 
 	orig_to_csph = vec1_minus_vec2(ray->orig, sphere->center);
 	a = dot_product(ray->dir, ray->dir);
-	//debug("dot product ray dir orig to csph: %.2f\n", dot_product(ray->dir, orig_to_csph));
 	*b = 2.0 * dot_product(ray->dir, orig_to_csph);
-	//debug("orig_to_csph: %.2f, %.2f, %.2f\n", orig_to_csph.e[0], orig_to_csph.e[1], orig_to_csph.e[2]);
-	//debug("ray direction: %.2f, %.2f, %.2f\n", ray->dir.e[0], ray->dir.e[1], ray->dir.e[2]);
-	//debug("a: %.2f, b: %.2f, c: %.2f\n", a, *b, *c);
 	radius = sphere->diameter / 2.0;
 	*c = dot_product(orig_to_csph, orig_to_csph) - (radius * radius);
 	result = ((*b) * (*b)) - (4.0 * a * (*c));

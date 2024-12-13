@@ -51,6 +51,7 @@ typedef struct s_col_mix
 int	parse_file(char *file, t_scene *scene);
 void	init_scene(t_scene *scene);
 void	process_line(char *line, t_scene *scene);
+void	set_triple_from_array(t_vec *triple, char **coord, t_scene *scene);
 //int	count_lines(char *file);
 int	is_valid(char *str, t_scene *scene);
 void	process_a(char **array, t_scene *scene);
@@ -63,6 +64,7 @@ t_sphere	*add_sphere_node(t_scene *scene);
 t_cylinder	*add_cylinder_node(t_scene *scene);
 t_plane	*add_plane_node(t_scene *scene);
 void	check_alloc(t_scene *scene, char **coord, char **array, char *mssg);
+int	make_error_check(t_scene *scene);
 
 /* scene rendering */
 t_color	get_ray_color(t_ray *ray, t_scene *scene);
@@ -74,8 +76,9 @@ t_vec	assign_normal(t_closest *obj);
 
 /* color calculations */
 t_color	colmix_ambient_object(t_col_mix *mix, t_closest *obj, t_scene *scene);
-void	add_light(t_ray *l_ray, t_col_mix *mix, t_scene *scene, t_vec norm);
+void	add_light(t_ray *l_ray, t_col_mix *mix, t_scene *scene, t_closest *obj);
 t_color	calculate_background_color(t_scene *scene);
+t_color reflection(t_vec *l_ray_dir, t_vec *normal);
 
 /* just for testing, delete later */
 void	print_file_testing(t_scene *scene);
