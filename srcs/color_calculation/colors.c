@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:12:12 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/12/13 17:54:44 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2024/12/18 21:05:44 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,16 @@
 #include "vector_setup.h"
 #include "vector_math.h"
 #include "debug.h"
+
+static t_color multiply_vecs(t_color col1, t_color col2)
+{
+	t_color col;
+
+	col.e[0] = col1.e[0] * col2.e[0];
+	col.e[1] = col1.e[1] * col2.e[1];
+	col.e[2] = col1.e[2] * col2.e[2];
+	return (col);
+}
 
 /*static t_color	debug_norm_vecs(t_closest *obj)
 {
@@ -48,10 +58,28 @@ t_color	calculate_obj_color(t_scene *scene, t_closest *obj)
 	make_light_ray(&l_ray, scene, obj);
 	l_ray.dist = get_magnitude(l_ray.dir);
 	l_ray.dir = get_unit_vector(l_ray.dir);
+	mix.norm_obj = normalise_color(obj->col);
+	mix.norm_amb = normalise_color(scene->amb.col);
+	mix.norm_light = normalise_color(scene->light.col);
+	t_color amb_contr = scalar_mply_vector(scene->amb.intens, mix.norm_obj);
+	mix.final = multiply_vecs(amb_contr, mix.norm_amb);
+	//mix.final = scalar_mply_vector(0.8, mix.final);
 	blocked = check_blocking_objects(&l_ray, scene, obj);
-	mix.final = colmix_ambient_object(&mix, obj, scene);
 	if (!blocked)
-		add_light(&l_ray, &mix, scene, obj);
+	{
+		mix.diff_intens = fmax(dot_product(l_ray.dir, obj->normal_v), 0.0);
+		t_color diff = scalar_mply_vector(mix.diff_intens * scene->light.intens, mix.norm_obj);
+		mix.final = add_vectors(mix.final, diff);
+	t_vec reflect_dir = reflection(&l_ray.dir, &obj->normal_v);
+	t_vec view_dir = vec1_minus_vec2(get_unit_vector(scene->camera.pos), obj->hit_point);
+	double 	spec_intens = fmax(dot_product(reflect_dir, get_unit_vector(view_dir)), 0.0);
+	spec_intens = pow(spec_intens, 160);
+	t_color spec = scalar_mply_vector(spec_intens * scene->light.intens, mix.norm_light);
+	mix.final = add_vectors(mix.final, spec);
+	}
+	/*mix.final = colmix_ambient_object(&mix, obj, scene);
+	if (!blocked)
+		add_light(&l_ray, &mix, scene, obj);*/
 	mix.final.e[0] = fmin(mix.final.e[0] * 255.0, 255.0);
 	mix.final.e[1] = fmin(mix.final.e[1] * 255.0, 255.0);
 	mix.final.e[2] = fmin(mix.final.e[2] * 255.0, 255.0);
@@ -100,9 +128,9 @@ t_color reflection(t_vec *l_ray_dir, t_vec *normal)
 	dot = dot_product(*l_ray_dir, *normal);
 	//printf("l_ray_dir: %.2f, %.2f, %.2f - norm vec: %.2f, %.2f, %.2f - dot: %.2f\n",
 		//l_ray_dir->e[0], l_ray_dir->e[1], l_ray_dir->e[2], normal->e[0], normal->e[1], normal->e[2], dot);
-	reflect.e[0] = l_ray_dir->e[0] - 2 * dot * normal->e[0];
-	reflect.e[1] = l_ray_dir->e[1] - 2 * dot * normal->e[1];
-	reflect.e[2] = l_ray_dir->e[2] - 2 * dot * normal->e[2];
+	reflect.e[0] = 2 * dot * normal->e[0] - l_ray_dir->e[0];
+	reflect.e[1] = 2 * dot * normal->e[1] - l_ray_dir->e[1];
+	reflect.e[2] = 2 * dot * normal->e[2] - l_ray_dir->e[2];
 	//printf("reflect vec: %.2f, %.2f, %.2f\n",
 		//reflect.e[0], reflect.e[1], reflect.e[2]);
 	return (get_unit_vector(reflect));
@@ -134,6 +162,7 @@ t_vec	assign_normal(t_closest *obj)
 	{
 		return (get_normal_v_sph(obj->hit_point, obj->center));
 	}
+	
 	return (create_triple(0, 0, 0)); // this just placeholder until other shapes are added
 }
 
