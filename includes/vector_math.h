@@ -17,6 +17,12 @@ typedef struct	s_vec {
 	double e[3];
 }	t_vec;
 
+typedef struct s_matrix3x3 {
+	t_vec	v1;
+	t_vec	v2;
+	t_vec	v3;
+}	t_matrix3x3;
+
 t_vec	add_vectors(t_vec vector1, t_vec vector2);
 t_vec	add_multiple_vectors(int num_vectors, ...);
 t_vec	cross_product(t_vec vec_1, t_vec vec_2);
