@@ -60,7 +60,18 @@ typedef struct s_cylinder
 	t_color col;
 	int	id;
 	struct s_cylinder	*next;
-} t_cylinder;
+}	t_cylinder;
+
+typedef struct s_cyl_helper
+{
+	t_vec	cyl_dir_unit;
+	t_point	cyl_base;
+	t_vec	orig_to_base;
+	t_vec	ray_dir_unit;
+	t_vec	cross_ray_cyl;
+	double	radius;
+	double	discriminant;
+}	t_cyl_helper;
 
 /* set vectors and triples */
 t_point	create_triple(double x, double y, double z);
