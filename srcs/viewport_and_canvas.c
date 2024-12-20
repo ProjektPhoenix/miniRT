@@ -187,11 +187,11 @@ void	calculate_rays(t_minirt *rt)
 
 	ray.orig = rt->scene.camera.pos;
 	// hier Test Block
-	//ray.dir = get_unit_vector(vec1_minus_vec2(create_triple(14,2,0), ray.orig));
-	//pxl_canvas.color = get_ray_color(&ray, &rt->scene);
+	// ray.dir = get_unit_vector(vec1_minus_vec2(create_triple(15,15,0), ray.orig));
+	// pxl_canvas.color = get_ray_color(&ray, &rt->scene);
 	pxl_canvas.a = rt->img.width / 2;
 	pxl_canvas.b = rt->img.height / 2;
-	//draw_pixel(&(rt->img), &pxl_canvas); 
+	// draw_pixel(&(rt->img), &pxl_canvas); 
 	// bis hier
 	ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
 	debug("\nCalculated central ray:\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)", ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);

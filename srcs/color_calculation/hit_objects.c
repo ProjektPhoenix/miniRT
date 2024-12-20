@@ -33,19 +33,19 @@ t_color	get_ray_color(t_ray *ray, t_scene *scene)
 	obj.hit_point = create_triple(0, 0, 0);
 	obj.col = create_triple(0, 0, 0);
 	find_closest(ray, scene, &obj); // find the closest intersection
-	//debug("object distance: %.2f\n", obj.distance);
+	// debug("object distance: %.2f\n", obj.distance);
 	if (obj.distance == 0)
 	{
-		//debug("obj.distance = 0\n");
+		// debug("obj.distance = 0\n");
 		return (create_triple(0, 0, 0)); //return black
 	} 
 	else if (obj.distance != INFINITY) // if distance has been updated, meaning object has been hit
 	{
 		//debug("object has been hit\n");
 		if (obj.type == SPHERE)
-			color = create_triple(255,0, 0);
+			color = calculate_obj_color(scene, &obj);
 		else if (obj.type == PLANE)
-			color = create_triple(0,255, 0);
+			color = calculate_obj_color(scene, &obj);
 		else if (obj.type == CYL)
 			color = create_triple(0,0,255);
 		else
@@ -117,7 +117,7 @@ void	find_closest(t_ray *ray, t_scene *scene, t_closest *obj)
 			//debug("object id: %d sphere id: %d\n", obj->id, temp_s->id);
 			obj->col = temp_c->col;
 			obj->type = CYL;
-			obj->center = temp_c->center;
+			// obj->normal_v = 
 		}
 		temp_c = temp_c->next;
 	}

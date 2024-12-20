@@ -51,27 +51,32 @@ typedef struct s_sphere
 	struct s_sphere	*next;
 }	t_sphere;
 
-typedef struct s_cylinder
-{
-	t_point center;
-	t_vec dir;
-	double diameter;
-	double height;
-	t_color col;
-	int	id;
-	struct s_cylinder	*next;
-}	t_cylinder;
-
 typedef struct s_cyl_helper
 {
 	t_vec	cyl_dir_unit;
 	t_point	cyl_base;
+	t_point	cyl_top;
+	t_point	cam_pos;
 	t_vec	orig_to_base;
+	t_vec	orig_to_top;
 	t_vec	ray_dir_unit;
 	t_vec	cross_ray_cyl;
+	t_vec	normal_v;
 	double	radius;
 	double	discriminant;
 }	t_cyl_helper;
+
+typedef struct s_cylinder
+{
+	t_point				center;
+	t_vec				dir;
+	double				diameter;
+	double				height;
+	t_color				col;
+	int					id;
+	t_cyl_helper		c;
+	struct s_cylinder	*next;
+}	t_cylinder;
 
 /* set vectors and triples */
 t_point	create_triple(double x, double y, double z);

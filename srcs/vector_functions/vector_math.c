@@ -123,6 +123,14 @@ t_vec get_normal_v_sph(t_vec hit_p, t_vec center)
 	return (get_unit_vector(normal));
 }
 
+// t_vec get_normal_v_cyl(t_vec hit_p, t_vec center)
+// {
+// 	t_vec	normal;
+
+// 	normal = vec1_minus_vec2(hit_p, center);
+// 	return (get_unit_vector(normal));
+// }
+
 /*
  * Returns the dot product of a two vectors.
  * Geometrically the dot product describes the relation of lengths
@@ -146,7 +154,7 @@ t_vec	cross_product(t_vec vec_1, t_vec vec_2)
 	t_vec	new_vec;
 
 	new_vec.e[0] = vec_1.e[1] * vec_2.e[2] - vec_1.e[2] * vec_2.e[1];
-	new_vec.e[1] = vec_1.e[0] * vec_2.e[2] - vec_1.e[2] * vec_2.e[0];
+	new_vec.e[1] = vec_1.e[2] * vec_2.e[0] - vec_1.e[0] * vec_2.e[2];
 	new_vec.e[2] = vec_1.e[0] * vec_2.e[1] - vec_1.e[1] * vec_2.e[0];
 	return (new_vec);
 }

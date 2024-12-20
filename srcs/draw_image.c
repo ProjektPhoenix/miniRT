@@ -158,6 +158,7 @@ void draw_image(t_minirt *rt)
 {
 	debug("");
 	init_viewport(rt);
+    init_helper(rt);
 	calculate_rays(rt);
     // draw_viewport_to_img()
     // draw_square(&(rt->img));

@@ -25,14 +25,14 @@ typedef struct s_scene
 
 typedef struct s_closest
 	{
-		double distance;
-		int	id;
+		double	distance;
+		int		id;
 		t_color	col;
 		t_point	hit_point;
 		t_vec	normal_v;
-		int	type;
-		t_point center;
-} t_closest;
+		int		type;
+		t_point	center;
+}		t_closest;
 
 typedef struct s_col_mix
 {
