@@ -41,17 +41,18 @@ t_color	get_ray_color(t_ray *ray, t_scene *scene)
 	} 
 	else if (obj.distance != INFINITY) // if distance has been updated, meaning object has been hit
 	{
-		//debug("object has been hit\n");
+		// debug("object has been hit\n");
 		if (obj.type == SPHERE)
 			color = calculate_obj_color(scene, &obj);
 		else if (obj.type == PLANE)
 			color = calculate_obj_color(scene, &obj);
 		else if (obj.type == CYL)
-			color = create_triple(0,0,255);
+			color = obj.col;
 		else
 			color = create_triple(0,0,0);
 		obj.hit_point = get_hit_point(ray, obj.distance);
-		//color = calculate_obj_color(scene, &obj);
+		// debug("Object distance: %f , Object color: (%f, %f, %f)", obj.distance, color.e[0], color.e[1], color.e[2]);
+		// color = calculate_obj_color(scene, &obj);
 	}
 	else
 	{

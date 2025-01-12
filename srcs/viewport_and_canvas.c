@@ -78,6 +78,8 @@ static t_vec	get_viewport_uvec_h(t_minirt *rt)
 
 /*
  * SONDERFÄLLE BERÜCKSICHTIGEN !!!
+ * CHECK AGAIN ALL CASES
+ * ENSURE THAT IT IS A UNIT VECTOR IN ALL CASES AND NOT JUST A DIRECTION VECTOR
  */
 static t_vec	get_viewport_uvec_w(t_scene *scene)
 {
@@ -89,11 +91,11 @@ static t_vec	get_viewport_uvec_w(t_scene *scene)
 		uvec_w.e[0] = 1.0;
 		uvec_w.e[1] = 0.0;
 	}
-	else if (scene->camera.dir.e[0] == 0)
-	{
-		uvec_w.e[0] = 0.0;
-		uvec_w.e[1] = 1.0;
-	}
+	// else if (scene->camera.dir.e[0] == 0)
+	// {
+	// 	uvec_w.e[0] = 1.0;
+	// 	uvec_w.e[1] = 0.0;
+	// }
 	else
 	{
 		uvec_w.e[0] = sqrt(pow(scene->camera.dir.e[1], 2) / (pow(scene->camera.dir.e[0], 2) + pow(scene->camera.dir.e[1], 2)));
@@ -101,8 +103,8 @@ static t_vec	get_viewport_uvec_w(t_scene *scene)
 	}
 	if (scene->camera.dir.e[0] < 0)
 		uvec_w.e[1] = -1 * uvec_w.e[1];
-	if (scene->camera.dir.e[1] > 0)
-		uvec_w.e[0] = -1 * uvec_w.e[1];
+	if (scene->camera.dir.e[1] > 0) // -> check
+		uvec_w.e[0] = -1 * uvec_w.e[0];
 	debug("The viewport unit vector for traversing the width is: (%f,%f,%f)", uvec_w.e[0], uvec_w.e[1], uvec_w.e[2]);
 	return (uvec_w);
 }
@@ -186,31 +188,51 @@ void	calculate_rays(t_minirt *rt)
 	t_ray	ray;
 
 	ray.orig = rt->scene.camera.pos;
-	// hier Test Block
-	// ray.dir = get_unit_vector(vec1_minus_vec2(create_triple(15,15,0), ray.orig));
-	// pxl_canvas.color = get_ray_color(&ray, &rt->scene);
-	pxl_canvas.a = rt->img.width / 2;
-	pxl_canvas.b = rt->img.height / 2;
-	// draw_pixel(&(rt->img), &pxl_canvas); 
-	// bis hier
-	ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
-	debug("\nCalculated central ray:\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)", ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);
-	pxl_canvas.a = 0;
-	pxl_canvas.b = 0;
-	ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
-	debug("\nCalculated viewport upper left ray:\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)", ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);
-	pxl_canvas.a = rt->img.width;
-	pxl_canvas.b = 0;
-	ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
-	debug("\nCalculated viewport upper right ray:\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)", ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);
-	pxl_canvas.a = 0;
-	pxl_canvas.b = rt->img.height;
-	ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
-	debug("\nCalculated viewport lower left ray:\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)", ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);
-	pxl_canvas.a = rt->img.width;
-	pxl_canvas.b = rt->img.height;
-	ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
-	debug("\nCalculated viewport lower right ray:\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)", ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);
+	// // hier Test Block
+	// // ray.dir = get_unit_vector(vec1_minus_vec2(create_triple(15,15,0), ray.orig));
+	// // pxl_canvas.color = get_ray_color(&ray, &rt->scene);
+	// pxl_canvas.a = rt->img.width / 2;
+	// pxl_canvas.b = rt->img.height / 2;
+	// // draw_pixel(&(rt->img), &pxl_canvas); 
+	// // bis hier
+	// ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
+	// debug("\nVIEWPORT: CENTRAL RAY\nPixel: (%d, %d)\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)\n", pxl_canvas.a, pxl_canvas.b, ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);
+	// pxl_canvas.a = 0;
+	// pxl_canvas.b = 0;
+	// ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
+	// debug("\nVIEWPORT: UPPER LEFT\nPixel: (%d, %d)\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)\n", pxl_canvas.a, pxl_canvas.b, ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);
+	// pxl_canvas.a = rt->img.width;
+	// pxl_canvas.b = 0;
+	// ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
+	// debug("\nVIEWPORT: UPPER RIGHT\nPixel: (%d, %d)\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)\n", pxl_canvas.a, pxl_canvas.b, ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);
+	// pxl_canvas.a = 0;
+	// pxl_canvas.b = rt->img.height;
+	// ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
+	// debug("\nVIEWPORT: LOWER LEFT\nPixel: (%d, %d)\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)\n", pxl_canvas.a, pxl_canvas.b, ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);
+	// pxl_canvas.a = rt->img.width;
+	// pxl_canvas.b = rt->img.height;
+	// ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
+	// debug("\nVIEWPORT: LOWER RIGHT\nPixel: (%d, %d)\nOrigin: (%f, %f, %f), Direction: (%f, %f, %f)\n", pxl_canvas.a, pxl_canvas.b, ray.orig.e[0], ray.orig.e[1], ray.orig.e[2], ray.dir.e[0], ray.dir.e[1], ray.dir.e[2]);
+	// //for debugging
+	// pxl_canvas.a = 500;
+	// pxl_canvas.b = 150;
+	// ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
+	// // ray.dir = get_unit_vector(create_triple(1.0, 0.0, 0.0));
+	// pxl_canvas.color = get_ray_color(&ray, &(rt->scene));
+	// draw_pixel(&(rt->img), &pxl_canvas);
+	// pxl_canvas.a = 400;
+	// pxl_canvas.b = 150;
+	// ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
+	// // ray.dir = get_unit_vector(create_triple(1.0, 0.0, 0.0));
+	// pxl_canvas.color = get_ray_color(&ray, &(rt->scene));
+	// draw_pixel(&(rt->img), &pxl_canvas);
+	// pxl_canvas.a = 450;
+	// pxl_canvas.b = 300;
+	// ray.dir = get_ray_dir_from_canvas_pxl(rt, pxl_canvas);
+	// // ray.dir = get_unit_vector(create_triple(1.0, 0.0, 0.1));
+	// pxl_canvas.color = get_ray_color(&ray, &(rt->scene));
+	// draw_pixel(&(rt->img), &pxl_canvas);
+	// //end for debugging
 	pxl_canvas.a = 0;
 	pxl_canvas.b = 0;
 	while (pxl_canvas.b < rt->img.height)

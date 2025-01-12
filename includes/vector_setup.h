@@ -85,6 +85,6 @@ t_point	get_hit_point(t_ray *ray, double t);
 double	find_t_sphere(t_ray *ray, t_sphere *sphere);
 double	find_t_cylinder(t_ray *ray, t_cylinder *cylinder);
 double	get_discriminant(t_ray *ray, t_sphere *sphere, double *c, double *a);
-double find_t_plane(t_ray *ray, t_plane *plane);
+double	find_t_plane(t_ray *ray, t_plane *plane);
 
 #endif
