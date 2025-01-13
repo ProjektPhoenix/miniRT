@@ -72,6 +72,7 @@ static t_vec	get_viewport_uvec_h(t_minirt *rt)
 		uvec_h.e[0] = -1 * uvec_h.e[0];
 	if ((camdir.e[1] > 0 && camdir.e[2] < 0) || (camdir.e[1] > 0 && camdir.e[2] < 0))
 		uvec_h.e[1] = -1 * uvec_h.e[1];
+	uvec_h = get_unit_vector(uvec_h);
 	debug("The viewport unit vector for traversing the height is: (%f,%f,%f)", uvec_h.e[0], uvec_h.e[1], uvec_h.e[2]);
 	return (uvec_h);
 }
@@ -105,6 +106,7 @@ static t_vec	get_viewport_uvec_w(t_scene *scene)
 		uvec_w.e[1] = -1 * uvec_w.e[1];
 	if (scene->camera.dir.e[1] > 0) // -> check
 		uvec_w.e[0] = -1 * uvec_w.e[0];
+	uvec_w = get_unit_vector(uvec_w);
 	debug("The viewport unit vector for traversing the width is: (%f,%f,%f)", uvec_w.e[0], uvec_w.e[1], uvec_w.e[2]);
 	return (uvec_w);
 }
