@@ -103,14 +103,12 @@ void	find_closest(t_ray *ray, t_scene *scene, t_closest *obj)
 			if (obj->distance == 0)
 				break;
 			obj->id = temp_c->id;
-			//debug("object id: %d sphere id: %d\n", obj->id, temp_s->id);
 			obj->col = temp_c->col;
 			obj->type = CYL;
-			// obj->normal_v = 
+			obj->normal_v = temp_c->c.normal_v;
 		}
 		temp_c = temp_c->next;
 	}
-	//continue with other objects
 }
 
 double find_t_plane(t_ray *ray, t_plane *plane)

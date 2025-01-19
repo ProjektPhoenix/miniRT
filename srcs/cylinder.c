@@ -70,27 +70,22 @@ double	find_t_cylinder(t_ray *ray, t_cylinder *cyl)
 		// 	debug("\nCyl height: %f,\nDist temp 2 hitpoint from base: %f,\nDist temp hitpoint from base: %f", cyl->height, dist_from_cyl_base(&c, temp2), dist_from_cyl_base(&c, temp));
 		// }
 		if (temp2 >= 0 && dist_from_cyl_base(&c, temp2) >= 0 && dist_from_cyl_base(&c, temp2) <= cyl->height)
+		{
 			distance = temp2;
+			c.normal_v = get_unit_vector(vec1_minus_vec2(vec1_minus_vec2(scalar_mply_vector(distance, c.ray_dir_unit), scalar_mply_vector(dist_from_cyl_base(&c, temp2), c.cyl_dir_unit)), c.cyl_base));
+		}
 		else
 			temp2 = -1.0;
 		if (temp >= 0 && (temp2 < 0 || temp < temp2) && dist_from_cyl_base(&c, temp) >= 0 && dist_from_cyl_base(&c, temp) <= cyl->height)
+		{
 			distance = temp;
+			c.normal_v = get_unit_vector(vec1_minus_vec2(vec1_minus_vec2(scalar_mply_vector(distance, c.ray_dir_unit), scalar_mply_vector(dist_from_cyl_base(&c, temp), c.cyl_dir_unit)), c.cyl_base));
+		}
 		else
 			temp = -1.0;
 		if (temp < 0 && temp2 < 0)
 			distance = -1.0;
-		else // just for debugging
-			cyl->col = create_triple(255, 0, 0);
 	}
-	// debug("Distance before lid calculation: %f", distance);
-	// if (distance > 0)
-	// {
-	// 	dist_base = dist_from_cyl_base(&c, distance);
-	// 	debug("Distance to base: %f (cyl height: %f)", dist_base, cyl->height);
-	// 	if (dist_base >= 0 && dist_base <= cyl->height)
-	// 		t = distance;
-	// 	debug("t after checking hit point against cyl height: %f", t);
-	// }
 	if (dot_product(c.cyl_dir_unit, ray->dir) != 0)
 	{
 		temp = -1.0;
@@ -105,13 +100,13 @@ double	find_t_cylinder(t_ray *ray, t_cylinder *cyl)
 			temp2 = -1.0;
 		if (temp2 >= 0 && (distance == -1.0 || temp2 < distance))
 		{
-			distance = temp2;
-			cyl->col = create_triple(0, 255, 0); // just for debugging
+			distance = temp2; // add v_normal calculation function here and below
+			c.normal_v = c.cyl_dir_unit;
 		}
 		if (temp >= 0 && (distance == -1.0 || temp < distance))
 		{
 			distance = temp;
-			cyl->col = create_triple(0, 255, 0); // just for debugging
+			c.normal_v = scalar_mply_vector(-1, c.cyl_dir_unit);
 		}
 		if (distance >= 0)
 		{
@@ -121,5 +116,6 @@ double	find_t_cylinder(t_ray *ray, t_cylinder *cyl)
 	}
 	// debug("t cylinder: %f", t);
 	cyl->c = c;
+	debug("Cyl hitpoint normal vector: (%f,%f,%f)", cyl->c.normal_v.e[0], cyl->c.normal_v.e[1], cyl->c.normal_v.e[2]);
 	return (t);
 }
