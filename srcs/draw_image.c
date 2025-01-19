@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:29:46 by rpriess           #+#    #+#             */
-/*   Updated: 2024/12/13 15:09:44 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/19 17:06:40 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ bool draw_pixel(t_img *img, t_pxl *pxl)
 //     }
 // }
 
-static void	draw_frame(t_img *img, int frame_width)
+/*static void	draw_frame(t_img *img, int frame_width)
 {
     t_pxl   pxl;
 	int j;
@@ -138,7 +138,7 @@ static void	draw_frame(t_img *img, int frame_width)
         i = 0;
         j++;
     }
-}
+}*/
 
 /*
  * the function allows to save an mlx image to an xpm image file, which can be
@@ -163,7 +163,7 @@ void draw_image(t_minirt *rt)
 	calculate_rays(rt);
     // draw_viewport_to_img()
     // draw_square(&(rt->img));
-    draw_frame(&(rt->img), 2);
+    //draw_frame(&(rt->img), 2);
     // draw_animation(rt);
     mlx_put_image_to_window(rt->screen.mlx, rt->screen.win, rt->img.ptr, 0, 0);
 }

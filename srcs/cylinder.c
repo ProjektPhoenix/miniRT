@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:30:37 by rpriess           #+#    #+#             */
-/*   Updated: 2024/12/09 16:30:46 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/19 17:03:10 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "vector_setup.h"
 #include "vector_math.h"
 #include "debug.h"
@@ -116,6 +117,6 @@ double	find_t_cylinder(t_ray *ray, t_cylinder *cyl)
 	}
 	// debug("t cylinder: %f", t);
 	cyl->c = c;
-	debug("Cyl hitpoint normal vector: (%f,%f,%f)", cyl->c.normal_v.e[0], cyl->c.normal_v.e[1], cyl->c.normal_v.e[2]);
+	// debug("Cyl hitpoint normal vector: (%f,%f,%f)", cyl->c.normal_v.e[0], cyl->c.normal_v.e[1], cyl->c.normal_v.e[2]);
 	return (t);
 }
