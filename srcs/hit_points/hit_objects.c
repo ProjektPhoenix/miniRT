@@ -36,7 +36,7 @@ t_color	get_ray_color(t_ray *ray, t_scene *scene)
 	{
 		obj.hit_point = get_hit_point(ray, obj.distance);
 		if (obj.type == SPHERE)
-			obj.normal_v = get_normal_v_sph(obj.hit_point, obj.center);
+			obj.normal_v = get_normascenes/example.rtl_v_sph(obj.hit_point, obj.center);
 		color = calculate_obj_color(scene, &obj);
 	}
 	else
