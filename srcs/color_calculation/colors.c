@@ -52,8 +52,8 @@ t_color	calculate_obj_color(t_scene *scene, t_closest *obj)
 	t_ray	l_ray;
 	bool	blocked;
 
-	if (obj->type != PLANE)
-		obj->normal_v = assign_normal(obj);
+	// if (obj->type != PLANE)
+	// 	obj->normal_v = assign_normal(obj); // move to SPHERE find closest
 	make_light_ray(&l_ray, scene, obj);
 	l_ray.dist = get_magnitude(l_ray.dir);
 	l_ray.dir = get_unit_vector(l_ray.dir);
@@ -127,13 +127,14 @@ void	make_light_ray(t_ray *l_ray, t_scene *scene, t_closest *obj)
 bool	check_blocking_objects(t_ray *l_ray, t_scene *scene, t_closest *obj)
 {
 	t_sphere	*temp_s;
-	double	t;
-	t_plane *temp_p;
+	double		t;
+	t_plane		*temp_p;
+	t_cylinder	*temp_c;
 	
 	temp_s = scene->sphere;
 	while(temp_s)
 	{
-		if (obj->id != temp_s->id)
+		if (obj->id != temp_s->id) // take out? object could block itself from light
 		{
 			t = find_t_sphere(l_ray, temp_s); //unit vector uebergeben 
 			if (t > 0 && t < l_ray->dist)
@@ -147,7 +148,7 @@ bool	check_blocking_objects(t_ray *l_ray, t_scene *scene, t_closest *obj)
 	temp_p = scene->plane;
 	while (temp_p)
 	{
-		if (obj->id != temp_p->id)
+		if (obj->id != temp_p->id) // take out? object could block itself from light
 		{
 			t = find_t_plane(l_ray, temp_p);
 			if (t > 0 && t < l_ray->dist)
@@ -155,6 +156,16 @@ bool	check_blocking_objects(t_ray *l_ray, t_scene *scene, t_closest *obj)
 		}
 		temp_p = temp_p->next;
 	}
-	// continue with other objects
+	temp_c = scene->cyl;
+	while (temp_c)
+	{
+		if (obj->id != temp_c->id) // take out? object could block itself from light
+		{
+			t = find_t_cylinder(l_ray, temp_c);
+			if (t > 0 && t < l_ray->dist)
+				return (true);
+		}
+		temp_c = temp_c->next;
+	}
 	return (false);
 }
