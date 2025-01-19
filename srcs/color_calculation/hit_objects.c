@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 14:58:46 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/19 14:02:40 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/19 16:44:55 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ t_color	get_ray_color(t_ray *ray, t_scene *scene)
 	else if (obj.distance != INFINITY) // if distance has been updated, meaning object has been hit
 	{
 		obj.hit_point = get_hit_point(ray, obj.distance);
-		// debug("Object distance: %f , Object color: (%f, %f, %f)", obj.distance, color.e[0], color.e[1], color.e[2]);
+		if (obj.type == SPHERE)
+			obj.normal_v = get_normal_v_sph(obj.hit_point, obj.center);
 		color = calculate_obj_color(scene, &obj);
 	}
 	else
