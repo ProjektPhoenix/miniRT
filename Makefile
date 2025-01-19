@@ -20,10 +20,10 @@ endif
 MINILIBX	:= ${MINILIBXDIR}/libmlx.a
 INCL		:= -Iincludes -Iusr/include -I${LIBFTDIR} -I${MINILIBXDIR}
 SRCS		:= srcs/main.c srcs/exits.c srcs/input/parsing.c srcs/input/parsing_utils.c srcs/input/transfer_input.c \
-			srcs/vector_functions/set_specs.c srcs/window_mngmt.c srcs/loop.c srcs/draw_image.c \
-			srcs/vector_functions/vector_math.c srcs/color_calculation/hit_objects.c srcs/viewport_and_canvas.c \
-      			srcs/color_calculation/colors.c srcs/color_calculation/find_closest.c srcs/color_calculation/color_light_utils.c \
-			srcs/cylinder.c srcs/input/init_helper.c
+			srcs/vector_utils/set_specs.c srcs/display/window_mngmt.c srcs/display/loop.c srcs/display/draw_image.c \
+			srcs/vector_utils/vector_math.c srcs/hit_points/hit_objects.c srcs/display/viewport_and_canvas.c \
+      		srcs/color/colors.c srcs/hit_points/find_closest.c srcs/color/color_light_utils.c \
+			srcs/hit_points/cylinder.c srcs/input/init_helper.c
 OBJS		:= ${SRCS:.c=.o}
 SHELL		:= /bin/bash
 HDS		:= 
