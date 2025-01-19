@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:12:12 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/19 18:12:21 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:51:30 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_color	calculate_obj_color(t_scene *scene, t_closest *obj)
 	amb_contr = scalar_mply_vector(scene->amb.intens, mix.norm_amb);
 	mix.final = multiply_cols(amb_contr, mix.norm_obj);
 	blocked = check_blocking_objects(&l_ray, scene);
+	//blocked = check_blocking_objects(&l_ray, scene, obj);
 	if (!blocked)
 		add_light(&l_ray, &mix, scene, obj);
 	mix.final.e[0] = fmin(mix.final.e[0] * 255.0, 255.0);
@@ -75,7 +76,7 @@ static bool check_cyls_blocking(t_ray *l_ray, t_scene *scene)
 
 /* checks if any objects are in the way of the hit point and the light 
 	- for now only sphere, needs to be expanded to other objects */
-//bool	check_blocking_objects(t_ray *l_ray, t_scene *scene, t_closest *obj)
+
 bool	check_blocking_objects(t_ray *l_ray, t_scene *scene)
 {
 	t_sphere	*temp_s;

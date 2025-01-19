@@ -82,6 +82,7 @@ void search_planes(double *t, t_closest *obj, t_ray *ray, t_scene *scene);
 void search_cylinders(double *t, t_closest *obj, t_ray *ray, t_scene *scene);
 t_color	calculate_obj_color(t_scene *scene, t_closest *obj);
 bool	check_blocking_objects(t_ray *l_ray, t_scene *scene);
+//bool	check_blocking_objects(t_ray *l_ray, t_scene *scene, t_closest *obj);
 void	make_light_ray(t_ray *l_ray, t_scene *scene, t_closest *obj);
 
 /* color calculations */

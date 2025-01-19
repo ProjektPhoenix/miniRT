@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color_utils.c                                      :+:      :+:    :+:   */
+/*   color_light_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 18:01:47 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/19 18:05:30 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:38:15 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ void	make_light_ray(t_ray *l_ray, t_scene *scene, t_closest *obj)
 {
 	double offset;
 
-	offset = 1e-4;
+	offset = 1e-10;
 	l_ray->orig = add_vectors(obj->hit_point, scalar_mply_vector(offset, obj->normal_v));
+	//l_ray->orig = obj->hit_point;
 	l_ray->dir = vec1_minus_vec2(scene->light.pos, l_ray->orig);
 }
 
