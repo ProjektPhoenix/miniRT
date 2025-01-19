@@ -16,31 +16,18 @@
 
 static double	dist_from_cyl_base(t_cyl_helper *c, double distance)
 {
-	// t_cyl_helper	c;
 	double			dist_base;
 	t_point			hit_point;
-	// static int		count = 0;
 
-	// c = cyl->c;
 	dist_base = -1.0;
 	hit_point = add_vectors(c->cam_pos, scalar_mply_vector(distance, c->ray_dir_unit));
 	dist_base = dot_product(c->cyl_dir_unit, vec1_minus_vec2(hit_point, c->cyl_base));
-	// while (count > 1000 && count < 1005)
-	// {
-		// debug("\nFor distance: %f \nand ray dir unit vec: (%f, %f, %f)\nand cam position: (%f, %f, %f)", distance, c->ray_dir_unit.e[0], c->ray_dir_unit.e[1], c->ray_dir_unit.e[2], c->cam_pos.e[0], c->cam_pos.e[1], c->cam_pos.e[2]);
-		// debug("calculated hit point: (%f, %f, %f)", hit_point.e[0], hit_point.e[1], hit_point.e[2]);
-		// debug("Distance of hitpoint from 0,0,0: %f", get_magnitude(hit_point));
-		// debug("Based on cyl base coordinates: (%f, %f, %f)", c->cyl_base.e[0], c->cyl_base.e[1], c->cyl_base.e[2]);
-		// debug("calculated dist from base: %f", dist_base);
-	// }
-	// count++;
-	// debug("Dist base: %f", dist_base);
 	return (dist_base);
 }
 
 /* takes as input a ray and a cylinder, 
  *	- returns -1.0 if no intersection has been found
- *	- returns 0 if camera is inside object or exactly on the surface // I DO NOT CHECK FOR THIS YET
+ *	- returns 0 if camera is inside object or exactly on the surface // I DO NOT CHECK FOR THIS YET!?
  *	- otherwise returns t for closest hitpoint.
  */
 double	find_t_cylinder(t_ray *ray, t_cylinder *cyl)
@@ -48,14 +35,12 @@ double	find_t_cylinder(t_ray *ray, t_cylinder *cyl)
 	double			t;
 	double			temp;
 	double			temp2;
-	// double			dist_base;
 	double			distance;
 	t_cyl_helper	c;
 
 	t = -1.0;
 	temp = -1.0;
 	temp2 = -1.0;
-	// dist_base = -1.0;
 	distance = -1.0;
 	c = cyl->c;
 	c.ray_dir_unit = ray->dir;
@@ -71,9 +56,10 @@ double	find_t_cylinder(t_ray *ray, t_cylinder *cyl)
 	// if (c.discriminant >= 0)
 		// debug("Cylinder discrimant: %f", c.discriminant);
 	// only else condition is needed:
-	if (c.discriminant < 0 || get_magnitude(c.cross_ray_cyl) == 0)
-		t = -1.0;
-	else
+	// if (c.discriminant < 0 || get_magnitude(c.cross_ray_cyl) == 0)
+	// 	t = -1.0;
+	// else
+	if (c.discriminant >= 0 && get_magnitude(c.cross_ray_cyl) != 0)
 	{
 		distance = dot_product(c.cross_ray_cyl, scalar_mply_vector(-1.0, cross_product(c.orig_to_base, c.cyl_dir_unit)));
 		temp = (distance + sqrtf(c.discriminant))/ dot_product(c.cross_ray_cyl, c.cross_ray_cyl);
@@ -107,7 +93,6 @@ double	find_t_cylinder(t_ray *ray, t_cylinder *cyl)
 	// }
 	if (dot_product(c.cyl_dir_unit, ray->dir) != 0)
 	{
-		// distance = -1.0;
 		temp = -1.0;
 		temp2 = -1.0;
 		temp = dot_product(c.cyl_dir_unit, c.orig_to_base) / dot_product(c.cyl_dir_unit, ray->dir);
