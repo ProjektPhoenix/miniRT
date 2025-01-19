@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 14:58:46 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/19 16:44:55 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:00:59 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,17 @@
 	- calculate / interpolate color */
 t_color	get_ray_color(t_ray *ray, t_scene *scene)
 {
-	//return (create_triple(255, 0, 0));
 	t_closest	obj;
 	t_color 	color;
-	//color = create_triple(255, 255, 255); // just to test intersection calculation before color calculation
 
-	//debug("ray origin: %.2f, %.2f, %.2f -  ray direction: %.2f, %.2f, %.2f\n", ray->orig.e[0],  ray->orig.e[1],  ray->orig.e[2],  ray->dir.e[0],  ray->dir.e[1],  ray->dir.e[2]);
 	obj.distance = INFINITY;
 	obj.id = -1;
 	obj.hit_point = create_triple(0, 0, 0);
 	obj.col = create_triple(0, 0, 0);
-	find_closest(ray, scene, &obj); // find the closest intersection
-	// debug("object distance: %.2f\n", obj.distance);
+	find_closest(ray, scene, &obj);
 	if (obj.distance == 0)
-	{
-		// debug("obj.distance = 0\n");
-		return (create_triple(0, 0, 0)); //return black
-	} 
-	else if (obj.distance != INFINITY) // if distance has been updated, meaning object has been hit
+		return (create_triple(0, 0, 0));
+	else if (obj.distance != INFINITY)
 	{
 		obj.hit_point = get_hit_point(ray, obj.distance);
 		if (obj.type == SPHERE)
@@ -51,84 +44,18 @@ t_color	get_ray_color(t_ray *ray, t_scene *scene)
 	return (color);
 }
 
-void	find_closest(t_ray *ray, t_scene *scene, t_closest *obj)
-{
-	t_sphere	*temp_s;
-	t_plane		*temp_p;
-	t_cylinder	*temp_c;
-	double		t;
-
-	temp_s = scene->sphere;
-	while(temp_s)
-	{
-		t = find_t_sphere(ray, temp_s); // find t_sphere returns negative value if no hit point or hit point behind camera
-		//debug("t: %.2f\n", t);
-		if (t >= 0 && t < obj->distance)
-		{
-			obj->distance = t;
-			if (obj->distance == 0)
-				break;
-			obj->id = temp_s->id;
-			//debug("object id: %d sphere id: %d\n", obj->id, temp_s->id);
-			obj->col = temp_s->col;
-			obj->type = SPHERE;
-			obj->center = temp_s->center;
-		}
-		temp_s = temp_s->next;
-	}
-	temp_p = scene->plane;
-	while (temp_p)
-	{
-		t = find_t_plane(ray, temp_p);
-		//if (t != INFINITY)
-			//debug("t: %.2f\n", t);
-		if (t >= 0 && t < obj->distance)
-		{
-			obj->distance = t;
-			if (obj->distance == 0)
-				break;
-			obj->id = temp_p->id;
-			obj->col = temp_p->col;
-			obj->type = PLANE;
-			obj->normal_v = temp_p->ortho;
-		}
-		temp_p = temp_p->next;
-	}
-	temp_c = scene->cyl;
-	while (temp_c)
-	{
-		t = find_t_cylinder(ray, temp_c);
-		if (t >= 0 && t < obj->distance)
-		{
-			obj->distance = t;
-			if (obj->distance == 0)
-				break;
-			obj->id = temp_c->id;
-			obj->col = temp_c->col;
-			obj->type = CYL;
-			obj->normal_v = temp_c->c.normal_v;
-		}
-		temp_c = temp_c->next;
-	}
-}
-
 double find_t_plane(t_ray *ray, t_plane *plane)
 {
 	t_vec norm_v;
-	double d; // signed distance from world origin 0 ,0, 0 to plane 
+	double d;
 	double denominator;
 	double t;
 
 	norm_v = get_unit_vector(plane->ortho);
-	//debug("norm vec unit : %f, %f, %f\n", norm_v.e[0], norm_v.e[1], norm_v.e[2]);
 	denominator = dot_product(norm_v, ray->dir);
-	if (fabs(denominator) < 1e-6) // if denominator is 0: both vectors are parallel, so no intersection -  taking into account float point precision margin 
-	{
-		//debug("denom is 0\n");
+	if (fabs(denominator) < 1e-6)
 		return (INFINITY);
-	}
 	d = -1 * dot_product(norm_v, plane->pos);
-	//debug("d is %f\n", d);
 	t = -1 * ((dot_product(norm_v, ray->orig) + d) / denominator);
 	return (t);
 }
@@ -148,14 +75,11 @@ double find_t_sphere(t_ray *ray, t_sphere *sphere)
 	double	t2;
 
 	discriminant = get_discriminant(ray, sphere, &c, &b);
-	if (discriminant < 0) //no intersection
+	if (discriminant < 0)
     		return (-1.0);
-	if (c < 0) //check if point is inside or outside of sphere
-	{
-		debug("POINT IS INSIDE SPHERE");
+	if (c < 0)
 		return (0);
-	}
-	if (discriminant == 0) //tangent 
+	if (discriminant == 0)
 	{
 		t1 = -b / (2.0 * dot_product(ray->dir, ray->dir));
 		if (t1 > 0)
@@ -165,7 +89,6 @@ double find_t_sphere(t_ray *ray, t_sphere *sphere)
 	}
 	t1 = (-b - sqrt(discriminant)) / (2.0 * dot_product(ray->dir, ray->dir));
 	t2 = (-b + sqrt(discriminant)) / (2.0 * dot_product(ray->dir, ray->dir));
-	//debug("t1: %.2f - t2: %.2f\n", t1, t2);
 	return (fmin(t1, t2));
 }
 

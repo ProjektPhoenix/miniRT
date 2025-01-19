@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:26:08 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/19 13:01:46 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/19 17:45:50 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,8 @@ t_sphere	*add_sphere_node(t_scene *scene)
 	new = malloc(sizeof(t_sphere));
 	if (!new)
 		cleanup_scene_exit(scene, "malloc error\n", 2);
-	new->center.e[0] = 0.0;
-	new->center.e[1] = 0.0;
-	new->center.e[2] = 0.0;
-	new->col.e[0] = 0.0;
-	new->col.e[1] = 0.0;
-	new->col.e[2] = 0.0;
+	new->col = (t_color){{0.0, 0.0, 0.0}};
+	new->center = (t_point){{0.0, 0.0, 0.0}};
 	new->diameter = 0.0;
 	new->id = scene->id_count;
 	scene->id_count++;
@@ -95,15 +91,9 @@ t_cylinder	*add_cylinder_node(t_scene *scene)
 	new = malloc(sizeof(t_cylinder));
 	if (!new)
 		cleanup_scene_exit(scene, "malloc error\n", 2);
-	new->center.e[0] = 0.0;
-	new->center.e[1] = 0.0;
-	new->center.e[2] = 0.0;
-	new->col.e[0] = 0.0;
-	new->col.e[1] = 0.0;
-	new->col.e[2] = 0.0;
-	new->dir.e[0] = 0.0;
-	new->dir.e[1] = 0.0;
-	new->dir.e[2] = 0.0;
+	new->center = (t_point){{0.0, 0.0, 0.0}};
+	new->col = (t_color){{0.0, 0.0, 0.0}};
+	new->dir = (t_vec){{0.0, 0.0, 0.0}};
 	new->diameter = 0.0;
 	new->height = 0.0;
 	new->id = scene->id_count;
@@ -130,15 +120,9 @@ t_plane	*add_plane_node(t_scene *scene)
 	new = malloc(sizeof(t_plane));
 	if (!new)
 		cleanup_scene_exit(scene, "malloc error\n", 2);
-	new->col.e[0] = 0.0;
-	new->col.e[1] = 0.0;
-	new->col.e[2] = 0.0;
-	new->ortho.e[0] = 0.0;
-	new->ortho.e[1] = 0.0;
-	new->ortho.e[2] = 0.0;
-	new->pos.e[0] = 0.0;
-	new->pos.e[1] = 0.0;
-	new->pos.e[2] = 0.0;
+	new->col = (t_color){{0.0, 0.0, 0.0}};
+	new->ortho = (t_vec){{0.0, 0.0, 0.0}};
+	new->pos = (t_vec){{0.0, 0.0, 0.0}};
 	new->id = scene->id_count;
 	scene->id_count++;
 	new->next = NULL;
