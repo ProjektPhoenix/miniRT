@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:12:12 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/19 16:30:04 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/19 16:44:37 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,9 @@ void	make_light_ray(t_ray *l_ray, t_scene *scene, t_closest *obj)
 bool	check_blocking_objects(t_ray *l_ray, t_scene *scene)
 {
 	t_sphere	*temp_s;
-	double	t;
-	t_plane *temp_p;
+	double		t;
+	t_plane		*temp_p;
+	t_cylinder	*temp_c;
 	
 	temp_s = scene->sphere;
 	while(temp_s)
@@ -146,6 +147,13 @@ bool	check_blocking_objects(t_ray *l_ray, t_scene *scene)
 			return (true);
 		temp_p = temp_p->next;
 	}
-	// continue with other objects
+	temp_c = scene->cyl;
+	while (temp_c)
+	{
+		t = find_t_cylinder(l_ray, temp_c);
+			if (t > 0 && t < l_ray->dist)
+				return (true);
+		temp_c = temp_c->next;
+	}
 	return (false);
 }

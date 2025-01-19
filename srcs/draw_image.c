@@ -108,7 +108,8 @@ bool draw_pixel(t_img *img, t_pxl *pxl)
 //         j++;
 //     }
 // }
-/*static void	draw_frame(t_img *img, int frame_width)
+
+static void	draw_frame(t_img *img, int frame_width)
 {
     t_pxl   pxl;
 	int j;
@@ -137,7 +138,7 @@ bool draw_pixel(t_img *img, t_pxl *pxl)
         i = 0;
         j++;
     }
-}*/
+}
 
 /*
  * the function allows to save an mlx image to an xpm image file, which can be
@@ -158,10 +159,11 @@ void draw_image(t_minirt *rt)
 {
 	debug("");
 	init_viewport(rt);
+    init_helper(rt);
 	calculate_rays(rt);
     // draw_viewport_to_img()
     // draw_square(&(rt->img));
-    //draw_frame(&(rt->img), 2);
+    draw_frame(&(rt->img), 2);
     // draw_animation(rt);
     mlx_put_image_to_window(rt->screen.mlx, rt->screen.win, rt->img.ptr, 0, 0);
 }
