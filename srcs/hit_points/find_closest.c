@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_closest.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 17:52:23 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/19 18:00:00 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/19 21:37:57 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void search_planes(double *t, t_closest *obj, t_ray *ray, t_scene *scene)
 	temp_p = scene->plane;
 	while (temp_p)
 	{
-		*t = find_t_plane(ray, temp_p);
+		*t = find_t_plane(ray, temp_p, 1);
 		if (*t >= 0 && *t < obj->distance)
 		{
 			obj->distance = *t;
@@ -62,7 +62,7 @@ void search_planes(double *t, t_closest *obj, t_ray *ray, t_scene *scene)
 			obj->id = temp_p->id;
 			obj->col = temp_p->col;
 			obj->type = PLANE;
-			obj->normal_v = temp_p->ortho;
+			obj->normal_v = get_unit_vector(temp_p->ortho);
 		}
 		temp_p = temp_p->next;
 	}

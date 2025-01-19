@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_objects.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 14:58:46 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/19 18:00:59 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/19 21:37:15 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_color	get_ray_color(t_ray *ray, t_scene *scene)
 	return (color);
 }
 
-double find_t_plane(t_ray *ray, t_plane *plane)
+double find_t_plane(t_ray *ray, t_plane *plane, int mode)
 {
 	t_vec norm_v;
 	double d;
@@ -53,8 +53,16 @@ double find_t_plane(t_ray *ray, t_plane *plane)
 
 	norm_v = get_unit_vector(plane->ortho);
 	denominator = dot_product(norm_v, ray->dir);
-	if (fabs(denominator) < 1e-6)
-		return (INFINITY);
+	if (mode == 1)
+	{
+		if (fabs(denominator) < 1e-4)
+			return (INFINITY);
+	}
+	else
+	{
+		if (fabs(denominator) < 0.7)
+			return (INFINITY);
+	}
 	d = -1 * dot_product(norm_v, plane->pos);
 	t = -1 * ((dot_product(norm_v, ray->orig) + d) / denominator);
 	return (t);
