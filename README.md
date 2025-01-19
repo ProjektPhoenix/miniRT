@@ -2,6 +2,8 @@
 miniRT is a simple raytracer project which we implemented as part of the 42 core curriculum. The program reads configuration information from a file and displays a corresponding image using raytracing techniques. The program is written in C.
 
 ## Background: raytracing
+Raytracing is a specific form of rendering. The book "Physically Based Rendering" describes rendering as "a fundamental component of computer graphics. At the highest level of abstraction, rendering is the process of converting a description of a three-dimensional scene into an image."
+
 
 ## Project objectives
 

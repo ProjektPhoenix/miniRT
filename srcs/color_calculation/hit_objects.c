@@ -33,18 +33,26 @@ t_color	get_ray_color(t_ray *ray, t_scene *scene)
 	obj.hit_point = create_triple(0, 0, 0);
 	obj.col = create_triple(0, 0, 0);
 	find_closest(ray, scene, &obj); // find the closest intersection
-	//debug("object distance: %.2f\n", obj.distance);
+	// debug("object distance: %.2f\n", obj.distance);
 	if (obj.distance == 0)
 	{
-		//debug("obj.distance = 0\n");
+		// debug("obj.distance = 0\n");
 		return (create_triple(0, 0, 0)); //return black
 	} 
 	else if (obj.distance != INFINITY) // if distance has been updated, meaning object has been hit
 	{
-		//debug("object has been hit\n");
-		//color = create_triple(255,0, 0);
+		// debug("object has been hit\n");
+		if (obj.type == SPHERE)
+			color = calculate_obj_color(scene, &obj);
+		else if (obj.type == PLANE)
+			color = calculate_obj_color(scene, &obj);
+		else if (obj.type == CYL)
+			color = obj.col;
+		else
+			color = create_triple(0,0,0);
 		obj.hit_point = get_hit_point(ray, obj.distance);
-		color = calculate_obj_color(scene, &obj);
+		// debug("Object distance: %f , Object color: (%f, %f, %f)", obj.distance, color.e[0], color.e[1], color.e[2]);
+		// color = calculate_obj_color(scene, &obj);
 	}
 	else
 		color = create_triple(0, 0, 0);
@@ -54,8 +62,9 @@ t_color	get_ray_color(t_ray *ray, t_scene *scene)
 void	find_closest(t_ray *ray, t_scene *scene, t_closest *obj)
 {
 	t_sphere	*temp_s;
-	t_plane	*temp_p;
-	double	t;
+	t_plane		*temp_p;
+	t_cylinder	*temp_c;
+	double		t;
 
 	temp_s = scene->sphere;
 	while(temp_s)
@@ -92,6 +101,23 @@ void	find_closest(t_ray *ray, t_scene *scene, t_closest *obj)
 			obj->normal_v = temp_p->ortho;
 		}
 		temp_p = temp_p->next;
+	}
+	temp_c = scene->cyl;
+	while (temp_c)
+	{
+		t = find_t_cylinder(ray, temp_c);
+		if (t >= 0 && t < obj->distance)
+		{
+			obj->distance = t;
+			if (obj->distance == 0)
+				break;
+			obj->id = temp_c->id;
+			//debug("object id: %d sphere id: %d\n", obj->id, temp_s->id);
+			obj->col = temp_c->col;
+			obj->type = CYL;
+			// obj->normal_v = 
+		}
+		temp_c = temp_c->next;
 	}
 	//continue with other objects
 }
