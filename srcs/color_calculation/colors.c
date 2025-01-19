@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:12:12 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/10 18:27:40 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/19 13:00:34 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "vector_math.h"
 #include "debug.h"
 
-static t_color multiply_vecs(t_color col1, t_color col2)
+static t_color multiply_cols(t_color col1, t_color col2)
 {
 	t_color col;
 
@@ -60,8 +60,9 @@ t_color	calculate_obj_color(t_scene *scene, t_closest *obj)
 	mix.norm_obj = normalise_color(obj->col);
 	mix.norm_amb = normalise_color(scene->amb.col);
 	mix.norm_light = normalise_color(scene->light.col);
+	printf("light col: %f, %f, %f\n", scene->light.col.e[0], scene->light.col.e[1], scene->light.col.e[2]);
 	t_color amb_contr = scalar_mply_vector(scene->amb.intens, mix.norm_amb);
-	mix.final = multiply_vecs(amb_contr, mix.norm_obj);
+	mix.final = multiply_cols(amb_contr, mix.norm_obj);
 	blocked = check_blocking_objects(&l_ray, scene, obj);
 	if (!blocked)
 		add_light(&l_ray, &mix, scene, obj);
@@ -74,8 +75,10 @@ t_color	calculate_obj_color(t_scene *scene, t_closest *obj)
 void	add_light(t_ray *l_ray, t_col_mix *mix, t_scene *scene, t_closest *obj)
 {
 	double reflectivity = 0.3;
+
 	mix->diff_intens = fmax(dot_product(l_ray->dir, obj->normal_v), 0.0);
 	t_color diff = scalar_mply_vector(0.9 * mix->diff_intens * scene->light.intens, mix->norm_obj);
+	diff = multiply_cols(diff, scene->light.col);
 	mix->final = add_vectors(mix->final, diff);
 	t_vec reflect_dir_R = reflection(&l_ray->dir, &obj->normal_v);
 	t_vec view_dir_V = get_unit_vector(vec1_minus_vec2(scene->camera.pos, obj->hit_point));
