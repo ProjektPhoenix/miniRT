@@ -14,6 +14,7 @@
 #include "vector_math.h"
 #include "debug.h"
 #include <math.h>
+#include <stdbool.h>
 
 static double	dist_from_cyl_base(t_cyl_helper *c, double distance)
 {
@@ -60,6 +61,8 @@ double	find_t_cylinder(t_ray *ray, t_cylinder *cyl)
 	// if (c.discriminant < 0 || get_magnitude(c.cross_ray_cyl) == 0)
 	// 	t = -1.0;
 	// else
+	if (cyl->c.cam_inside)
+		return (0);
 	if (c.discriminant >= 0 && get_magnitude(c.cross_ray_cyl) != 0)
 	{
 		distance = dot_product(c.cross_ray_cyl, scalar_mply_vector(-1.0, cross_product(c.orig_to_base, c.cyl_dir_unit)));
@@ -92,7 +95,7 @@ double	find_t_cylinder(t_ray *ray, t_cylinder *cyl)
 		temp = -1.0;
 		temp2 = -1.0;
 		temp = dot_product(c.cyl_dir_unit, c.orig_to_base) / dot_product(c.cyl_dir_unit, ray->dir);
-		if (temp < 0 || pow(get_magnitude(vec1_minus_vec2(scalar_mply_vector(temp, ray->dir), c.orig_to_base)), 2) > pow(c.radius, 2))
+		if (temp < 0 || pow(get_magnitude(vec1_minus_vec2(scalar_mply_vector(temp, ray->dir), c.orig_to_base)), 2) > pow(c.radius, 2)) // do I need to base on cam position here?
 			temp = -1.0;
 		temp2 = dot_product(c.cyl_dir_unit, c.orig_to_top) / dot_product(c.cyl_dir_unit, ray->dir);
 		// if (temp >= 0 || temp2 >= 0)
