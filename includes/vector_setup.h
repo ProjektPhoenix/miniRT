@@ -2,6 +2,7 @@
 # define VECTOR_SETUP_H
 
 #include "vector_math.h"
+#include <stdbool.h>
 
 typedef t_vec t_point;
 typedef t_vec t_color;
@@ -64,6 +65,7 @@ typedef struct s_cyl_helper
 	t_vec	normal_v;
 	double	radius;
 	double	discriminant;
+	bool	cam_inside;
 }	t_cyl_helper;
 
 typedef struct s_cylinder
