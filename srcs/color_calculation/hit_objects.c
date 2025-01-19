@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_objects.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 14:58:46 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/12/12 20:52:08 by Henriette        ###   ########.fr       */
+/*   Updated: 2025/01/10 18:28:26 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,7 @@ t_color	get_ray_color(t_ray *ray, t_scene *scene)
 		color = calculate_obj_color(scene, &obj);
 	}
 	else
-	{
-		//debug("backgroudn color\n");
-		color = calculate_background_color(scene);
-	}
+		color = create_triple(0, 0, 0);
 	return (color);
 }
 
