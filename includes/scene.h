@@ -77,15 +77,18 @@ int	make_error_check(t_scene *scene);
 /* scene rendering */
 t_color	get_ray_color(t_ray *ray, t_scene *scene);
 void	find_closest(t_ray *ray, t_scene *scene, t_closest *obj);
+void search_spheres(double *t, t_closest *obj, t_ray *ray, t_scene *scene);
+void search_planes(double *t, t_closest *obj, t_ray *ray, t_scene *scene);
+void search_cylinders(double *t, t_closest *obj, t_ray *ray, t_scene *scene);
 t_color	calculate_obj_color(t_scene *scene, t_closest *obj);
-//bool	check_blocking_objects(t_ray *l_ray, t_scene *scene, t_closest *obj);
 bool	check_blocking_objects(t_ray *l_ray, t_scene *scene);
 void	make_light_ray(t_ray *l_ray, t_scene *scene, t_closest *obj);
 
 /* color calculations */
 t_color normalise_color(t_color col);
+t_color multiply_cols(t_color col1, t_color col2);
 void	add_light(t_ray *l_ray, t_col_mix *mix, t_scene *scene, t_closest *obj);
-t_color reflection(t_vec *l_ray_dir, t_vec *normal);
+t_color reflection_vector(t_vec *l_ray_dir, t_vec *normal);
 t_color specular_light(t_ray *l_ray, t_scene *scene, t_closest *obj);
 
 /* just for testing, delete later */
