@@ -46,6 +46,14 @@ typedef struct s_col_mix
 	double attenuation;
 } t_col_mix;
 
+typedef struct s_spec_l
+{
+	double reflectivity;
+	double shininess;
+	t_vec reflect_dir;
+	t_vec view_dir;
+	double 	intens;
+} t_spec_l;
 
 /* parsing */
 int	parse_file(char *file, t_scene *scene);
@@ -70,15 +78,15 @@ int	make_error_check(t_scene *scene);
 t_color	get_ray_color(t_ray *ray, t_scene *scene);
 void	find_closest(t_ray *ray, t_scene *scene, t_closest *obj);
 t_color	calculate_obj_color(t_scene *scene, t_closest *obj);
-bool	check_blocking_objects(t_ray *l_ray, t_scene *scene, t_closest *obj);
+//bool	check_blocking_objects(t_ray *l_ray, t_scene *scene, t_closest *obj);
+bool	check_blocking_objects(t_ray *l_ray, t_scene *scene);
 void	make_light_ray(t_ray *l_ray, t_scene *scene, t_closest *obj);
-t_vec	assign_normal(t_closest *obj);
 
 /* color calculations */
-t_color	colmix_ambient_object(t_col_mix *mix, t_closest *obj, t_scene *scene);
+t_color normalise_color(t_color col);
 void	add_light(t_ray *l_ray, t_col_mix *mix, t_scene *scene, t_closest *obj);
-t_color	calculate_background_color(t_scene *scene);
 t_color reflection(t_vec *l_ray_dir, t_vec *normal);
+t_color specular_light(t_ray *l_ray, t_scene *scene, t_closest *obj);
 
 /* just for testing, delete later */
 void	print_file_testing(t_scene *scene);

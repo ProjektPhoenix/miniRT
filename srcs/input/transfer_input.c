@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 16:17:51 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/19 13:03:52 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/19 15:33:10 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,16 @@ void	process_l(char **array, t_scene *scene)
 	if (!array[2])
 		cleanup_scene_exit(scene, "Error\nLight is missing brightness ratio", 2);
 	scene->light.intens = ft_atod(array[2]);
-	if (array[3])
+	if (array[3] && array[3][0])
 	{
-		color = ft_split(array[2], ',');
-		if (!color)
+		coord = ft_split(array[3], ',');
+		if (!coord)
 		{
 			free_array(array);
-			cleanup_scene_exit(scene, "Error in splitting ambient light colors\n", 2);
+			cleanup_scene_exit(scene, "Error in splitting light colors\n", 2);
 		}
-		set_triple_from_array(&scene->amb.col, color, scene);
+		set_triple_from_array(&scene->light.col, coord, scene);
+		scene->light.col = normalise_color(scene->light.col);
 	}
 }
 

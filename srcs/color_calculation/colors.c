@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:12:12 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/19 13:00:34 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/19 16:30:04 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,7 @@ static t_color multiply_cols(t_color col1, t_color col2)
 	return (col);
 }
 
-/*static t_color	debug_norm_vecs(t_closest *obj)
-{
-	t_vec debug_normal;
-	t_color debug_color ;
-
-	debug_normal = obj->normal_v;
-	debug_color = create_triple(((debug_normal.e[0] + 1.0) * 127.5),((debug_normal.e[1] + 1.0) * 127.5),((debug_normal.e[2] + 1.0) * 127.5));
-	return (debug_color);
-}*/
-
-static t_color normalise_color(t_color col)
+t_color normalise_color(t_color col)
 {
 	t_color color;
 	
@@ -49,21 +39,18 @@ static t_color normalise_color(t_color col)
 t_color	calculate_obj_color(t_scene *scene, t_closest *obj)
 {
 	t_col_mix mix;
+	t_color amb_contr;
 	t_ray	l_ray;
 	bool	blocked;
 
-	if (obj->type != PLANE)
-		obj->normal_v = assign_normal(obj);
 	make_light_ray(&l_ray, scene, obj);
 	l_ray.dist = get_magnitude(l_ray.dir);
 	l_ray.dir = get_unit_vector(l_ray.dir);
 	mix.norm_obj = normalise_color(obj->col);
 	mix.norm_amb = normalise_color(scene->amb.col);
-	mix.norm_light = normalise_color(scene->light.col);
-	printf("light col: %f, %f, %f\n", scene->light.col.e[0], scene->light.col.e[1], scene->light.col.e[2]);
-	t_color amb_contr = scalar_mply_vector(scene->amb.intens, mix.norm_amb);
+	amb_contr = scalar_mply_vector(scene->amb.intens, mix.norm_amb);
 	mix.final = multiply_cols(amb_contr, mix.norm_obj);
-	blocked = check_blocking_objects(&l_ray, scene, obj);
+	blocked = check_blocking_objects(&l_ray, scene);
 	if (!blocked)
 		add_light(&l_ray, &mix, scene, obj);
 	mix.final.e[0] = fmin(mix.final.e[0] * 255.0, 255.0);
@@ -74,19 +61,35 @@ t_color	calculate_obj_color(t_scene *scene, t_closest *obj)
 
 void	add_light(t_ray *l_ray, t_col_mix *mix, t_scene *scene, t_closest *obj)
 {
-	double reflectivity = 0.3;
+	t_color diff;
+	t_color spec;
 
 	mix->diff_intens = fmax(dot_product(l_ray->dir, obj->normal_v), 0.0);
-	t_color diff = scalar_mply_vector(0.9 * mix->diff_intens * scene->light.intens, mix->norm_obj);
+	diff = scalar_mply_vector(0.9 * mix->diff_intens * scene->light.intens, mix->norm_obj);
 	diff = multiply_cols(diff, scene->light.col);
 	mix->final = add_vectors(mix->final, diff);
-	t_vec reflect_dir_R = reflection(&l_ray->dir, &obj->normal_v);
-	t_vec view_dir_V = get_unit_vector(vec1_minus_vec2(scene->camera.pos, obj->hit_point));
-	double 	spec_intens = fmax(dot_product(reflect_dir_R, view_dir_V), 0.0);
-	spec_intens = pow(spec_intens, 5);
-	t_color spec = scalar_mply_vector(spec_intens * scene->light.intens, scene->light.col);
-	spec = scalar_mply_vector(spec_intens * reflectivity, spec);
+	spec = specular_light(l_ray, scene, obj);
 	mix->final = add_vectors(mix->final, spec);
+}
+
+t_color specular_light(t_ray *l_ray, t_scene *scene, t_closest *obj)
+{
+	t_spec_l spec;
+	t_color spec_contr;
+	
+	spec.reflectivity = 0.3;
+	if (obj->id % 2)
+		spec.shininess = 5;
+	else
+		spec.shininess = 30;
+	
+	spec.reflect_dir = reflection(&l_ray->dir, &obj->normal_v);
+	spec.view_dir = get_unit_vector(vec1_minus_vec2(scene->camera.pos, obj->hit_point));
+	spec.intens = fmax(dot_product(spec.reflect_dir, spec.view_dir), 0.0);
+	spec.intens = pow(spec.intens, spec.shininess);
+	spec_contr = scalar_mply_vector(spec.intens * scene->light.intens, scene->light.col);
+	spec_contr = scalar_mply_vector(spec.intens * spec.reflectivity, spec_contr);
+	return (spec_contr);
 }
 
 t_color reflection(t_vec *l_ray_dir, t_vec *normal)
@@ -105,29 +108,20 @@ t_color reflection(t_vec *l_ray_dir, t_vec *normal)
 	return (get_unit_vector(reflect));
 }
 
-t_vec	assign_normal(t_closest *obj)
-{
-	if (obj->type == SPHERE)
-	{
-		return (get_normal_v_sph(obj->hit_point, obj->center));
-	}
-	
-	return (create_triple(0, 0, 0)); // this just placeholder until other shapes are added
-}
-
 void	make_light_ray(t_ray *l_ray, t_scene *scene, t_closest *obj)
 {
-	//double offset;
+	double offset;
 
-	//offset = 1e-4;
-	//l_ray->orig = add_vectors(obj->hit_point, scalar_mply_vector(offset, obj->normal_v));
-	l_ray->orig = obj->hit_point;
+	offset = 1e-4;
+	l_ray->orig = add_vectors(obj->hit_point, scalar_mply_vector(offset, obj->normal_v));
+	//l_ray->orig = obj->hit_point;
 	l_ray->dir = vec1_minus_vec2(scene->light.pos, l_ray->orig);
 }
 
 /* checks if any objects are in the way of the hit point and the light 
 	- for now only sphere, needs to be expanded to other objects */
-bool	check_blocking_objects(t_ray *l_ray, t_scene *scene, t_closest *obj)
+//bool	check_blocking_objects(t_ray *l_ray, t_scene *scene, t_closest *obj)
+bool	check_blocking_objects(t_ray *l_ray, t_scene *scene)
 {
 	t_sphere	*temp_s;
 	double	t;
@@ -136,26 +130,20 @@ bool	check_blocking_objects(t_ray *l_ray, t_scene *scene, t_closest *obj)
 	temp_s = scene->sphere;
 	while(temp_s)
 	{
-		if (obj->id != temp_s->id)
+		t = find_t_sphere(l_ray, temp_s); //unit vector uebergeben 
+		if (t > 0 && t < l_ray->dist)
 		{
-			t = find_t_sphere(l_ray, temp_s); //unit vector uebergeben 
-			if (t > 0 && t < l_ray->dist)
-			{
-				//debug("sphere is blocking light\n");
-				return (true);
-			}
+			//debug("sphere is blocking light\n");
+			return (true);
 		}
 		temp_s = temp_s->next;
 	}
 	temp_p = scene->plane;
 	while (temp_p)
 	{
-		if (obj->id != temp_p->id)
-		{
-			t = find_t_plane(l_ray, temp_p);
-			if (t > 0 && t < l_ray->dist)
-				return (true);
-		}
+		t = find_t_plane(l_ray, temp_p);
+		if (t > 0 && t < l_ray->dist)
+			return (true);
 		temp_p = temp_p->next;
 	}
 	// continue with other objects
