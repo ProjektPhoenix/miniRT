@@ -76,10 +76,9 @@ t_vec	add_multiple_vectors(int num_vectors, ...)
 
 /*
  * Returns new vector from multiplying a number / scalar with a vector.
- * The resulting vector has the same or opposite direction with scaled length.
  * scalars > 1 increase the length, scalars < 1 and > 0 decrease the length.
  * scalars < -1 increase length and change direction.
- *scalars < 0 and > -1 decrease length and change direction.
+ * scalars < 0 and > -1 decrease length and change direction.
  */
 t_vec	scalar_mply_vector(double scalar, t_vec vec)
 {
@@ -123,14 +122,6 @@ t_vec get_normal_v_sph(t_vec hit_p, t_vec center)
 	return (get_unit_vector(normal));
 }
 
-// t_vec get_normal_v_cyl(t_vec hit_p, t_vec center)
-// {
-// 	t_vec	normal;
-
-// 	normal = vec1_minus_vec2(hit_p, center);
-// 	return (get_unit_vector(normal));
-// }
-
 /*
  * Returns the dot product of a two vectors.
  * Geometrically the dot product describes the relation of lengths
@@ -139,7 +130,8 @@ t_vec get_normal_v_sph(t_vec hit_p, t_vec center)
  */
 double	dot_product(t_vec vec_1, t_vec vec_2)
 {
-	return (vec_1.e[0] * vec_2.e[0] + vec_1.e[1] * vec_2.e[1] + vec_1.e[2] * vec_2.e[2]);
+	return (vec_1.e[0] * vec_2.e[0] + vec_1.e[1] \
+			* vec_2.e[1] + vec_1.e[2] * vec_2.e[2]);
 }
 
 /*
