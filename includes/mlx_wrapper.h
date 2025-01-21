@@ -6,7 +6,7 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:11:09 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/21 18:25:39 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/21 20:14:52 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -16,7 +16,7 @@
 # include "minirt.h"
 
 # define WIDTH_RATIO 0.8
-# define HEIGHT_RATIO 0.9
+# define HEIGHT_RATIO 0.8
 
 typedef struct s_interface {
 	void	*mlx;
