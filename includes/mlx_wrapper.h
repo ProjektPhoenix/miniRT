@@ -1,28 +1,31 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   mlx_wrapper.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:11:09 by rpriess           #+#    #+#             */
-/*   Updated: 2024/11/18 15:38:50 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/21 17:54:10 by rpriess          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef MLX_WRAPPER_H
 # define MLX_WRAPPER_H
 
-#include "minirt.h"
+# include "minirt.h"
 
-typedef struct	s_interface {
+# define WIDTH_RATIO 0.8
+# define HEIGHT_RATIO 0.9
+
+typedef struct s_interface {
 	void	*mlx;
 	void	*win;
 	int		height;
 	int		width;
 }	t_interface;
 
-typedef struct	s_img {
+typedef struct s_img {
 	void	*ptr;
 	void	*content;
 	int		height;
