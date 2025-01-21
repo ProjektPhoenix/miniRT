@@ -1,3 +1,15 @@
+#******************************************************************************#
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/01/21 18:32:14 by rpriess           #+#    #+#              #
+#    Updated: 2025/01/21 18:32:18 by rpriess          ###   ########.fr        #
+#                                                                              #
+#******************************************************************************#
+
 NAME		:= miniRT
 CFLAGS_prod	:= -Wall -Wextra -Werror -Ofast
 CFLAGS_gdb	:= -Wall -Wextra -Werror -g -Wunreachable-code -O3 
@@ -21,7 +33,7 @@ MINILIBX	:= ${MINILIBXDIR}/libmlx.a
 INCL		:= -Iincludes -Iusr/include -I${LIBFTDIR} -I${MINILIBXDIR}
 SRCS		:= srcs/main.c srcs/exits.c srcs/input/parsing.c srcs/input/parsing_utils.c srcs/input/process_utils.c \
 			srcs/display/window_mngmt.c srcs/display/loop.c srcs/display/draw_image.c \
-			srcs/vector_utils/vector_math.c srcs/hit_points/hit_objects.c srcs/display/viewport_and_canvas.c \
+			srcs/utils/vector_math.c srcs/hit_points/hit_objects.c srcs/display/viewport_and_canvas.c \
       		srcs/color/colors.c srcs/hit_points/find_closest.c srcs/color/color_light_utils.c \
 			srcs/hit_points/cylinder.c srcs/input/init_helper.c srcs/input/error_check.c srcs/input/process_input.c
 OBJS		:= ${SRCS:.c=.o}
