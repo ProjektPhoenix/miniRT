@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vector_setup.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/21 16:08:47 by hzimmerm          #+#    #+#             */
+/*   Updated: 2025/01/21 16:14:20 by hzimmerm         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef VECTOR_SETUP_H
 # define VECTOR_SETUP_H
 
-#include "vector_math.h"
-#include <stdbool.h>
+# include "vector_math.h"
+# include <stdbool.h>
 
-typedef t_vec t_point;
-typedef t_vec t_color;
+typedef t_vec	t_point;
+typedef t_vec	t_color;
 
 typedef struct s_ray
 {
@@ -16,8 +28,8 @@ typedef struct s_ray
 
 typedef struct s_ambl
 {
-	double intens;
-	t_color col;
+	double	intens;
+	t_color	col;
 }	t_ambl;
 
 typedef struct s_camera
@@ -25,30 +37,30 @@ typedef struct s_camera
 	t_point	pos;
 	t_vec	dir;
 	double	fov;
-} t_cam;
+}	t_cam;
 
 typedef struct s_light
 {
 	t_point	pos;
-	double intens;
-	t_color col;
-} t_light;
+	double	intens;
+	t_color	col;
+}	t_light;
 
 typedef struct s_plane
 {
-	t_point pos;
-	t_vec ortho;
-	t_color col;
-	int	id;
+	t_point			pos;
+	t_vec			ortho;
+	t_color			col;
+	int				id;
 	struct s_plane	*next;
-} t_plane;
+}	t_plane;
 
 typedef struct s_sphere
 {
-	t_point	center;
-	double	diameter;
-	t_color col;
-	int	id;
+	t_point			center;
+	double			diameter;
+	t_color			col;
+	int				id;
 	struct s_sphere	*next;
 }	t_sphere;
 
@@ -80,13 +92,12 @@ typedef struct s_cylinder
 	struct s_cylinder	*next;
 }	t_cylinder;
 
-/* set vectors and triples */
+/* set vector, color, point util */
 t_point	create_triple(double x, double y, double z);
-t_point	get_hit_point(t_ray *ray, double t);
 
+/* find intersection points */
 double	find_t_sphere(t_ray *ray, t_sphere *sphere);
 double	find_t_cylinder(t_ray *ray, t_cylinder *cylinder);
-double	get_discriminant(t_ray *ray, t_sphere *sphere, double *c, double *a);
 double	find_t_plane(t_ray *ray, t_plane *plane, int mode);
 
 #endif

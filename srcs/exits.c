@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 17:01:25 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/12/13 17:59:22 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/21 13:26:13 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,31 @@ int	error_exit_status(char *mssg, int status)
 
 void cleanup_scene(t_scene *scene)
 {
-	if (scene->plane)
+	t_plane *temp_p;
+	t_cylinder *temp_c;
+	t_sphere *temp_s;
+
+	while (scene->plane)
 	{
+		temp_p = scene->plane->next;
 		free(scene->plane);
-		scene->plane = NULL;
+		scene->plane = temp_p;
 	}
-	if (scene->cyl)
+	while (scene->cyl)
 	{
+		temp_c = scene->cyl->next;
 		free(scene->cyl);
-		scene->cyl = NULL;
+		scene->cyl = temp_c;
 	}
-	if (scene->sphere)
+	while(scene->sphere)
 	{
+		temp_s = scene->sphere->next;
 		free(scene->sphere);
-		scene->sphere = NULL;
+		scene->sphere = temp_s;
 	}
+	scene->plane = NULL;
+	scene->cyl = NULL;
+	scene->sphere = NULL;
 }
 
 void cleanup_scene_exit(t_scene *scene, char *mssg, int status)

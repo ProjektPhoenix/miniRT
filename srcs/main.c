@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:41:39 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/12/05 16:57:11 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/21 13:33:50 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@ int	main(int argc, char **argv)
 	init_mlx_interface(&rt);
 	draw_image(&rt);
 	minirt_init_loop(&rt);
-	// cleanup_exit(&rt, NULL, 2);
+	//cleanup_exit(&rt, NULL, 0);
 	return (0);
 }
