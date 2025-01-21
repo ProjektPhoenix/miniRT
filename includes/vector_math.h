@@ -1,20 +1,20 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   vector_math.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:02:09 by rpriess           #+#    #+#             */
-/*   Updated: 2024/12/08 21:42:50 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/21 19:04:54 by rpriess          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef VECTOR_MATH_H
 # define VECTOR_MATH_H
 
-typedef struct	s_vec {
-	double e[3];
+typedef struct s_vec {
+	double	e[3];
 }	t_vec;
 
 typedef struct s_matrix3x3 {
@@ -31,6 +31,5 @@ double	get_magnitude(t_vec vec);
 t_vec	get_unit_vector(t_vec vec);
 t_vec	scalar_mply_vector(double scalar, t_vec vec);
 t_vec	vec1_minus_vec2(t_vec vec_1, t_vec vec_2);
-t_vec get_normal_v_sph(t_vec hit_p, t_vec center);
 
 #endif

@@ -1,51 +1,25 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exits.c                                            :+:      :+:    :+:   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 17:01:25 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/21 13:26:13 by hzimmerm         ###   ########.fr       */
+/*   Created: 2025/01/21 18:49:52 by rpriess           #+#    #+#             */
+/*   Updated: 2025/01/21 19:44:38 by rpriess          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minirt.h"
-#include "libft.h"
-#include "vector_setup.h"
 #include "scene.h"
+#include "error_utils.h"
 #include <mlx.h>
-
-int	error_return(char *mssg)
-{
-	ft_putstr_fd(mssg, 2);
-	return (1);
-}
-
-int	error_exit(char *mssg)
-{
-	ft_putstr_fd(mssg, 2);
-	exit(1);
-}
-
-int	perror_exit(char *mssg)
-{
-	perror(mssg);
-	exit(1);
-}
-
-int	error_exit_status(char *mssg, int status)
-{
-	if (mssg)
-		ft_putstr_fd(mssg, 2);
-	exit(status);
-}
 
 void cleanup_scene(t_scene *scene)
 {
-	t_plane *temp_p;
-	t_cylinder *temp_c;
-	t_sphere *temp_s;
+	t_plane		*temp_p;
+	t_cylinder	*temp_c;
+	t_sphere	*temp_s;
 
 	while (scene->plane)
 	{
@@ -59,7 +33,7 @@ void cleanup_scene(t_scene *scene)
 		free(scene->cyl);
 		scene->cyl = temp_c;
 	}
-	while(scene->sphere)
+	while (scene->sphere)
 	{
 		temp_s = scene->sphere->next;
 		free(scene->sphere);
@@ -84,7 +58,7 @@ void	cleanup_mlx(t_minirt *rt)
 	mlx_destroy_image(rt->screen.mlx, rt->img.ptr);
 	mlx_destroy_window(rt->screen.mlx, rt->screen.win);
 	#ifdef __linux__
-			mlx_destroy_display(rt->screen.mlx);
+		mlx_destroy_display(rt->screen.mlx);
 	#endif
 }
 
@@ -102,20 +76,4 @@ int	loop_cleanup(t_minirt *rt)
 {
 	cleanup_exit(rt, NULL, 0);
 	return (0);
-}
-
-void	free_array(char **str)
-{
-	int	i;
-
-	i = 0;
-	if (str == NULL)
-		return ;
-	while (str[i] != NULL)
-	{
-		free(str[i]);
-		i++;
-	}
-	free(str);
-	str = NULL;
 }

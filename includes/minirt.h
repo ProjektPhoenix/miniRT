@@ -1,23 +1,35 @@
+/******************************************************************************/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minirt.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/21 19:31:23 by rpriess           #+#    #+#             */
+/*   Updated: 2025/01/21 19:37:25 by rpriess          ###   ########.fr       */
+/*                                                                            */
+/******************************************************************************/
+
 #ifndef MINIRT_H
 # define MINIRT_H
 
-#include <unistd.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "vector_setup.h"
-#include "vector_math.h"
-#include "mlx_wrapper.h"
-#include "scene.h"
+# include <unistd.h>
+# include <stdio.h>
+# include <fcntl.h>
+# include <errno.h>
+# include <stdlib.h>
+# include <stdbool.h>
+# include "vector_setup.h"
+# include "vector_math.h"
+# include "mlx_wrapper.h"
+# include "scene.h"
 
 # define WIN_TITLE "miniRT"
 # define TITLEBAR_HEIGHT 10;
 
-typedef struct	s_pxl {
-	int	a;
-	int	b;
+typedef struct s_pxl {
+	int		a;
+	int		b;
 	t_color	color;
 }	t_pxl;
 
@@ -33,7 +45,7 @@ typedef struct s_viewp
 	t_ray	**ray;
 }	t_viewp;
 
-typedef struct	s_minirt
+typedef struct s_minirt
 {
 	t_interface	screen;
 	t_scene		scene;
@@ -41,24 +53,24 @@ typedef struct	s_minirt
 	t_img		img;
 }	t_minirt;
 
-/* utils */
-void	calculate_rays(t_minirt *rt);
-void	cleanup_exit(t_minirt *rt, char *mssg, int status);
-void	cleanup_scene(t_scene *scene);
-void	cleanup_scene_exit(t_scene *scene, char *mssg, int status);
-void	draw_image(t_minirt *rt);
-bool	draw_pixel(t_img *img, t_pxl *pxl);
-int		error_return(char *mssg);
-int		error_exit(char *mssg);
-int		perror_exit(char *mssg);
-int		error_exit_status(char *mssg, int status);
-void	free_array(char **str);
+/* init */
 int		ft_key_hook(int keycode, t_minirt *rt);
-void    init_helper(t_minirt *rt);
+void	init_helper(t_minirt *rt);
 bool	init_img(t_minirt *rt);
 int		init_mlx_interface(t_minirt *rt);
 void	init_viewport(t_minirt *rt);
-int		loop_cleanup(t_minirt *rt);
 void	minirt_init_loop(t_minirt *rt);
+
+/* utils */
+void	calculate_rays(t_minirt *rt);
+void	draw_image(t_minirt *rt);
+bool	draw_pixel(t_img *img, t_pxl *pxl);
+
+/* cleanup, exit, error */
+void	cleanup_exit(t_minirt *rt, char *mssg, int status);
+void	cleanup_scene(t_scene *scene);
+void	cleanup_scene_exit(t_scene *scene, char *mssg, int status);
+void	free_array(char **str);
+int		loop_cleanup(t_minirt *rt);
 
 #endif 

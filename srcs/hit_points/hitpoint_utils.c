@@ -1,38 +1,21 @@
 /******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_wrapper.h                                      :+:      :+:    :+:   */
+/*   hitpoint_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/27 21:11:09 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/21 18:25:39 by rpriess          ###   ########.fr       */
+/*   Created: 2025/01/21 18:45:31 by rpriess           #+#    #+#             */
+/*   Updated: 2025/01/21 18:54:54 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
-#ifndef MLX_WRAPPER_H
-# define MLX_WRAPPER_H
+#include "vector_math.h"
 
-# include "minirt.h"
+t_vec	get_normal_v_sph(t_vec hit_p, t_vec center)
+{
+	t_vec	normal;
 
-# define WIDTH_RATIO 0.8
-# define HEIGHT_RATIO 0.9
-
-typedef struct s_interface {
-	void	*mlx;
-	void	*win;
-	int		height;
-	int		width;
-}	t_interface;
-
-typedef struct s_img {
-	void	*ptr;
-	void	*content;
-	int		height;
-	int		width;
-	int		bpp;
-	int		line;
-	int		endian;
-}	t_img;
-
-#endif
+	normal = vec1_minus_vec2(hit_p, center);
+	return (get_unit_vector(normal));
+}
