@@ -26,11 +26,14 @@ bool	init_img(t_minirt *rt)
 {
 	rt->img.width = rt->screen.width;
 	rt->img.height = rt->screen.height;
-	rt->img.ptr = mlx_new_image(rt->screen.mlx, rt->img.width, rt->img.height);
+	rt->img.ptr = mlx_new_image(rt->screen.mlx, \
+								rt->img.width, rt->img.height);
 	if (!rt->img.ptr)
 		return (false);
-	rt->img.content = mlx_get_data_addr(rt->img.ptr, &(rt->img.bpp), &(rt->img.line), &(rt->img.endian));
-	debug("Defined image size: width - %i, height - %i", rt->img.width, rt->img.height);
+	rt->img.content = mlx_get_data_addr(rt->img.ptr, &(rt->img.bpp), \
+										&(rt->img.line), &(rt->img.endian));
+	debug("Defined image size: width - %i, height - %i", \
+			rt->img.width, rt->img.height);
 	return (true);
 }
 
@@ -49,7 +52,8 @@ static bool	init_interface(t_interface *screen)
 
 static bool	create_new_window(t_interface *screen, char* win_title)
 {
-	screen->win = mlx_new_window(screen->mlx, screen->width, screen->height, win_title);
+	screen->win = mlx_new_window(screen->mlx, screen->width, \
+									screen->height, win_title);
 	if (!screen->win)
 		return (false);
 	return (true);
