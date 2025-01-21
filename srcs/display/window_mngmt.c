@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   window_mngmt.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:25:07 by rpriess           #+#    #+#             */
-/*   Updated: 2024/12/02 19:29:21 by Henriette        ###   ########.fr       */
+/*   Updated: 2025/01/21 17:50:22 by rpriess          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "vector_setup.h"
 #include "minirt.h"
@@ -39,13 +39,26 @@ bool	init_img(t_minirt *rt)
 
 static bool	init_interface(t_interface *screen)
 {
+	int	x;
+	int	y;
+
+	x = 0;
+	y = 0;
 	screen->mlx = NULL;
 	screen->mlx = mlx_init();
 	if (!screen->mlx)
 		return (false);
-	// get_screen_size() // minus TITLEBAR_HEIGHT
-	screen->width = 900;
-	screen->height = 600;
+	mlx_get_screen_size(screen->mlx, &x, &y);
+	if (x > 0 && y > 0)
+	{
+		screen->width = x * WIDTH_RATIO;
+		screen->height = y * HEIGHT_RATIO;
+	}
+	else
+	{
+		screen->width = 900;
+		screen->height = 600;
+	}
 	screen->win = NULL;
 	return (true);
 }
