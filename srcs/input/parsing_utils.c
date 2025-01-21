@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:26:08 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/19 17:45:50 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:54:43 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "scene.h"
 
 /* takes scene as input and initialises all basic variables */
-void	init_scene(t_scene *scene)
+void	init_scene(t_scene *scene, t_parse_flags *check)
 {
 	scene->camera.pos = create_triple(0, 0, 0);
 	scene->camera.fov = 0;
@@ -28,31 +28,10 @@ void	init_scene(t_scene *scene)
 	scene->sphere = NULL;
 	scene->cyl = NULL;
 	scene->plane = NULL;
-	scene->flag_A = false;
-	scene->flag_C = false;
-	scene->flag_L = false;
 	scene->id_count = 0;
-}
-/* takes as input one line from the .rt file and the scene - checks if starting element is valid */
-int	is_valid(char *str, t_scene *scene)
-{
-	if (ft_strncmp(str, "A", 2) && ft_strncmp(str, "C", 2) && ft_strncmp(str, "L", 2)
-		&& ft_strncmp(str, "sp", 3) && ft_strncmp(str, "pl", 3) && ft_strncmp(str, "cy", 3))
-		cleanup_scene_exit(scene, "Error\nValid elements only are: A, C, L, pl, sp and cy\n", 2);
-	else if ((!ft_strncmp(str, "A", 2) && scene->flag_A == true) || (!ft_strncmp(str, "C", 2) && scene->flag_C == true)
-		|| (!ft_strncmp(str, "L", 2) && scene->flag_L == true))
-		cleanup_scene_exit(scene, "Error\nA, C and L can only be entered once\n", 2);
-	return (1);
-}
-
-/* checks if the memory allocation of coord was succesful, otherwise frees and exits */
-void	check_alloc(t_scene *scene, char **coord, char **array, char *mssg)
-{
-	if (!coord)
-	{
-		free_array(array);
-		cleanup_scene_exit(scene, mssg, 2);
-	}
+	check->flag_a = false;
+	check->flag_c = false;
+	check->flag_l = false;
 }
 
 /* takes scene as argument, adds and returns a new sphere node */
@@ -60,12 +39,12 @@ t_sphere	*add_sphere_node(t_scene *scene)
 {
 	t_sphere	*new;
 	t_sphere	*temp;
-	
+
 	new = malloc(sizeof(t_sphere));
 	if (!new)
 		cleanup_scene_exit(scene, "malloc error\n", 2);
-	new->col = (t_color){{0.0, 0.0, 0.0}};
-	new->center = (t_point){{0.0, 0.0, 0.0}};
+	new->col = create_triple(0, 0, 0);
+	new->center = create_triple(0, 0, 0);
 	new->diameter = 0.0;
 	new->id = scene->id_count;
 	scene->id_count++;
@@ -87,13 +66,13 @@ t_cylinder	*add_cylinder_node(t_scene *scene)
 {
 	t_cylinder	*new;
 	t_cylinder	*temp;
-	
+
 	new = malloc(sizeof(t_cylinder));
 	if (!new)
 		cleanup_scene_exit(scene, "malloc error\n", 2);
-	new->center = (t_point){{0.0, 0.0, 0.0}};
-	new->col = (t_color){{0.0, 0.0, 0.0}};
-	new->dir = (t_vec){{0.0, 0.0, 0.0}};
+	new->center = create_triple(0, 0, 0);
+	new->col = create_triple(0, 0, 0);
+	new->dir = create_triple(0, 0, 0);
 	new->diameter = 0.0;
 	new->height = 0.0;
 	new->id = scene->id_count;
@@ -116,13 +95,13 @@ t_plane	*add_plane_node(t_scene *scene)
 {
 	t_plane	*new;
 	t_plane	*temp;
-	
+
 	new = malloc(sizeof(t_plane));
 	if (!new)
 		cleanup_scene_exit(scene, "malloc error\n", 2);
-	new->col = (t_color){{0.0, 0.0, 0.0}};
-	new->ortho = (t_vec){{0.0, 0.0, 0.0}};
-	new->pos = (t_vec){{0.0, 0.0, 0.0}};
+	new->col = create_triple(0, 0, 0);
+	new->ortho = create_triple(0, 0, 0);
+	new->pos = create_triple(0, 0, 0);
 	new->id = scene->id_count;
 	scene->id_count++;
 	new->next = NULL;
