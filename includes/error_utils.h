@@ -10,8 +10,8 @@
 /*                                                                            */
 /******************************************************************************/
 
-#ifndef ERROR_H
-# define ERROR_H
+#ifndef ERROR_UTILS_H
+# define ERROR_UTILS_H
 
 int		error_return(char *mssg);
 int		error_exit(char *mssg);
