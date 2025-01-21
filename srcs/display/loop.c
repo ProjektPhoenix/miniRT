@@ -6,10 +6,11 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 20:07:30 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/21 19:26:41 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/21 20:26:20 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
+#include "minirt.h"
 #include <mlx.h>
 #ifdef __linux__
 # include <X11/Xlib.h>
@@ -17,7 +18,8 @@
 # include <OpenGL/gl.h>
 #endif
 #include <libft.h>
-#include "minirt.h"
+#include <stdbool.h>
+
 #include "debug.h"
 
 /*
@@ -56,13 +58,11 @@ int	ft_key_hook(int keycode, t_minirt *rt)
 
 void	minirt_init_loop(t_minirt *rt)
 {
-	debug("loop init");
 	mlx_key_hook(rt->screen.win, ft_key_hook, rt);
-	#ifdef __linux__
+	if (LINUX_FLAG)
 		mlx_hook(rt->screen.win, DestroyNotify, \
 					NoEventMask, loop_cleanup, rt);
-	#elif __APPLE__
+	else
 		mlx_hook(rt->screen.win, 17, 0, loop_cleanup, rt);
-	#endif
 	mlx_loop(rt->screen.mlx);
 }
