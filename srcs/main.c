@@ -6,7 +6,7 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:41:39 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/21 18:08:35 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/21 18:28:42 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -18,7 +18,6 @@ int	main(int argc, char **argv)
 {
 	t_minirt	rt;
 
-	// init_rt() # tbd
 	if (argc == 1)
 		return (error_return("Error\nno .rt file provided\n"));
 	if (argc > 2)
@@ -28,6 +27,5 @@ int	main(int argc, char **argv)
 	init_mlx_interface(&rt);
 	draw_image(&rt);
 	minirt_init_loop(&rt);
-	//cleanup_exit(&rt, NULL, 0);
 	return (0);
 }
