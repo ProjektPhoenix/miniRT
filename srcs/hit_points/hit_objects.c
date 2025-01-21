@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 14:58:46 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/21 15:40:09 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/21 19:50:07 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ double	find_t_plane(t_ray *ray, t_plane *plane, int mode)
 
 	norm_v = get_unit_vector(plane->ortho);
 	denominator = dot_product(norm_v, ray->dir);
+	// hier flag adden: wenn denom positiv, dann vector points towards camera
 	if (mode == INTERSECT)
 	{
 		if (fabs(denominator) < 1e-4)
