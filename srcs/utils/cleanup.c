@@ -6,12 +6,13 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 18:49:52 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/21 19:13:43 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/21 19:44:38 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "minirt.h"
 #include "scene.h"
+#include "error_utils.h"
 #include <mlx.h>
 
 void cleanup_scene(t_scene *scene)

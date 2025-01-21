@@ -6,13 +6,14 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:41:39 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/21 18:28:42 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/21 19:42:25 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "minirt.h"
 #include "vector_setup.h"
 #include "scene.h"
+#include "error_utils.h"
 
 int	main(int argc, char **argv)
 {

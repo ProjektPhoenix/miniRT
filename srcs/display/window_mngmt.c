@@ -6,16 +6,17 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:25:07 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/21 17:50:22 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/21 19:44:01 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "vector_setup.h"
 #include "minirt.h"
+#include "error_utils.h"
 #include <mlx.h>
 #include <mlx_wrapper.h>
 #ifdef __LINUX__
-	#include <error.h>
+# include <error.h>
 #endif
 #include <stdbool.h>
 #include <libft.h>
