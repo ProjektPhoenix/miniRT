@@ -6,7 +6,7 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:31:23 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/21 19:37:25 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/21 20:27:11 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -26,6 +26,11 @@
 
 # define WIN_TITLE "miniRT"
 # define TITLEBAR_HEIGHT 10;
+# ifdef __APPLE__
+#  define LINUX_FLAG false
+# else
+#  define LINUX_FLAG true
+# endif
 
 typedef struct s_pxl {
 	int		a;
