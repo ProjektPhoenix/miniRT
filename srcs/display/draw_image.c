@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   draw_image.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:29:46 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/19 17:06:40 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/23 18:37:45 by rpriess          ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minirt.h"
 #include "mlx_wrapper.h"
@@ -28,19 +28,19 @@
  * "2" if color information cannot be interpreted
  * "3" in case of other errors.
  */
-bool draw_pixel(t_img *img, t_pxl *pxl)
+bool	draw_pixel(t_img *img, t_pxl *pxl)
 {
-    unsigned int color;
+	unsigned int	color;
 
-    color = ft_rgb_color((int)pxl->color.e[0], \
+	color = ft_rgb_color((int)pxl->color.e[0], \
 						(int)pxl->color.e[1], (int)pxl->color.e[2]);
 
-    if (pxl->a > img->width || pxl->b > img->height \
+	if (pxl->a > img->width || pxl->b > img->height \
 		|| pxl->a < 0 || pxl->b < 0)
-        return (1);
-    ft_memcpy(img->content + (pxl->b * img->line + pxl->a * img->bpp / 8), \
+		return (1);
+	ft_memcpy(img->content + (pxl->b * img->line + pxl->a * img->bpp / 8), \
 				&color, img->bpp / 8);
-    return (0);
+	return (0);
 }
 
 /*
