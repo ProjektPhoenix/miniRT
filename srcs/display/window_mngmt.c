@@ -6,7 +6,7 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:25:07 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/23 22:12:10 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/23 22:42:43 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	init_mlx_interface(t_minirt *rt)
 	{
 		cleanup_scene(&(rt->scene));
 		#ifdef __linux__
-			mlx_destroy_display(rt->screen.mlx);
+		mlx_destroy_display(rt->screen.mlx);
 		#endif
 		error_exit_status("Creating MLX window failed.", 1);
 	}
@@ -88,7 +88,7 @@ int	init_mlx_interface(t_minirt *rt)
 		cleanup_scene(&(rt->scene));
 		mlx_destroy_window(rt->screen.mlx, rt->screen.win);
 		#ifdef __linux__
-			mlx_destroy_display(rt->screen.mlx);
+		mlx_destroy_display(rt->screen.mlx);
 		#endif
 		error_exit_status("Creating MLX img failed.", 1);
 	}

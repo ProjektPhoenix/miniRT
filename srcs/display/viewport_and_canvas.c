@@ -6,7 +6,7 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 18:08:15 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/23 22:09:46 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/23 22:44:16 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static t_vec	get_viewport_uvec_h(t_minirt *rt)
 	camdir = get_unit_vector(rt->scene.camera.dir);
 	if (uvec_w.e[1] != 0 && camdir.e[2] != 0)
 	{
-		uvec_h.e[0] = sqrt(1 \
-					/ (1.0 + pow(uvec_w.e[0], 2)/pow(uvec_w.e[1], 2) \
+		uvec_h.e[0] = sqrt(1 / 
+						(1.0 + pow(uvec_w.e[0], 2) / pow(uvec_w.e[1], 2) \
 						+ pow(camdir.e[0] / camdir.e[2] - camdir.e[1] \
 						* uvec_w.e[0] / (uvec_w.e[1] * camdir.e[2]), 2)));
 		uvec_h.e[1] = ft_abs(uvec_w.e[0] * uvec_h.e[0] / uvec_w.e[1]);

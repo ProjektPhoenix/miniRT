@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:30:37 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/23 21:39:47 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/23 22:41:49 by rpriess          ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "vector_setup.h"
 #include "vector_math.h"
@@ -62,15 +62,18 @@ static void	check_solution_and_assign_normal_v(t_cyl_helper *c, \
 							double *distance, double temp, double height)
 {
 	double	dist_base;
+	t_vec	vec1;
+	t_vec	vec2;
 
 	dist_base = dist_from_cyl_base(c, temp);
 	if (temp >= 0 && (*distance == -1.0 || temp < *distance)
 		&& dist_base >= 0 && dist_base <= height)
 	{
 		*distance = temp;
-		c->normal_v = get_unit_vector(vec1_minus_vec2(vec1_minus_vec2( \
-					scalar_mply_vector(*distance, c->ray_dir_unit), \
-					scalar_mply_vector(dist_base, c->cyl_dir_unit)), 
+		vec1 = scalar_mply_vector(*distance, c->ray_dir_unit);
+		vec2 = scalar_mply_vector(dist_base, c->cyl_dir_unit);
+		c->normal_v = \
+		get_unit_vector(vec1_minus_vec2(vec1_minus_vec2(vec1, vec2), \
 					c->cyl_base));
 	}
 }
