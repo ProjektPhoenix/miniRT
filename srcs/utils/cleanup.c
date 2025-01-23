@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
@@ -6,16 +6,16 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 18:49:52 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/21 19:44:38 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/23 22:18:18 by rpriess          ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minirt.h"
 #include "scene.h"
 #include "error_utils.h"
 #include <mlx.h>
 
-void cleanup_scene(t_scene *scene)
+void	cleanup_scene(t_scene *scene)
 {
 	t_plane		*temp_p;
 	t_cylinder	*temp_c;
@@ -44,7 +44,7 @@ void cleanup_scene(t_scene *scene)
 	scene->sphere = NULL;
 }
 
-void cleanup_scene_exit(t_scene *scene, char *mssg, int status)
+void	cleanup_scene_exit(t_scene *scene, char *mssg, int status)
 {
 	cleanup_scene(scene);
 	error_exit_status(mssg, status);
