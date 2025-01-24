@@ -6,7 +6,7 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 18:08:15 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/24 15:57:47 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/24 16:14:18 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,20 @@
 #include <math.h>
 
 #include "debug.h"
+
+
+static t_vec	get_uvec_h_std_case(t_vec uvec_w, t_vec camdir)
+{
+	t_vec	uvec_h;
+
+	uvec_h.e[0] = sqrt(1 / (1.0 + pow(uvec_w.e[0], 2) / pow(uvec_w.e[1], 2) \
+					+ pow(camdir.e[0] / camdir.e[2] - camdir.e[1] \
+					* uvec_w.e[0] / (uvec_w.e[1] * camdir.e[2]), 2)));
+	uvec_h.e[1] = ft_abs(uvec_w.e[0] * uvec_h.e[0] / uvec_w.e[1]);
+	uvec_h.e[2] = -1 * sqrt(1.0 - pow(uvec_h.e[0], 2) \
+							- pow(uvec_h.e[1], 2));
+	return (uvec_h);
+}
 
 /*
  * SONDERFÄLLE BERÜCKSICHTIGEN !!!
@@ -32,29 +46,19 @@ static t_vec	get_viewport_uvec_h(t_minirt *rt)
 	uvec_w = rt->vp.uvec_w;
 	camdir = get_unit_vector(rt->scene.camera.dir);
 	if (uvec_w.e[1] != 0 && camdir.e[2] != 0)
-	{
-		uvec_h.e[0] = sqrt(1 / 
-						(1.0 + pow(uvec_w.e[0], 2) / pow(uvec_w.e[1], 2) \
-						+ pow(camdir.e[0] / camdir.e[2] - camdir.e[1] \
-						* uvec_w.e[0] / (uvec_w.e[1] * camdir.e[2]), 2)));
-		uvec_h.e[1] = ft_abs(uvec_w.e[0] * uvec_h.e[0] / uvec_w.e[1]);
-		uvec_h.e[2] = -1 * sqrt(1.0 - pow(uvec_h.e[0], 2) \
-								- pow(uvec_h.e[1], 2));
-	}
+		uvec_h = get_uvec_h_std_case(uvec_w, camdir);
 	else if (camdir.e[2] == 0)
 		uvec_h = create_triple(0.0, 0.0, -1.0);
 	else if (uvec_w.e[1] == 0)
 	{
 		uvec_h.e[0] = 0.0;
-		uvec_h.e[1] = 1.0 / (1.0 + pow(camdir.e[1], 2) \
-										/ pow(camdir.e[2], 2));
-		uvec_h.e[2] = -1.0 * uvec_h.e[1] \
-						* camdir.e[1] / camdir.e[2];
+		uvec_h.e[1] = 1.0 / \
+						(1.0 + pow(camdir.e[1], 2) / pow(camdir.e[2], 2));
+		uvec_h.e[2] = -1.0 * uvec_h.e[1] * camdir.e[1] / camdir.e[2];
 	}
-	if ((camdir.e[0] > 0 && camdir.e[2] < 0) \
-		|| (camdir.e[0] > 0 && camdir.e[2] < 0)) // twice the same condition?
+	if (camdir.e[0] > 0 && camdir.e[2] < 0)
 		uvec_h.e[0] = -1 * uvec_h.e[0];
-	if ((camdir.e[1] > 0 && camdir.e[2] < 0) || (camdir.e[1] > 0 && camdir.e[2] < 0)) // twice the same condition?
+	if (camdir.e[1] > 0 && camdir.e[2] < 0)
 		uvec_h.e[1] = -1 * uvec_h.e[1];
 	uvec_h = get_unit_vector(uvec_h);
 	return (uvec_h);
@@ -70,7 +74,6 @@ static t_vec	get_viewport_uvec_w(t_scene *scene)
 	t_vec	camdir;
 
 	camdir = get_unit_vector(scene->camera.dir);
-
 	uvec_w.e[2] = 0.0;
 	if (camdir.e[0] == 0 && camdir.e[1] == 0)
 	{
@@ -91,22 +94,6 @@ static t_vec	get_viewport_uvec_w(t_scene *scene)
 	return (uvec_w);
 }
 
-// static double	get_viewport_width(t_scene *scene)
-// {
-// 	double	width;
-
-// 	width = 2 * tan(scene->camera.fov * M_PI / 360.0);
-// 	return (width);
-// }
-
-// static double	get_viewport_height(t_img *img, double width)
-// {
-// 	double	height;
-
-// 	height = width * (double)img->height / (double)img->width;
-// 	return (height);
-// }
-
 static void	set_viewport_dimensions(t_minirt *rt)
 {
 	rt->vp.width = 2 * tan(rt->scene.camera.fov * M_PI / 360.0);
@@ -117,8 +104,6 @@ static void	set_viewport_dimensions(t_minirt *rt)
 void	init_viewport(t_minirt *rt)
 {
 	set_viewport_dimensions(rt);
-	// rt->vp.width = get_viewport_width(&(rt->scene));
-	// rt->vp.height = get_viewport_height(&(rt->img), rt->vp.width);
 	rt->vp.uvec_w = get_viewport_uvec_w(&(rt->scene));
 	rt->vp.uvec_h = get_viewport_uvec_h(rt);
 	rt->vp.delta_w = scalar_mply_vector(rt->vp.width \
