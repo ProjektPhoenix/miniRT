@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_space.c                                         :+:      :+:    :+:   */
+/*   ft_split_space.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 18:20:42 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/09/04 16:18:18 by smanriqu         ###   ########.fr       */
+/*   Updated: 2025/01/24 16:39:52 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-
 int	is_whitespace(char c)
 {
-	if (c == ' ' || c == '\n' || c == '\t' || c == '\r' || c == '\f' || c == '\v')
+	if (c == ' ' || c == '\n' || c == '\t' \
+		|| c == '\r' || c == '\f' || c == '\v')
 		return (1);
 	return (0);
 }
@@ -67,13 +67,6 @@ static char	*ft_strdup_c(const char *s)
 	return (dup);
 }
 
-static void	ft_free_array(char **array, int i)
-{
-	while (i >= 0)
-		free(array[i--]);
-	free(array);
-}
-
 static void	*ft_loop_outs(char **array, char const *s, int count)
 {
 	int	j;
@@ -88,7 +81,9 @@ static void	*ft_loop_outs(char **array, char const *s, int count)
 		array[i] = ft_strdup_c(&s[j]);
 		if (array[i] == 0)
 		{
-			ft_free_array(array, i);
+			while (i >= 0)
+				free(array[i--]);
+			free(array);
 			return (0);
 		}
 		while (s[j] != '\0' && !is_whitespace(s[j]))

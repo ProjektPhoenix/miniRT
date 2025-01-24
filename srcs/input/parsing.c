@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/24 20:25:25 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/24 20:25:29 by hzimmerm         ###   ########.fr       */
+/*   Created: 2024/10/23 13:02:42 by hzimmerm          #+#    #+#             */
+/*   Updated: 2025/01/24 20:40:05 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 #include "scene.h"
 #include "error_utils.h"
 
-// takes as arguments the name of the .rt file and the scene, 
-// prepares file for parsing
+/*
+ * takes as arguments the name of the .rt file and the scene, 
+ * prepares file for parsing
+ */
 int	parse_file(char *file, t_scene *scene)
 {
 	int				fd;
@@ -42,8 +44,10 @@ int	parse_file(char *file, t_scene *scene)
 	return (0);
 }
 
-// takes as input one line from the .rt file and the scene 
-// checks if starting element is valid
+/*
+ * takes as input one line from the .rt file and the scene 
+ * checks if starting element is valid
+ */
 static int	is_valid(char *str, t_scene *scene, t_parse_flags *check)
 {
 	if (ft_strncmp(str, "A", 2) && ft_strncmp(str, "C", 2) 
@@ -59,9 +63,11 @@ static int	is_valid(char *str, t_scene *scene, t_parse_flags *check)
 	return (1);
 }
 
-// takes as arguments one line of the .rt file and the scene struct - 
-// checks with the first elements of the line under which category 
-// it should be processed
+/*
+ * takes as arguments one line of the .rt file and the scene struct - 
+ * checks with the first elements of the line under which category 
+ * it should be processed
+ */
 void	process_line(char *line, t_scene *scene, t_parse_flags *check)
 {
 	char			**line_elmts;
