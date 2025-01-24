@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 17:52:23 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/21 16:08:14 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/24 20:20:11 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	search_planes(double *t, t_closest *obj, t_ray *ray, t_scene *scene)
 	temp_p = scene->plane;
 	while (temp_p)
 	{
-		*t = find_t_plane(ray, temp_p, INTERSECT);
+		*t = find_t_plane(ray, temp_p);
 		if (*t >= 0 && *t < obj->distance)
 		{
 			obj->distance = *t;

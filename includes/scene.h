@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 15:43:05 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/21 16:14:37 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/24 20:14:10 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ t_sphere	*add_sphere_node(t_scene *scene);
 t_cylinder	*add_cylinder_node(t_scene *scene);
 t_plane		*add_plane_node(t_scene *scene);
 int			make_error_check(t_scene *scene, t_parse_flags *check);
+int			is_p_on_plane(t_scene *scene);
 
 /* scene rendering */
 t_color		get_ray_color(t_ray *ray, t_scene *scene);

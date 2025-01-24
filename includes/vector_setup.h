@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   vector_setup.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 16:08:47 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/21 19:21:40 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/24 20:19:28 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #ifndef VECTOR_SETUP_H
 # define VECTOR_SETUP_H
@@ -99,6 +99,6 @@ t_vec	get_normal_v_sph(t_vec hit_p, t_vec center);
 /* find intersection points */
 double	find_t_sphere(t_ray *ray, t_sphere *sphere);
 double	find_t_cylinder(t_ray *ray, t_cylinder *cylinder);
-double	find_t_plane(t_ray *ray, t_plane *plane, int mode);
+double	find_t_plane(t_ray *ray, t_plane *plane);
 
 #endif
