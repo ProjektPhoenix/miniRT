@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   viewport_and_canvas.c                              :+:      :+:    :+:   */
+/*   viewport.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 18:08:15 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/23 22:44:16 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/24 15:57:47 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,7 @@ static t_vec	get_viewport_uvec_h(t_minirt *rt)
 								- pow(uvec_h.e[1], 2));
 	}
 	else if (camdir.e[2] == 0)
-	{
-		uvec_h.e[0] = 0.0;
-		uvec_h.e[1] = 0.0;
-		uvec_h.e[2] = -1.0;
-	}
+		uvec_h = create_triple(0.0, 0.0, -1.0);
 	else if (uvec_w.e[1] == 0)
 	{
 		uvec_h.e[0] = 0.0;
@@ -56,10 +52,9 @@ static t_vec	get_viewport_uvec_h(t_minirt *rt)
 						* camdir.e[1] / camdir.e[2];
 	}
 	if ((camdir.e[0] > 0 && camdir.e[2] < 0) \
-		|| (camdir.e[0] > 0 && camdir.e[2] < 0))
+		|| (camdir.e[0] > 0 && camdir.e[2] < 0)) // twice the same condition?
 		uvec_h.e[0] = -1 * uvec_h.e[0];
-	if ((camdir.e[1] > 0 && camdir.e[2] < 0) \
-		|| (camdir.e[1] > 0 && camdir.e[2] < 0))
+	if ((camdir.e[1] > 0 && camdir.e[2] < 0) || (camdir.e[1] > 0 && camdir.e[2] < 0)) // twice the same condition?
 		uvec_h.e[1] = -1 * uvec_h.e[1];
 	uvec_h = get_unit_vector(uvec_h);
 	return (uvec_h);
@@ -96,26 +91,34 @@ static t_vec	get_viewport_uvec_w(t_scene *scene)
 	return (uvec_w);
 }
 
-static double	get_viewport_width(t_scene *scene)
+// static double	get_viewport_width(t_scene *scene)
+// {
+// 	double	width;
+
+// 	width = 2 * tan(scene->camera.fov * M_PI / 360.0);
+// 	return (width);
+// }
+
+// static double	get_viewport_height(t_img *img, double width)
+// {
+// 	double	height;
+
+// 	height = width * (double)img->height / (double)img->width;
+// 	return (height);
+// }
+
+static void	set_viewport_dimensions(t_minirt *rt)
 {
-	double	width;
-
-	width = 2 * tan(scene->camera.fov * M_PI / 360.0);
-	return (width);
-}
-
-static double	get_viewport_height(t_img *img, double width)
-{
-	double	height;
-
-	height = width * (double)img->height / (double)img->width;
-	return (height);
+	rt->vp.width = 2 * tan(rt->scene.camera.fov * M_PI / 360.0);
+	rt->vp.height = rt->vp.width \
+					* (double)rt->img.height / (double)rt->img.width;
 }
 
 void	init_viewport(t_minirt *rt)
 {
-	rt->vp.width = get_viewport_width(&(rt->scene));
-	rt->vp.height = get_viewport_height(&(rt->img), rt->vp.width);
+	set_viewport_dimensions(rt);
+	// rt->vp.width = get_viewport_width(&(rt->scene));
+	// rt->vp.height = get_viewport_height(&(rt->img), rt->vp.width);
 	rt->vp.uvec_w = get_viewport_uvec_w(&(rt->scene));
 	rt->vp.uvec_h = get_viewport_uvec_h(rt);
 	rt->vp.delta_w = scalar_mply_vector(rt->vp.width \
