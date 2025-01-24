@@ -6,7 +6,7 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 18:49:52 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/23 22:36:06 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/24 21:24:04 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	cleanup_mlx(t_minirt *rt)
 	#ifdef __linux__
 	mlx_destroy_display(rt->screen.mlx);
 	#endif
+	free(rt->screen.mlx);
 }
 
 void	cleanup_exit(t_minirt *rt, char *mssg, int status)
