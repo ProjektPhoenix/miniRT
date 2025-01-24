@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 13:58:21 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/21 16:00:10 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/24 20:15:04 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,6 @@ int	make_error_check(t_scene *scene, t_parse_flags *check)
 		return (1);
 	if (check_objects(scene))
 		return (1);
+	is_p_on_plane(scene);
 	return (0);
 }

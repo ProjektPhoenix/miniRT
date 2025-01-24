@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:12:12 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/21 19:37:25 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/24 20:20:35 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static bool	check_planes_blocking(t_ray *l_ray, t_scene *scene, t_closest *obj)
 	{
 		if (temp_p->id != obj->id)
 		{
-			t = find_t_plane(l_ray, temp_p, SHADOWING);
+			t = find_t_plane(l_ray, temp_p);
 			if (t > 1e-4 && t < l_ray->dist)
 				return (true);
 		}

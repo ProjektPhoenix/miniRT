@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 14:58:46 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/24 15:42:30 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/24 20:25:37 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,28 +59,24 @@ t_color	get_ray_color(t_ray *ray, t_scene *scene)
 	return (color);
 }
 
-double	find_t_plane(t_ray *ray, t_plane *plane, int mode)
+double	find_t_plane(t_ray *ray, t_plane *plane)
 {
-	t_vec	norm_v;
 	double	d;
 	double	denominator;
 	double	t;
 
-	norm_v = get_unit_vector(plane->ortho);
-	denominator = dot_product(norm_v, ray->dir);
-	// hier flag adden: wenn denom positiv, dann vector points towards camera
-	if (mode == INTERSECT)
+	denominator = dot_product(plane->ortho, ray->dir);
+	if (denominator > 0)
 	{
-		if (fabs(denominator) < 1e-4)
-			return (INFINITY);
+		plane->ortho.e[0] = -plane->ortho.e[0];
+		plane->ortho.e[1] = -plane->ortho.e[1];
+		plane->ortho.e[2] = -plane->ortho.e[2];
 	}
-	else if (mode == SHADOWING)
-	{
-		if (fabs(denominator) < 0.7)
-			return (INFINITY);
-	}
-	d = -1 * dot_product(norm_v, plane->pos);
-	t = -1 * ((dot_product(norm_v, ray->orig) + d) / denominator);
+	denominator = dot_product(plane->ortho, ray->dir);
+	if (fabs(denominator) < 1e-4)
+		return (INFINITY);
+	d = -1 * dot_product(plane->ortho, plane->pos);
+	t = -1 * ((dot_product(plane->ortho, ray->orig) + d) / denominator);
 	return (t);
 }
 
