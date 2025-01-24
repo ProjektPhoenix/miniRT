@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:31:23 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/21 19:37:25 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/23 22:15:52 by rpriess          ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
@@ -62,9 +62,7 @@ void	init_viewport(t_minirt *rt);
 void	minirt_init_loop(t_minirt *rt);
 
 /* utils */
-void	calculate_rays(t_minirt *rt);
 void	draw_image(t_minirt *rt);
-bool	draw_pixel(t_img *img, t_pxl *pxl);
 
 /* cleanup, exit, error */
 void	cleanup_exit(t_minirt *rt, char *mssg, int status);

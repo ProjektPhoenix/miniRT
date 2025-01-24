@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   vector_math2.c                                     :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 18:44:04 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/21 19:03:36 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/23 22:33:53 by rpriess          ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "vector_math.h"
 #include <math.h>
@@ -34,7 +34,7 @@ t_vec	get_unit_vector(t_vec vec)
 	magnitude = get_magnitude(vec);
 	if (magnitude == 0.0)
 		return (vec);
-	return (scalar_mply_vector(1/magnitude, vec));
+	return (scalar_mply_vector(1 / magnitude, vec));
 }
 
 /*

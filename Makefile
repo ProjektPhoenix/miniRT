@@ -1,4 +1,4 @@
-#******************************************************************************#
+# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
@@ -6,9 +6,9 @@
 #    By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/21 18:32:14 by rpriess           #+#    #+#              #
-#    Updated: 2025/01/21 19:15:34 by rpriess          ###   ########.fr        #
+#    Updated: 2025/01/23 22:53:14 by rpriess          ###   ########.fr        #
 #                                                                              #
-#******************************************************************************#
+# **************************************************************************** #
 
 NAME		:= miniRT
 CFLAGS_prod	:= -Wall -Wextra -Werror -Ofast
@@ -35,7 +35,7 @@ SRCS		:= srcs/main.c \
 			srcs/input/parsing.c srcs/input/parsing_utils.c srcs/input/process_utils.c \
 			srcs/input/process_input.c srcs/input/init_helper.c srcs/input/error_check.c \
 			srcs/display/window_mngmt.c srcs/display/loop.c srcs/display/draw_image.c \
-			srcs/display/viewport_and_canvas.c \
+			srcs/display/viewport.c \
 			srcs/utils/vector_math.c srcs/utils/vector_math2.c \
 			srcs/utils/exit_and_error.c srcs/utils/cleanup.c \
 			srcs/color/colors.c srcs/color/color_light_utils.c \

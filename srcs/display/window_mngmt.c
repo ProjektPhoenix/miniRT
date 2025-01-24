@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   window_mngmt.c                                     :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:25:07 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/21 19:44:01 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/23 22:42:43 by rpriess          ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "vector_setup.h"
 #include "minirt.h"
@@ -33,8 +33,6 @@ bool	init_img(t_minirt *rt)
 		return (false);
 	rt->img.content = mlx_get_data_addr(rt->img.ptr, &(rt->img.bpp), \
 										&(rt->img.line), &(rt->img.endian));
-	debug("Defined image size: width - %i, height - %i", \
-			rt->img.width, rt->img.height);
 	return (true);
 }
 
@@ -64,7 +62,7 @@ static bool	init_interface(t_interface *screen)
 	return (true);
 }
 
-static bool	create_new_window(t_interface *screen, char* win_title)
+static bool	create_new_window(t_interface *screen, char *win_title)
 {
 	screen->win = mlx_new_window(screen->mlx, screen->width, \
 									screen->height, win_title);
@@ -81,7 +79,7 @@ int	init_mlx_interface(t_minirt *rt)
 	{
 		cleanup_scene(&(rt->scene));
 		#ifdef __linux__
-			mlx_destroy_display(rt->screen.mlx);
+		mlx_destroy_display(rt->screen.mlx);
 		#endif
 		error_exit_status("Creating MLX window failed.", 1);
 	}
@@ -90,7 +88,7 @@ int	init_mlx_interface(t_minirt *rt)
 		cleanup_scene(&(rt->scene));
 		mlx_destroy_window(rt->screen.mlx, rt->screen.win);
 		#ifdef __linux__
-			mlx_destroy_display(rt->screen.mlx);
+		mlx_destroy_display(rt->screen.mlx);
 		#endif
 		error_exit_status("Creating MLX img failed.", 1);
 	}
