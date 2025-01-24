@@ -6,7 +6,7 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 18:08:15 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/24 16:14:18 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/24 16:15:44 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include <math.h>
 
 #include "debug.h"
-
 
 static t_vec	get_uvec_h_std_case(t_vec uvec_w, t_vec camdir)
 {

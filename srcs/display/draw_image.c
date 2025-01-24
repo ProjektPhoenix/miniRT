@@ -6,7 +6,7 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:29:46 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/23 22:15:23 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/24 16:18:40 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static void	test_output_viewport_rays(t_minirt *rt)
 {
 	t_pxl	pxl_canvas;
 	t_ray	ray;
-
 	ray.orig = rt->scene.camera.pos;
 	pxl_canvas.a = rt->img.width / 2;
 	pxl_canvas.b = rt->img.height / 2;
@@ -99,7 +98,6 @@ static bool	draw_pixel(t_img *img, t_pxl *pxl)
 
 	color = ft_rgb_color((int)pxl->color.e[0], \
 						(int)pxl->color.e[1], (int)pxl->color.e[2]);
-
 	if (pxl->a > img->width || pxl->b > img->height \
 		|| pxl->a < 0 || pxl->b < 0)
 		return (1);
