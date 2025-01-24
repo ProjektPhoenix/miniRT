@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:59 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/21 16:04:52 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/24 20:21:43 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,28 @@ char	**split_and_check(t_scene *scene, char *str, char **arr, char *msg)
 		cleanup_scene_exit(scene, msg, 2);
 	}
 	return (coord);
+}
+
+int	is_p_on_plane(t_scene *scene)
+{
+	double	dot;
+	t_plane	*temp;
+
+	temp = scene->plane;
+	while (temp)
+	{
+		temp->ortho = get_unit_vector(temp->ortho);
+		dot = dot_product(temp->ortho, 
+				vec1_minus_vec2(scene->light.pos, temp->pos));
+		if (fabs(dot) < 1e-4)
+			cleanup_scene_exit(scene, "Error: Light source cannot be "
+				"on plane\n", 1);
+		dot = dot_product(temp->ortho, 
+				vec1_minus_vec2(scene->camera.pos, temp->pos));
+		if (fabs(dot) < 1e-4)
+			cleanup_scene_exit(scene, "Error: Camera cannot be "
+				"on plane\n", 1);
+		temp = temp->next;
+	}
+	return (0);
 }

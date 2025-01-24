@@ -6,7 +6,7 @@
 #    By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/21 18:32:14 by rpriess           #+#    #+#              #
-#    Updated: 2025/01/23 22:53:14 by rpriess          ###   ########.fr        #
+#    Updated: 2025/01/24 18:08:56 by rpriess          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,8 +84,8 @@ endef
 all: ${NAME}
 
 ${NAME}: ${OBJS} ${LIBFT} ${MINILIBX}
-	@${CC} ${OBJS} ${LIBS} -o ${NAME}
-	@${RM} ${OBJS}
+	@${CC} ${OBJS} ${LIBS} -o ${NAME} \
+	&& printf "Building miniRT.\n"
 
 ${LIBFT}:
 	@make -C ${LIBFTDIR} &> /dev/null \
@@ -96,18 +96,22 @@ ${MINILIBX}:
 	&& printf "Building libmlx.a\n"
 
 %.o : %.c
-	$(progress_bar)
+	$(progress_bar) \
+	&& printf "Finished building all object files.\n"
 	
 clean:
 	@${RM} ${OBJS} \
 	&& printf "Removing program object files.\n"
-	@${MAKE} -C ${MINILIBXDIR} clean \
-	&& printf "Removing minilibx object files"
-	@${MAKE} -C ${LIBFTDIR} clean \
-	&& printf "Removing any object and temporary files.\n"
+	@${MAKE} -C ${MINILIBXDIR} clean &> /dev/null \
+	&& printf "Removing minilibx object files.\n"
+	@${MAKE} -C ${LIBFTDIR} clean &> /dev/null \
+	&& printf "Removing libft object and temporary files.\n"
 
 fclean: clean
-	@${RM} ${NAME} ${LIBFT} ${MINILIBX}
+	@${RM} ${NAME} \
+	&& printf "Removing miniRT program.\n"
+	@${MAKE} -C ${LIBFTDIR} fclean &> /dev/null \
+	&& printf "Removing libft library.\n"
 
 re: fclean all
 
