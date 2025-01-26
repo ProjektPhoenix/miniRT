@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:59 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/26 16:10:29 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/26 16:34:51 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ void	process_a(char **array, t_scene *scene, t_parse_flags *check)
 
 	check->flag_a = true;
 	if (!array[1] || !contains_valid(array[1]))
-		cleanup_scene_exit(scene, "Ambient light has invalid intensity", \
+		cleanup_scene_exit(scene, "Ambient light has invalid intensity\n", \
 			2, array);
 	scene->amb.intens = ft_atod(array[1]);
 	if (!array[2])
-		cleanup_scene_exit(scene, "Ambient light is missing colors", 2, array);
+		cleanup_scene_exit(scene, "Ambient light is missing colors\n", 2, array);
 	color = ft_split(array[2], ',');
 	if (!color)
 	{

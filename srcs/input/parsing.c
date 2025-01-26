@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:02:42 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/26 14:07:21 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/26 16:33:23 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ static int	is_valid(char *str, t_scene *scene, t_parse_flags *check)
 	if (ft_strncmp(str, "A", 2) && ft_strncmp(str, "C", 2) 
 		&& ft_strncmp(str, "L", 2) && ft_strncmp(str, "sp", 3) 
 		&& ft_strncmp(str, "pl", 3) && ft_strncmp(str, "cy", 3))
-		cleanup_scene_exit(scene, "Error\nValid elements only are: \
+		cleanup_scene_exit(scene, "Valid elements only are: \
 			A, C, L, pl, sp and cy\n", 1, NULL);
 	else if ((!ft_strncmp(str, "A", 2) && check->flag_a == true) 
 		|| (!ft_strncmp(str, "C", 2) && check->flag_c == true)
 		|| (!ft_strncmp(str, "L", 2) && check->flag_l == true))
-		cleanup_scene_exit(scene, "Error\nA, C and L can only be \
+		cleanup_scene_exit(scene, "A, C and L can only be \
 			entered once\n", 1, NULL);
 	return (1);
 }

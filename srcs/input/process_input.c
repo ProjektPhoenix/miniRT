@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 16:17:51 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/26 16:09:15 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/26 16:34:25 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	process_c(char **array, t_scene *scene, t_parse_flags *check)
 
 	check->flag_c = true;
 	if (!array[1])
-		cleanup_scene_exit(scene, "Camera is missing features", 2, array);
+		cleanup_scene_exit(scene, "Camera is missing features\n", 2, array);
 	coord = split_and_check(scene, array[1], array, "Error splitting camera "
 			"position coordinates\n");
 	set_triple_from_array(&scene->camera.pos, coord, scene, array);
@@ -45,7 +45,7 @@ void	process_l(char **array, t_scene *scene, t_parse_flags *check)
 
 	check->flag_l = true;
 	if (!array[1])
-		cleanup_scene_exit(scene, "Light is missing features", 2, array);
+		cleanup_scene_exit(scene, "Light is missing features\n", 2, array);
 	coord = split_and_check(scene, array[1], array, "Error splitting light "
 			"position coordinates\n");
 	set_triple_from_array(&scene->light.pos, coord, scene, array);
@@ -70,7 +70,7 @@ void	process_sp(char **array, t_scene *scene)
 	char		**coord;
 
 	if (!array[1])
-		cleanup_scene_exit(scene, "Sphere is missing features", 2, array);
+		cleanup_scene_exit(scene, "Sphere is missing features\n", 2, array);
 	new = add_sphere_node(scene);
 	coord = split_and_check(scene, array[1], array, "Error splitting sphere "
 			"center coordinates\n");
@@ -94,7 +94,7 @@ void	process_pl(char **array, t_scene *scene)
 	char	**coord;
 
 	if (!array[1])
-		cleanup_scene_exit(scene, "Plane is missing features", 2, array);
+		cleanup_scene_exit(scene, "Plane is missing features\n", 2, array);
 	new = add_plane_node(scene);
 	coord = split_and_check(scene, array[1], array, "Error splitting point in "
 			"plane coordinates\n");
@@ -130,10 +130,10 @@ void	process_cy(char **array, t_scene *scene)
 			"norm vector coordinates\n");
 	set_triple_from_array(&new->dir, coord, scene, array);
 	if (!array[3] || !contains_valid(array[3]))
-		cleanup_scene_exit(scene, "Cylinder has invalid diameter", 2, array);
+		cleanup_scene_exit(scene, "Cylinder has invalid diameter\n", 2, array);
 	new->diameter = ft_atod(array[3]);
 	if (!array[4] || !contains_valid(array[4]))
-		cleanup_scene_exit(scene, "Cylinder has invalid height", 2, array);
+		cleanup_scene_exit(scene, "Cylinder has invalid height\n", 2, array);
 	new->height = ft_atod(array[4]);
 	if (!array[5])
 		cleanup_scene_exit(scene, "Cylinder is missing color", 2, array);
