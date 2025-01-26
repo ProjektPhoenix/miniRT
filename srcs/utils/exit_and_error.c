@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_and_error.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 17:01:25 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/23 22:37:55 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/26 13:55:03 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ int	perror_exit(char *mssg)
 int	error_exit_status(char *mssg, int status)
 {
 	if (mssg)
+	{
+		ft_putstr_fd("Error\n", 2);
 		ft_putstr_fd(mssg, 2);
+	}
 	exit(status);
 }
 

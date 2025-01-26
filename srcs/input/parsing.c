@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:02:42 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/24 20:40:05 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/26 16:33:23 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,12 @@ int	parse_file(char *file, t_scene *scene)
 	line = get_next_line_new(fd);
 	while (line)
 	{
-		if (line[0] != '\n')
-			process_line(line, scene, &check);
-		free(line);
-		line = NULL;
+		process_line(line, scene, &check);
 		line = get_next_line_new(fd);
 	}
 	close(fd);
 	if (make_error_check(scene, &check))
-		cleanup_scene_exit(scene, NULL, 1);
+		cleanup_scene_exit(scene, NULL, 1, NULL);
 	return (0);
 }
 
@@ -53,13 +50,13 @@ static int	is_valid(char *str, t_scene *scene, t_parse_flags *check)
 	if (ft_strncmp(str, "A", 2) && ft_strncmp(str, "C", 2) 
 		&& ft_strncmp(str, "L", 2) && ft_strncmp(str, "sp", 3) 
 		&& ft_strncmp(str, "pl", 3) && ft_strncmp(str, "cy", 3))
-		cleanup_scene_exit(scene, "Error\nValid elements only are: \
-			A, C, L, pl, sp and cy\n", 2);
+		cleanup_scene_exit(scene, "Valid elements only are: \
+			A, C, L, pl, sp and cy\n", 1, NULL);
 	else if ((!ft_strncmp(str, "A", 2) && check->flag_a == true) 
 		|| (!ft_strncmp(str, "C", 2) && check->flag_c == true)
 		|| (!ft_strncmp(str, "L", 2) && check->flag_l == true))
-		cleanup_scene_exit(scene, "Error\nA, C and L can only be \
-			entered once\n", 2);
+		cleanup_scene_exit(scene, "A, C and L can only be \
+			entered once\n", 1, NULL);
 	return (1);
 }
 
@@ -72,13 +69,13 @@ void	process_line(char *line, t_scene *scene, t_parse_flags *check)
 {
 	char			**line_elmts;
 
+	if (line[0] == '\n')
+		return (free(line));
 	line_elmts = ft_split_space(line);
+	free(line);
+	line = NULL;
 	if (!line_elmts)
-	{
-		free(line);
-		line = NULL;
 		error_exit("Error: ft_split fail for line splitting\n");
-	}
 	is_valid(line_elmts[0], scene, check);
 	if (!ft_strncmp(line_elmts[0], "A", 2))
 		process_a(line_elmts, scene, check);

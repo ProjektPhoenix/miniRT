@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 15:43:05 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/24 20:14:10 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/26 15:55:31 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@
 # define SPHERE 1
 # define CYL 2
 # define PLANE 3
-# define INTERSECT 4
-# define SHADOWING 5
+# define REFLECTIVITY 0.3
 
 typedef struct s_scene
 {
@@ -62,7 +61,6 @@ typedef struct s_col_mix
 
 typedef struct s_spec_l
 {
-	double	reflectivity;
 	double	shininess;
 	t_vec	reflect_dir;
 	t_vec	view_dir;
@@ -73,8 +71,10 @@ typedef struct s_spec_l
 int			parse_file(char *file, t_scene *scene);
 void		init_scene(t_scene *scene, t_parse_flags *check);
 void		process_line(char *line, t_scene *scene, t_parse_flags *check);
-void		set_triple_from_array(t_vec *triple, char **coord, t_scene *scene);
+void		set_triple_from_array(t_vec *triple, char **coord, 
+				t_scene *scene, char **array);
 char		**split_and_check(t_scene *scene, char *str, char **arr, char *msg);
+int			contains_valid(char *str);
 void		process_a(char **array, t_scene *scene, t_parse_flags *check);
 void		process_c(char **array, t_scene *scene, t_parse_flags *check);
 void		process_l(char **array, t_scene *scene, t_parse_flags *check);

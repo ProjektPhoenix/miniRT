@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:41:39 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/23 22:44:46 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/26 14:12:49 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int argc, char **argv)
 	if (argc > 2)
 		return (error_return("Error\ntoo many arguments\n"));
 	if (parse_file(argv[1], &rt.scene))
-		cleanup_scene_exit(&rt.scene, NULL, 2);
+		cleanup_scene_exit(&rt.scene, NULL, 2, NULL);
 	init_mlx_interface(&rt);
 	draw_image(&rt);
 	minirt_init_loop(&rt);
