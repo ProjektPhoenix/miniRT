@@ -6,7 +6,7 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:30:37 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/26 14:51:18 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/26 15:15:06 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ static void	check_solution_and_assign_normal_v(t_cyl_helper *c, \
 		&& dist_base >= 0 && dist_base <= height)
 	{
 		*distance = temp;
-		vec1 = scalar_mply_vector(*distance, c->ray_dir_unit);
-		vec2 = scalar_mply_vector(dist_base, c->cyl_dir_unit);
-		c->normal_v = \
-		get_unit_vector(vec1_minus_vec2(vec1_minus_vec2(vec1, vec2), \
-					c->cyl_base));
+		vec1 = add_vectors(c->ray_orig, \
+							scalar_mply_vector(temp, c->ray_dir_unit));
+		vec2 = add_vectors(c->cyl_base, \
+							scalar_mply_vector(dist_base, c->cyl_dir_unit));
+		c->normal_v = get_unit_vector(vec1_minus_vec2(vec1, vec2));
 	}
 }
 
