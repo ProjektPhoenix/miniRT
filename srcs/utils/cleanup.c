@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 18:49:52 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/24 21:24:04 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/26 12:45:30 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,13 @@ void	cleanup_scene(t_scene *scene)
 	scene->plane = NULL;
 	scene->cyl = NULL;
 	scene->sphere = NULL;
+}
+
+void	cleanup_pars_exit(t_scene *scene, char *mssg, int status, char **array)
+{
+	free_array(array);
+	cleanup_scene(scene);
+	error_exit_status(mssg, status);
 }
 
 void	cleanup_scene_exit(t_scene *scene, char *mssg, int status)

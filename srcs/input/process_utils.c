@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:59 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/24 20:21:43 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/26 12:56:34 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,18 @@ void	process_a(char **array, t_scene *scene, t_parse_flags *check)
 
 	check->flag_a = true;
 	if (!array[1])
-		cleanup_scene_exit(scene, "Error\nAmbient light is missing features", 2);
+		cleanup_pars_exit(scene, "Error\nAmbient light is missing features", 2, array);
 	scene->amb.intens = ft_atod(array[1]);
 	if (!array[2])
-		cleanup_scene_exit(scene, "Error\nAmbient light is missing colors", 2);
+		cleanup_pars_exit(scene, "Error\nAmbient light is missing colors", 2, array);
 	color = ft_split(array[2], ',');
 	if (!color)
 	{
 		free_array(array);
-		cleanup_scene_exit(scene, "Error in splitting "
-			"ambient light colors\n", 2);
+		cleanup_pars_exit(scene, "Error in splitting "
+			"ambient light colors\n", 2, array);
 	}
-	set_triple_from_array(&scene->amb.col, color, scene);
+	set_triple_from_array(&scene->amb.col, color, scene, array);
 }
 
 t_point	create_triple(double x, double y, double z)
@@ -46,11 +46,14 @@ t_point	create_triple(double x, double y, double z)
 	return (p);
 }
 
-void	set_triple_from_array(t_vec *triple, char **coord, t_scene *scene)
+void	set_triple_from_array(t_vec *triple, char **coord, t_scene *scene, char **array)
 {
 	if (!coord[0] || !coord[1] || !coord[2])
-		cleanup_scene_exit(scene, "Error: Please verify format for triplets, "
-			"must be ints or floats without spaces\n", 1);
+	{
+		free_array(coord);
+		cleanup_pars_exit(scene, "Error: Please verify format for triplets, "
+			"must be ints or floats without spaces\n", 1, array);
+	}
 	triple->e[0] = ft_atod(coord[0]);
 	triple->e[1] = ft_atod(coord[1]);
 	triple->e[2] = ft_atod(coord[2]);
@@ -66,7 +69,7 @@ char	**split_and_check(t_scene *scene, char *str, char **arr, char *msg)
 	if (!coord)
 	{
 		free_array(arr);
-		cleanup_scene_exit(scene, msg, 2);
+		cleanup_pars_exit(scene, msg, 2, arr);
 	}
 	return (coord);
 }

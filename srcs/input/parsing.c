@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:02:42 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/24 20:40:05 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/26 13:03:10 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ int	parse_file(char *file, t_scene *scene)
 	line = get_next_line_new(fd);
 	while (line)
 	{
-		if (line[0] != '\n')
-			process_line(line, scene, &check);
-		free(line);
-		line = NULL;
+		process_line(line, scene, &check);
 		line = get_next_line_new(fd);
 	}
 	close(fd);
@@ -72,13 +69,13 @@ void	process_line(char *line, t_scene *scene, t_parse_flags *check)
 {
 	char			**line_elmts;
 
+	if (line[0] == '\n')
+		return (free(line));
 	line_elmts = ft_split_space(line);
+	free(line);
+	line = NULL;
 	if (!line_elmts)
-	{
-		free(line);
-		line = NULL;
 		error_exit("Error: ft_split fail for line splitting\n");
-	}
 	is_valid(line_elmts[0], scene, check);
 	if (!ft_strncmp(line_elmts[0], "A", 2))
 		process_a(line_elmts, scene, check);
