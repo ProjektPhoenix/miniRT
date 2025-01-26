@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:02:42 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/26 16:33:23 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/26 20:17:49 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,18 @@
 #include "libft.h"
 #include "scene.h"
 #include "error_utils.h"
+
+static void	check_file_extension(char *str)
+{
+	int	i;
+
+	i = ft_strlen(str) - 3;
+	if (ft_strncmp(str + i, ".rt", 3))
+	{
+		ft_putstr_fd("Error\nFile must end with the extension '.rt'\n", 2);
+		exit(1);
+	}
+}
 
 /*
  * takes as arguments the name of the .rt file and the scene, 
@@ -25,6 +37,7 @@ int	parse_file(char *file, t_scene *scene)
 	char			*line;
 	t_parse_flags	check;
 
+	check_file_extension(file);
 	init_scene(scene, &check);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
