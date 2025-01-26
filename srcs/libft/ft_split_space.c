@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_space.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 18:20:42 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/24 16:39:52 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/26 20:23:08 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_whitespace(char c)
 {
-	if (c == ' ' || c == '\n' || c == '\t' \
+	if (c == ' ' || c == '\t' || c == '\n' \
 		|| c == '\r' || c == '\f' || c == '\v')
 		return (1);
 	return (0);

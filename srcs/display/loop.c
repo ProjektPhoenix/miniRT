@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 20:07:30 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/23 22:30:11 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/26 20:25:43 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 
 int	ft_key_hook(int keycode, t_minirt *rt)
 {
-	debug("");
 	if (keycode == 0xff1b || keycode == 'q' || keycode == 53)
 		cleanup_exit(rt, NULL, 0);
 	if (keycode == 'r' || keycode == 'R')
@@ -32,7 +31,6 @@ int	ft_key_hook(int keycode, t_minirt *rt)
 
 void	minirt_init_loop(t_minirt *rt)
 {
-	debug("loop init");
 	mlx_key_hook(rt->screen.win, ft_key_hook, rt);
 	mlx_hook(rt->screen.win, 17, 0, loop_cleanup, rt);
 	mlx_loop(rt->screen.mlx);

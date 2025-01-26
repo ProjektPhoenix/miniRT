@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atod.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:13:25 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/24 17:59:42 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/26 19:49:33 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static double	add_decimal_places(const char *str, int i)
 
 static int	is_space(char c)
 {
-	if (c == ' ' || c == '\t' || c == '\n' 
-		|| c == '\v' || c == '\f' || c == '\r')
+	if (c == ' ' || c == '\t' || c == '\v' 
+		|| c == '\f' || c == '\r')
 		return (1);
 	return (0);
 }
