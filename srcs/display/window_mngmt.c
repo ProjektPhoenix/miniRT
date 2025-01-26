@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   window_mngmt.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:25:07 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/26 14:12:26 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:18:02 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,15 @@ static bool	init_interface(t_interface *screen)
 	if (!screen->mlx)
 		return (false);
 	mlx_get_screen_size(screen->mlx, &x, &y);
-	if (x > 0 && y > 0)
+	if (x > 0 && y > 0 && RES_MANUAL == false)
 	{
 		screen->width = x * WIDTH_RATIO;
 		screen->height = y * HEIGHT_RATIO;
 	}
 	else
 	{
-		screen->width = 900;
-		screen->height = 600;
+		screen->width = WIDTH_RES;
+		screen->height = HEIGHT_RES;
 	}
 	screen->win = NULL;
 	return (true);
