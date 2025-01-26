@@ -6,7 +6,7 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:30:37 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/23 22:41:49 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/26 14:51:18 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static double	dist_from_cyl_base(t_cyl_helper *c, double distance)
 	t_point			hit_point;
 
 	dist_base = -1.0;
-	hit_point = add_vectors(c->cam_pos, \
+	hit_point = add_vectors(c->ray_orig, \
 							scalar_mply_vector(distance, c->ray_dir_unit));
 	dist_base = dot_product(c->cyl_dir_unit, \
 							vec1_minus_vec2(hit_point, c->cyl_base));
@@ -124,6 +124,9 @@ double	find_t_cylinder(t_ray *ray, t_cylinder *cyl)
 	distance = -1.0;
 	c = cyl->c;
 	c.ray_dir_unit = ray->dir;
+	c.ray_orig = ray->orig;
+	c.orig_to_base = vec1_minus_vec2(c.cyl_base, c.ray_orig);
+	c.orig_to_top = vec1_minus_vec2(c.cyl_top, c.ray_orig);
 	if (cyl->c.cam_inside)
 		return (0);
 	distance = find_intersection_cyl_tube(&c, cyl->height);

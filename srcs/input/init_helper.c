@@ -6,7 +6,7 @@
 /*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 22:11:40 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/23 22:11:45 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/26 14:29:42 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static bool	camera_inside_cylinder(t_cylinder *cyl)
 
 	c = cyl->c;
 	dist_along_axis = dot_product(c.cyl_dir_unit, \
-						vec1_minus_vec2(c.cam_pos, c.cyl_base));
+						vec1_minus_vec2(c.ray_orig, c.cyl_base));
 	dist_along_base = get_magnitude(vec1_minus_vec2(vec1_minus_vec2(\
-						c.cam_pos, c.cyl_base), \
+						c.ray_orig, c.cyl_base), \
 						scalar_mply_vector(dot_product(vec1_minus_vec2(\
-						c.cam_pos, c.cyl_base), c.cyl_dir_unit), \
+						c.ray_orig, c.cyl_base), c.cyl_dir_unit), \
 						c.cyl_dir_unit)));
 	if (dist_along_axis > 0 && dist_along_axis < cyl->height \
 		&& dist_along_base < cyl->c.radius)
@@ -48,7 +48,7 @@ static void	init_cyl_helper(t_scene *scene)
 		temp_cyl->c.cyl_top = add_vectors(temp_cyl->center, \
 								scalar_mply_vector(temp_cyl->height / 2, \
 												temp_cyl->c.cyl_dir_unit));
-		temp_cyl->c.cam_pos = scene->camera.pos;
+		temp_cyl->c.ray_orig = scene->camera.pos;
 		temp_cyl->c.orig_to_base = vec1_minus_vec2(temp_cyl->c.cyl_base, \
 													scene->camera.pos);
 		temp_cyl->c.orig_to_top = vec1_minus_vec2(temp_cyl->c.cyl_top, \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_setup.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 16:08:47 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/24 20:19:28 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/26 14:52:05 by rpriess          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct s_cyl_helper
 	t_vec	cyl_dir_unit;
 	t_point	cyl_base;
 	t_point	cyl_top;
-	t_point	cam_pos;
+	t_point	ray_orig;
 	t_vec	orig_to_base;
 	t_vec	orig_to_top;
 	t_vec	ray_dir_unit;
