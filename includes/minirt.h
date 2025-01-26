@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:31:23 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/26 12:45:00 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/26 13:47:35 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,7 @@ void	draw_image(t_minirt *rt);
 /* cleanup, exit, error */
 void	cleanup_exit(t_minirt *rt, char *mssg, int status);
 void	cleanup_scene(t_scene *scene);
-void	cleanup_scene_exit(t_scene *scene, char *mssg, int status);
-void	cleanup_pars_exit(t_scene *scene, char *mssg, int status, char **array);
+void	cleanup_scene_exit(t_scene *scene, char *mssg, int status, char **arr);
 void	free_array(char **str);
 int		loop_cleanup(t_minirt *rt);
 

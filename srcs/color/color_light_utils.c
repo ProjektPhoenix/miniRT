@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 18:01:47 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/24 16:58:44 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/26 14:32:29 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ t_color	specular_light(t_ray *l_ray, t_scene *scene, t_closest *obj)
 	t_spec_l	spec;
 	t_color		spec_contr;
 
-	spec.reflectivity = 0.3;
 	if (obj->id % 2)
 		spec.shininess = 5;
 	else
@@ -58,8 +57,7 @@ t_color	specular_light(t_ray *l_ray, t_scene *scene, t_closest *obj)
 	spec.intens = pow(spec.intens, spec.shininess);
 	spec_contr = scalar_mply_vector(spec.intens * scene->light.intens, \
 		scene->light.col);
-	spec_contr = scalar_mply_vector(spec.intens * spec.reflectivity, \
-		spec_contr);
+	spec_contr = scalar_mply_vector(spec.intens * REFLECTIVITY, spec_contr);
 	return (spec_contr);
 }
 

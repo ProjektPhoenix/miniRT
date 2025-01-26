@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:26:08 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/21 15:54:43 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/26 15:55:04 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_sphere	*add_sphere_node(t_scene *scene)
 
 	new = malloc(sizeof(t_sphere));
 	if (!new)
-		cleanup_scene_exit(scene, "malloc error\n", 2);
+		cleanup_scene_exit(scene, "malloc fail\n", 1, NULL);
 	new->col = create_triple(0, 0, 0);
 	new->center = create_triple(0, 0, 0);
 	new->diameter = 0.0;
@@ -69,7 +69,7 @@ t_cylinder	*add_cylinder_node(t_scene *scene)
 
 	new = malloc(sizeof(t_cylinder));
 	if (!new)
-		cleanup_scene_exit(scene, "malloc error\n", 2);
+		cleanup_scene_exit(scene, "malloc fail\n", 1, NULL);
 	new->center = create_triple(0, 0, 0);
 	new->col = create_triple(0, 0, 0);
 	new->dir = create_triple(0, 0, 0);
@@ -98,7 +98,7 @@ t_plane	*add_plane_node(t_scene *scene)
 
 	new = malloc(sizeof(t_plane));
 	if (!new)
-		cleanup_scene_exit(scene, "malloc error\n", 2);
+		cleanup_scene_exit(scene, "malloc fail\n", 1, NULL);
 	new->col = create_triple(0, 0, 0);
 	new->ortho = create_triple(0, 0, 0);
 	new->pos = create_triple(0, 0, 0);
@@ -115,4 +115,29 @@ t_plane	*add_plane_node(t_scene *scene)
 		temp->next = new;
 	}
 	return (new);
+}
+
+int	contains_valid(char *str)
+{
+	int	i;
+	int	point;
+
+	i = 0;
+	point = 0;
+	while (str[i])
+	{
+		if (!(str[i] >= '0' && str[i] <= '9'))
+		{
+			if (str[i] == '.')
+			{
+				point++;
+				if (point > 1)
+					return (0);
+			}
+			else
+				return (0);
+		}
+		i++;
+	}
+	return (1);
 }
