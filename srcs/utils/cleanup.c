@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 18:49:52 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/26 13:54:26 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:24:17 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	cleanup_scene_exit(t_scene *scene, char *mssg, int status, char **array)
 {
 	free_array(array);
 	cleanup_scene(scene);
+	if (scene->fd != -1)
+		close(scene->fd);
 	error_exit_status(mssg, status);
 }
 

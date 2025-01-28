@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 15:43:05 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/26 15:55:31 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:22:22 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_scene
 	t_cylinder	*cyl;
 	t_sphere	*sphere;
 	int			id_count;
+	int			fd;
 }	t_scene;
 
 typedef struct s_parse_flags
