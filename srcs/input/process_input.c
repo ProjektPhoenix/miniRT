@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 16:17:51 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/26 16:34:25 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/28 12:42:09 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ void	process_sp(char **array, t_scene *scene)
 			"center coordinates\n");
 	set_triple_from_array(&new->center, coord, scene, array);
 	if (!array[2] || !contains_valid(array[2]))
-		cleanup_scene_exit(scene, "Sphere has no or invalid diameter", \
+		cleanup_scene_exit(scene, "Sphere has no or invalid diameter\n", \
 			2, array);
 	new->diameter = ft_atod(array[2]);
 	if (!array[3])
-		cleanup_scene_exit(scene, "Sphere is missing color", 2, array);
+		cleanup_scene_exit(scene, "Sphere is missing color\n", 2, array);
 	coord = split_and_check(scene, array[3], array, "Error splitting sphere "
 			"center coordinates\n");
 	set_triple_from_array(&new->col, coord, scene, array);
@@ -105,7 +105,7 @@ void	process_pl(char **array, t_scene *scene)
 			"norm vector coordinates\n");
 	set_triple_from_array(&new->ortho, coord, scene, array);
 	if (!array[3])
-		cleanup_scene_exit(scene, "Plane is missing color", 2, array);
+		cleanup_scene_exit(scene, "Plane is missing color\n", 2, array);
 	coord = split_and_check(scene, array[3], array, "Error in splitting "
 			"sphere center coordinates\n");
 	set_triple_from_array(&new->col, coord, scene, array);
@@ -119,7 +119,7 @@ void	process_cy(char **array, t_scene *scene)
 	char		**coord;
 
 	if (!array[1])
-		cleanup_scene_exit(scene, "Cylinder is missing features", 2, array);
+		cleanup_scene_exit(scene, "Cylinder is missing features\n", 2, array);
 	new = add_cylinder_node(scene);
 	coord = split_and_check(scene, array[1], array, "Error splitting cylinder "
 			"center coordinates\n");
