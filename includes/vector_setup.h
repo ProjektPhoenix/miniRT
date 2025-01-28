@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_setup.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 16:08:47 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/26 14:52:05 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/28 13:21:12 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ typedef struct s_cylinder
 
 /* set vector, color, point util */
 t_point	create_triple(double x, double y, double z);
-t_vec	get_normal_v_sph(t_vec hit_p, t_vec center);
 
 /* find intersection points */
 double	find_t_sphere(t_ray *ray, t_sphere *sphere);

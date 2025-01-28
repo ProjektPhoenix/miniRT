@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 14:58:46 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/24 20:25:37 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/28 13:17:37 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ t_color	get_ray_color(t_ray *ray, t_scene *scene)
 	{
 		obj.hit_point = get_hit_point(ray, obj.distance);
 		if (obj.type == SPHERE)
-			obj.normal_v = get_normal_v_sph(obj.hit_point, obj.center);
+			obj.normal_v = get_unit_vector(vec1_minus_vec2(obj.hit_point, \
+				obj.center));
 		color = calculate_obj_color(scene, &obj);
 	}
 	else

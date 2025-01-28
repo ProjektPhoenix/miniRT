@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+         #
+#    By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/21 18:32:14 by rpriess           #+#    #+#              #
-#    Updated: 2025/01/24 18:08:56 by rpriess          ###   ########.fr        #
+#    Updated: 2025/01/28 13:19:04 by hzimmerm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,8 +39,7 @@ SRCS		:= srcs/main.c \
 			srcs/utils/vector_math.c srcs/utils/vector_math2.c \
 			srcs/utils/exit_and_error.c srcs/utils/cleanup.c \
 			srcs/color/colors.c srcs/color/color_light_utils.c \
-			srcs/hit_points/hit_objects.c srcs/hit_points/cylinder.c srcs/hit_points/find_closest.c \
-			srcs/hit_points/hitpoint_utils.c
+			srcs/hit_points/hit_objects.c srcs/hit_points/cylinder.c srcs/hit_points/find_closest.c
 
 OBJS		:= ${SRCS:.c=.o}
 SHELL		:= /bin/bash
