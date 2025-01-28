@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:02:42 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/26 20:17:49 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:22:56 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,22 @@ static void	check_file_extension(char *str)
  */
 int	parse_file(char *file, t_scene *scene)
 {
-	int				fd;
 	char			*line;
 	t_parse_flags	check;
 
 	check_file_extension(file);
 	init_scene(scene, &check);
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
+	scene->fd = open(file, O_RDONLY);
+	if (scene->fd == -1)
 		perror_exit("Error opening file");
-	line = get_next_line_new(fd);
+	line = get_next_line_new(scene->fd);
 	while (line)
 	{
 		process_line(line, scene, &check);
-		line = get_next_line_new(fd);
+		line = get_next_line_new(scene->fd);
 	}
-	close(fd);
+	close(scene->fd);
+	scene->fd = -1;
 	if (make_error_check(scene, &check))
 		cleanup_scene_exit(scene, NULL, 1, NULL);
 	return (0);
@@ -58,18 +58,24 @@ int	parse_file(char *file, t_scene *scene)
  * takes as input one line from the .rt file and the scene 
  * checks if starting element is valid
  */
-static int	is_valid(char *str, t_scene *scene, t_parse_flags *check)
+static int	is_valid(char **array, t_scene *scene, t_parse_flags *check)
 {
-	if (ft_strncmp(str, "A", 2) && ft_strncmp(str, "C", 2) 
-		&& ft_strncmp(str, "L", 2) && ft_strncmp(str, "sp", 3) 
-		&& ft_strncmp(str, "pl", 3) && ft_strncmp(str, "cy", 3))
-		cleanup_scene_exit(scene, "Valid elements only are: \
-			A, C, L, pl, sp and cy\n", 1, NULL);
-	else if ((!ft_strncmp(str, "A", 2) && check->flag_a == true) 
-		|| (!ft_strncmp(str, "C", 2) && check->flag_c == true)
-		|| (!ft_strncmp(str, "L", 2) && check->flag_l == true))
-		cleanup_scene_exit(scene, "A, C and L can only be \
-			entered once\n", 1, NULL);
+	if (ft_strncmp(array[0], "A", 2) && ft_strncmp(array[0], "C", 2) 
+		&& ft_strncmp(array[0], "L", 2) && ft_strncmp(array[0], "sp", 3) 
+		&& ft_strncmp(array[0], "pl", 3) && ft_strncmp(array[0], "cy", 3))
+	{
+		free_array(array);
+		cleanup_scene_exit(scene, "Valid elements only are: "
+			"A, C, L, pl, sp and cy\n", 1, NULL);
+	}
+	else if ((!ft_strncmp(array[0], "A", 2) && check->flag_a == true) 
+		|| (!ft_strncmp(array[0], "C", 2) && check->flag_c == true)
+		|| (!ft_strncmp(array[0], "L", 2) && check->flag_l == true))
+	{
+		free_array(array);
+		cleanup_scene_exit(scene, "A, C and L can only be "
+			"entered once\n", 1, NULL);
+	}
 	return (1);
 }
 
@@ -89,7 +95,7 @@ void	process_line(char *line, t_scene *scene, t_parse_flags *check)
 	line = NULL;
 	if (!line_elmts)
 		error_exit("Error: ft_split fail for line splitting\n");
-	is_valid(line_elmts[0], scene, check);
+	is_valid(line_elmts, scene, check);
 	if (!ft_strncmp(line_elmts[0], "A", 2))
 		process_a(line_elmts, scene, check);
 	else if (!ft_strncmp(line_elmts[0], "C", 2))

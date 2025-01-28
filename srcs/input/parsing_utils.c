@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:26:08 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/26 16:32:03 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:23:05 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	init_scene(t_scene *scene, t_parse_flags *check)
 	scene->cyl = NULL;
 	scene->plane = NULL;
 	scene->id_count = 0;
+	scene->fd = -1;
 	check->flag_a = false;
 	check->flag_c = false;
 	check->flag_l = false;
