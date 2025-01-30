@@ -6,23 +6,44 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:13:25 by hzimmerm          #+#    #+#             */
-/*   Updated: 2024/10/23 14:20:43 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/26 19:49:33 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+static double	add_decimal_places(const char *str, int i)
+{
+	double	decimal_place;
+	double	decimal_component;
+
+	decimal_place = 1.0;
+	decimal_component = 0.0;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		decimal_place *= 0.1;
+		decimal_component += (str[i] - '0') * decimal_place;
+		i++;
+	}
+	return (decimal_component);
+}
+
+static int	is_space(char c)
+{
+	if (c == ' ' || c == '\t' || c == '\v' 
+		|| c == '\f' || c == '\r')
+		return (1);
+	return (0);
+}
+
 double	ft_atod(const char *str)
 {
-	int	i;
+	int		i;
 	double	result;
 	double	sign;
-	double decimal_place = 1.0;
 
 	i = 0;
 	result = 0.0;
 	sign = 1.0;
-	decimal_place = 1.0;
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' 
-		|| str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
+	while (is_space(str[i]))
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{
@@ -36,15 +57,6 @@ double	ft_atod(const char *str)
 		i++;
 	}
 	if (str[i] == '.')
-	{
-		
-		i++;
-		while (str[i] >= '0' && str[i] <= '9')
-		{
-			decimal_place *= 0.1;
-			result += (str[i] - '0') * decimal_place;
-			i++;
-		}
-	}
+		result += add_decimal_places(str, i + 1);
 	return (result * sign);
 }

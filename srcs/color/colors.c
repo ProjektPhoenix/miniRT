@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:12:12 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/21 16:05:52 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/24 20:20:35 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	add_light(t_ray *l_ray, t_col_mix *mix, t_scene *scene, t_closest *obj)
 	t_color	spec;
 
 	mix->diff_intens = fmax(dot_product(l_ray->dir, obj->normal_v), 0.0);
-	diff = scalar_mply_vector(0.9 * mix->diff_intens * scene->light.intens, \
+	diff = scalar_mply_vector(mix->diff_intens * scene->light.intens, \
 		mix->norm_obj);
 	diff = multiply_cols(diff, scene->light.col);
 	mix->final = add_vectors(mix->final, diff);
@@ -89,7 +89,7 @@ static bool	check_planes_blocking(t_ray *l_ray, t_scene *scene, t_closest *obj)
 	{
 		if (temp_p->id != obj->id)
 		{
-			t = find_t_plane(l_ray, temp_p, SHADOWING);
+			t = find_t_plane(l_ray, temp_p);
 			if (t > 1e-4 && t < l_ray->dist)
 				return (true);
 		}

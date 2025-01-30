@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:31:23 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/21 20:27:11 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/30 12:28:15 by Henriette        ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
@@ -67,14 +67,12 @@ void	init_viewport(t_minirt *rt);
 void	minirt_init_loop(t_minirt *rt);
 
 /* utils */
-void	calculate_rays(t_minirt *rt);
 void	draw_image(t_minirt *rt);
-bool	draw_pixel(t_img *img, t_pxl *pxl);
 
 /* cleanup, exit, error */
 void	cleanup_exit(t_minirt *rt, char *mssg, int status);
 void	cleanup_scene(t_scene *scene);
-void	cleanup_scene_exit(t_scene *scene, char *mssg, int status);
+void	cleanup_scene_exit(t_scene *scene, char *mssg, int status, char **arr);
 void	free_array(char **str);
 int		loop_cleanup(t_minirt *rt);
 

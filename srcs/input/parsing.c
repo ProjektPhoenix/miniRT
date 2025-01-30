@@ -1,79 +1,101 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 13:02:42 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/21 19:42:55 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/28 14:22:56 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minirt.h"
 #include "libft.h"
 #include "scene.h"
 #include "error_utils.h"
 
-// takes as arguments the name of the .rt file and the scene, 
-// prepares file for parsing
+static void	check_file_extension(char *str)
+{
+	int	i;
+
+	i = ft_strlen(str) - 3;
+	if (ft_strncmp(str + i, ".rt", 3))
+	{
+		ft_putstr_fd("Error\nFile must end with the extension '.rt'\n", 2);
+		exit(1);
+	}
+}
+
+/*
+ * takes as arguments the name of the .rt file and the scene, 
+ * prepares file for parsing
+ */
 int	parse_file(char *file, t_scene *scene)
 {
-	int				fd;
 	char			*line;
 	t_parse_flags	check;
 
+	check_file_extension(file);
 	init_scene(scene, &check);
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
+	scene->fd = open(file, O_RDONLY);
+	if (scene->fd == -1)
 		perror_exit("Error opening file");
-	line = get_next_line_new(fd);
+	line = get_next_line_new(scene->fd);
 	while (line)
 	{
-		if (line[0] != '\n')
-			process_line(line, scene, &check);
-		free(line);
-		line = NULL;
-		line = get_next_line_new(fd);
+		process_line(line, scene, &check);
+		line = get_next_line_new(scene->fd);
 	}
-	close(fd);
+	close(scene->fd);
+	scene->fd = -1;
 	if (make_error_check(scene, &check))
-		cleanup_scene_exit(scene, NULL, 1);
+		cleanup_scene_exit(scene, NULL, 1, NULL);
 	return (0);
 }
 
-// takes as input one line from the .rt file and the scene 
-// checks if starting element is valid
-static int	is_valid(char *str, t_scene *scene, t_parse_flags *check)
+/*
+ * takes as input one line from the .rt file and the scene 
+ * checks if starting element is valid
+ */
+static int	is_valid(char **array, t_scene *scene, t_parse_flags *check)
 {
-	if (ft_strncmp(str, "A", 2) && ft_strncmp(str, "C", 2) 
-		&& ft_strncmp(str, "L", 2) && ft_strncmp(str, "sp", 3) 
-		&& ft_strncmp(str, "pl", 3) && ft_strncmp(str, "cy", 3))
-		cleanup_scene_exit(scene, "Error\nValid elements only are: \
-			A, C, L, pl, sp and cy\n", 2);
-	else if ((!ft_strncmp(str, "A", 2) && check->flag_a == true) 
-		|| (!ft_strncmp(str, "C", 2) && check->flag_c == true)
-		|| (!ft_strncmp(str, "L", 2) && check->flag_l == true))
-		cleanup_scene_exit(scene, "Error\nA, C and L can only be \
-			entered once\n", 2);
+	if (ft_strncmp(array[0], "A", 2) && ft_strncmp(array[0], "C", 2) 
+		&& ft_strncmp(array[0], "L", 2) && ft_strncmp(array[0], "sp", 3) 
+		&& ft_strncmp(array[0], "pl", 3) && ft_strncmp(array[0], "cy", 3))
+	{
+		free_array(array);
+		cleanup_scene_exit(scene, "Valid elements only are: "
+			"A, C, L, pl, sp and cy\n", 1, NULL);
+	}
+	else if ((!ft_strncmp(array[0], "A", 2) && check->flag_a == true) 
+		|| (!ft_strncmp(array[0], "C", 2) && check->flag_c == true)
+		|| (!ft_strncmp(array[0], "L", 2) && check->flag_l == true))
+	{
+		free_array(array);
+		cleanup_scene_exit(scene, "A, C and L can only be "
+			"entered once\n", 1, NULL);
+	}
 	return (1);
 }
 
-// takes as arguments one line of the .rt file and the scene struct - 
-// checks with the first elements of the line under which category 
-// it should be processed
+/*
+ * takes as arguments one line of the .rt file and the scene struct - 
+ * checks with the first elements of the line under which category 
+ * it should be processed
+ */
 void	process_line(char *line, t_scene *scene, t_parse_flags *check)
 {
 	char			**line_elmts;
 
+	if (line[0] == '\n')
+		return (free(line));
 	line_elmts = ft_split_space(line);
+	free(line);
+	line = NULL;
 	if (!line_elmts)
-	{
-		free(line);
-		line = NULL;
 		error_exit("Error: ft_split fail for line splitting\n");
-	}
-	is_valid(line_elmts[0], scene, check);
+	is_valid(line_elmts, scene, check);
 	if (!ft_strncmp(line_elmts[0], "A", 2))
 		process_a(line_elmts, scene, check);
 	else if (!ft_strncmp(line_elmts[0], "C", 2))

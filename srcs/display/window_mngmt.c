@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   window_mngmt.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:25:07 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/21 20:20:03 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/30 12:28:51 by Henriette        ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "vector_setup.h"
 #include "minirt.h"
@@ -33,8 +33,6 @@ bool	init_img(t_minirt *rt)
 		return (false);
 	rt->img.content = mlx_get_data_addr(rt->img.ptr, &(rt->img.bpp), \
 										&(rt->img.line), &(rt->img.endian));
-	debug("Defined image size: width - %i, height - %i", \
-			rt->img.width, rt->img.height);
 	return (true);
 }
 
@@ -50,21 +48,21 @@ static bool	init_interface(t_interface *screen)
 	if (!screen->mlx)
 		return (false);
 	mlx_get_screen_size(screen->mlx, &x, &y);
-	if (x > 0 && y > 0)
+	if (x > 0 && y > 0 && RES_MANUAL == false)
 	{
 		screen->width = x * WIDTH_RATIO;
 		screen->height = y * HEIGHT_RATIO;
 	}
 	else
 	{
-		screen->width = 900;
-		screen->height = 600;
+		screen->width = WIDTH_RES;
+		screen->height = HEIGHT_RES;
 	}
 	screen->win = NULL;
 	return (true);
 }
 
-static bool	create_new_window(t_interface *screen, char* win_title)
+static bool	create_new_window(t_interface *screen, char *win_title)
 {
 	screen->win = mlx_new_window(screen->mlx, screen->width, \
 									screen->height, win_title);
@@ -76,20 +74,25 @@ static bool	create_new_window(t_interface *screen, char* win_title)
 int	init_mlx_interface(t_minirt *rt)
 {
 	if (!init_interface(&rt->screen))
-		cleanup_scene_exit(&(rt->scene), "MLX could not be initialized.", 1);
+		cleanup_scene_exit(&(rt->scene), "MLX could not be initialized.", \
+			1, NULL);
 	if (!create_new_window(&rt->screen, WIN_TITLE))
 	{
 		cleanup_scene(&(rt->scene));
-		if (LINUX_FLAG)
-			mlx_destroy_display(rt->screen.mlx);
+		#ifdef __linux__
+		mlx_destroy_display(rt->screen.mlx);
+		#endif
+		free(rt->screen.mlx);
 		error_exit_status("Creating MLX window failed.", 1);
 	}
 	if (!init_img(rt))
 	{
 		cleanup_scene(&(rt->scene));
 		mlx_destroy_window(rt->screen.mlx, rt->screen.win);
-		if (LINUX_FLAG)
-			mlx_destroy_display(rt->screen.mlx);
+		#ifdef __linux__
+		mlx_destroy_display(rt->screen.mlx);
+		#endif
+		free(rt->screen.mlx);
 		error_exit_status("Creating MLX img failed.", 1);
 	}
 	return (0);

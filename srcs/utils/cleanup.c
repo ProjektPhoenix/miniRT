@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 18:49:52 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/21 20:26:42 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/01/30 12:29:03 by Henriette        ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minirt.h"
 #include "scene.h"
@@ -16,7 +16,7 @@
 #include <mlx.h>
 #include <stdbool.h>
 
-void cleanup_scene(t_scene *scene)
+void	cleanup_scene(t_scene *scene)
 {
 	t_plane		*temp_p;
 	t_cylinder	*temp_c;
@@ -45,20 +45,33 @@ void cleanup_scene(t_scene *scene)
 	scene->sphere = NULL;
 }
 
-void cleanup_scene_exit(t_scene *scene, char *mssg, int status)
+/*void	cleanup_pars_exit(t_scene *scene, char *mssg, int status, char **array)
 {
+	free_array(array);
 	cleanup_scene(scene);
+	error_exit_status(mssg, status);
+}*/
+
+void	cleanup_scene_exit(t_scene *scene, char *mssg, int status, char **array)
+{
+	free_array(array);
+	cleanup_scene(scene);
+	if (scene->fd != -1)
+		close(scene->fd);
 	error_exit_status(mssg, status);
 }
 
 void	cleanup_mlx(t_minirt *rt)
 {
-	if (LINUX_FLAG)
-		mlx_loop_end(rt->screen.mlx);
+	#ifdef __linux__
+	mlx_loop_end(rt->screen.mlx);
+	#endif
 	mlx_destroy_image(rt->screen.mlx, rt->img.ptr);
 	mlx_destroy_window(rt->screen.mlx, rt->screen.win);
-	if (LINUX_FLAG)
-		mlx_destroy_display(rt->screen.mlx);
+	#ifdef __linux__
+	mlx_destroy_display(rt->screen.mlx);
+	#endif
+	free(rt->screen.mlx);
 }
 
 void	cleanup_exit(t_minirt *rt, char *mssg, int status)

@@ -28,5 +28,22 @@ Specifically, each text file can or must contain:
 	- cylinder
 
 ## Our architecture
+Quick walkthrough
+Main data structures used
+
+Use of minilibx
+Viewport and ray calculation
+Hit point calculation
+Hit point colors
+
+## Display management (minilibx)
+## Parsing of configuration file
+## Viewport and ray calculation
+## Hit point calculation
+## Hit point colors
 
 ## Issues encountered in implementation
+Math dependent on coordinate system
+debugging with large amount of different rays
+
+## What we learned!

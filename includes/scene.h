@@ -6,7 +6,7 @@
 /*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 15:43:05 by hzimmerm          #+#    #+#             */
-/*   Updated: 2025/01/21 16:14:37 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:22:22 by hzimmerm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@
 # define SPHERE 1
 # define CYL 2
 # define PLANE 3
-# define INTERSECT 4
-# define SHADOWING 5
+# define REFLECTIVITY 0.3
 
 typedef struct s_scene
 {
@@ -32,6 +31,7 @@ typedef struct s_scene
 	t_cylinder	*cyl;
 	t_sphere	*sphere;
 	int			id_count;
+	int			fd;
 }	t_scene;
 
 typedef struct s_parse_flags
@@ -62,7 +62,6 @@ typedef struct s_col_mix
 
 typedef struct s_spec_l
 {
-	double	reflectivity;
 	double	shininess;
 	t_vec	reflect_dir;
 	t_vec	view_dir;
@@ -73,8 +72,10 @@ typedef struct s_spec_l
 int			parse_file(char *file, t_scene *scene);
 void		init_scene(t_scene *scene, t_parse_flags *check);
 void		process_line(char *line, t_scene *scene, t_parse_flags *check);
-void		set_triple_from_array(t_vec *triple, char **coord, t_scene *scene);
+void		set_triple_from_array(t_vec *triple, char **coord, 
+				t_scene *scene, char **array);
 char		**split_and_check(t_scene *scene, char *str, char **arr, char *msg);
+int			contains_valid(char *str);
 void		process_a(char **array, t_scene *scene, t_parse_flags *check);
 void		process_c(char **array, t_scene *scene, t_parse_flags *check);
 void		process_l(char **array, t_scene *scene, t_parse_flags *check);
@@ -85,6 +86,7 @@ t_sphere	*add_sphere_node(t_scene *scene);
 t_cylinder	*add_cylinder_node(t_scene *scene);
 t_plane		*add_plane_node(t_scene *scene);
 int			make_error_check(t_scene *scene, t_parse_flags *check);
+int			is_p_on_plane(t_scene *scene);
 
 /* scene rendering */
 t_color		get_ray_color(t_ray *ray, t_scene *scene);
