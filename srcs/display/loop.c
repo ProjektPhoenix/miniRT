@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hzimmerm <hzimmerm@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 20:07:30 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/26 20:25:43 by hzimmerm         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:28:45 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minirt.h"
 #include <mlx.h>
 #ifdef __linux__
 # include <X11/Xlib.h>
@@ -17,7 +18,8 @@
 # include <OpenGL/gl.h>
 #endif
 #include <libft.h>
-#include "minirt.h"
+#include <stdbool.h>
+
 #include "debug.h"
 
 int	ft_key_hook(int keycode, t_minirt *rt)

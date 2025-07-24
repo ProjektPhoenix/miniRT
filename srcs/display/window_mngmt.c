@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   window_mngmt.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpriess <rpriess@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: Henriette <Henriette@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:25:07 by rpriess           #+#    #+#             */
-/*   Updated: 2025/01/26 17:18:02 by rpriess          ###   ########.fr       */
+/*   Updated: 2025/02/03 08:48:51 by Henriette        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "error_utils.h"
 #include <mlx.h>
 #include <mlx_wrapper.h>
-#ifdef __LINUX__
+#ifdef __linux__
 # include <error.h>
 #endif
 #include <stdbool.h>
@@ -47,17 +47,24 @@ static bool	init_interface(t_interface *screen)
 	screen->mlx = mlx_init();
 	if (!screen->mlx)
 		return (false);
-	mlx_get_screen_size(screen->mlx, &x, &y);
-	if (x > 0 && y > 0 && RES_MANUAL == false)
-	{
-		screen->width = x * WIDTH_RATIO;
-		screen->height = y * HEIGHT_RATIO;
-	}
-	else
-	{
+	#ifdef __linux__
+		mlx_get_screen_size(screen->mlx, &x, &y);
+		if (x > 0 && y > 0 && RES_MANUAL == false)
+		{
+			screen->width = x * WIDTH_RATIO;
+			screen->height = y * HEIGHT_RATIO;
+		}
+		else
+		{
+			screen->width = WIDTH_RES;
+			screen->height = HEIGHT_RES;
+		}
+	#elif  __APPLE__
+		(void)x;
+		(void)y;
 		screen->width = WIDTH_RES;
 		screen->height = HEIGHT_RES;
-	}
+	#endif
 	screen->win = NULL;
 	return (true);
 }
