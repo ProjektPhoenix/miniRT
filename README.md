@@ -62,7 +62,7 @@ For every hit point, a shadow ray is cast (a vector from hit point towards light
 In order to represent how the object reflects or absorbs the direct and ambient lights, we first multiply the object color with the ambient light contribution (intensity and color). If the hit point is not in any other object's shadow, we also mix in the diffuse light contribution in the same way. 
 We also added specular light reflection, which takes into account the point of view and varies depending on the position of the ray origin and the object's surface (the smoother the surface the shinier the reflection).
 
-
+![Preview](rendered_previews/marbles.rt.png)
 
 ## Issues encountered in implementation
 - Math dependent on coordinate system
