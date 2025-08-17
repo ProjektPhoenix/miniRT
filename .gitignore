@@ -1,6 +1,11 @@
 # Prerequisites
 *.d
 
+# Temporary files
+*.temp
+minilibx-linux/test/mlx-test
+mlx-test
+
 # Object files
 *.o
 *.ko
@@ -35,6 +40,7 @@
 *.i*86
 *.x86_64
 *.hex
+miniRT
 
 # Debug files
 *.dSYM/
@@ -50,3 +56,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# vs code config
+.vscode/
